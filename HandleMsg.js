@@ -10,6 +10,7 @@ const fetch = require('node-fetch')
 const translatte = require('translatte')
 const bent = require('bent')
 const path = require('path')
+const Math_js = require('mathjs')
 const ffmpeg = require('fluent-ffmpeg')
 const request = require('request-promise')
 const emojiUnicode = require('emoji-unicode')
@@ -196,7 +197,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 		const reason = q ? q : 'Gada'
 
         // [IDENTIFY]
-        const ownerNumber = '628xxx@c.us'
+        const ownerNumber = '62895334951166@c.us'
         const isOwnerBot = ownerNumber.includes(pengirim)
         const isOwner = ownerNumber.includes(pengirim)
         const isOwnerB = ownerNumber.includes(pengirim)
@@ -1342,6 +1343,42 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
                 console.log(err)
             }
             break
+		case prefix+'cuaca':
+            if (args.length == 0) return aruga.reply(from, `Untuk melihat cuaca pada suatu daerah\nketik: ${prefix}cuaca kab/kota nama kota/kab\nContoh Kabupaten: ${prefix}cuaca kab Bengkayang\nContoh Kota: ${prefix}cuaca kota Pontianak`, id)
+            const cuacaq = body.slice(7)
+			aruga.reply(from, mess.wait, id)
+			try {
+            const cuca = await axios.get(`https://urbaee-xyz.herokuapp.com/api/cuaca?kabupaten=${cuacaq}&apikey=Urbaeexyz`)
+			const cucaq = cuca.data.result
+			const nama2 = cucaq.nama2
+			let cuacaqi = `*「 Info Cuaca 」*`
+			for (let i = 0; i < cucaq.data.length; i++) {
+				cuacaqi += `\n─────────────────\n\n• *Nama:* ${nama2}\n• *Cuaca:* ${cucaq.data[i].cuaca}\n• *Waktu:* ${cucaq.data[i].waktu}\n• *Kelembapan*: ${cucaq.data[i].kelembaban}\n• *Temperatur Celcius:* ${cucaq.data[i].temperatur.celsius}\n• *Temperatur Fahrenheit:* ${cucaq.data[i].temperatur.fahrenheit}\n\n`
+			}
+            await aruga.reply(from, cuacaqi, id)
+			.catch(() => {
+				aruga.reply(from, 'Maaf, daerah yang anda cari tidak tersedia')
+			})
+			} catch (err) {
+				aruga.reply(from, 'Maaf, daerah yang kamu cari tidak tersedia', id)
+				console.log(err)
+			}
+            break
+		case prefix+'doaharian':
+		aruga.reply(from, mess.wait, id)
+		try {
+			const dataplaw = await axios.get(`https://urbaee-xyz.herokuapp.com/api/muslim/doaharian?apikey=Urbaeexyz`)
+			const dataplax = dataplaw.data.result
+			let harian = `*「 DOA HARIAN 」*`
+			for (let i = 0; i < dataplax.data.length; i++) {
+				harian += `\n─────────────────\n\n• *Judul Doa:* ${dataplax.data[i].title}\n• *Arab:* ${dataplax.data[i].arabic}\n• *Latin:* ${dataplax.data[i].latin}\n• *Arti:* ${dataplax.data[i].translation}\n\n`
+		}
+		await aruga.reply(from, harian, id)
+		} catch (err) {
+			aruga.reply(from, 'Error', id)
+			console.log(err)
+		}
+		break
         case prefix+'playstore':
             if (!isGroupMsg) return aruga.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
             if (args.length === 0) return aruga.reply(from, `Kirim perintah *${prefix}playstore [ Query ]*, Contoh : *${prefix}playstore Mobile Legends*`)
@@ -1603,28 +1640,28 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 				aruga.reply(from, 'sticker berhasil didelete dari database', id)
 				break
 			case prefix+'addimg':
-			let namimg = body.slice(8)
+			let addmg = body.slice(8)
 			if (quotedMsg && quotedMsg.type === 'image') {
 				var mediaData = await decryptMedia(quotedMsg, uaOverride)
-				var filename = `./media/image/${namimg}.jpg`
+				var filename = `./media/image/${addmg}.jpg`
 				await fs.writeFile(filename, mediaData)
-				await aruga.reply(from, `image dengan nama ${namimg} berhasil disimpan didalam database!`, id)
+				await aruga.reply(from, `image dengan nama ${addmg} berhasil disimpan didalam database!`, id)
 			} else if(isMedia && type === 'image') {
 				var mediaData = await decryptMedia(message, uaOverride)
-				var filename = `./media/image/${namimg}.jpg`
+				var filename = `./media/image/${addmg}.jpg`
 				await fs.writeFileSync(filename, mediaData)
-				await aruga.reply(from, `image dengan nama ${namimg} berhasil disimpan didalam database!`, id)
+				await aruga.reply(from, `image dengan nama ${addmg} berhasil disimpan didalam database!`, id)
 			} else {
 				return aruga.reply(from, `Error!, silahkan coba kembali nanti...`, id)
 			}
-			listimg.push(namimg)
+			listimg.push(addmg)
 			fs.writeFileSync('./lib/database/listimage.json', JSON.stringify(listimg))
 			break
 		case prefix+'delimg':
-			let img = listimg.indexOf(body.slice(8))
-			listimg.splice(img, 1)
+			let delx = listimg.indexOf(body.slice(7))
+			listimg.splice(delx, 1)
 			fs.writeFileSync('./lib/database/listimage.json', JSON.stringify(listimg))
-			aruga.reply(from, `image dengan nama ${img} berhasil didelete dari database`, id)
+			aruga.reply(from, `image dengan nama ${delx} berhasil didelete dari database`, id)
 			break
         case prefix+'addstiker': //credit by ./NotF0und
             let nmHii = body.slice(11)
@@ -1656,7 +1693,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
                 const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
                 await aruga.sendImageAsSticker(from, imageBase64, { author: `@thoriqazzikra_`, pack: `Urbaeexyz`, keepScale: true })
             } else {
-				console.log(err)
+				aruga.reply(from, 'Format pesan salah', id)
 			}
             break
 	case prefix+'nobg':
@@ -1841,6 +1878,7 @@ break
                 const getUrl = await uploadImages(mediaData, false)
                 const ImageBase64 = await meme.custom(getUrl, top, bottom)
                 aruga.sendFile(from, ImageBase64, 'image.png', '', null, true)
+				aruga.sendImageAsSticker(from, ImageBase64, {keepScale: true, author: "@thoriqazzikra_", pack: "Urbaeexyz" })
                     .then(() => {
                         aruga.reply(from, 'Ini makasih!',id)
                     })
@@ -2683,6 +2721,18 @@ case prefix+'ytsearch':
                 aruga.reply(from, 'Ada yang Error!', id)
             })
 	    break
+		case prefix+'ayatkursi':
+			aruga.reply(from, mess.wait, id)
+			axios.get(`https://urbaee-xyz.herokuapp.com/api/muslim/ayatkursi?apikey=Urbaeexyz`)
+			.then(async(res) => {
+				const tafsr = `*Arab:* ${res.data.result.data.arabic}\n\n*Latin:* ${res.data.result.data.latin}\n\n*Arti:* ${res.data.result.data.translation}\n\n*Tafsir:* ${res.data.result.data.tafsir}`
+				await aruga.reply(from, tafsr, id)
+				.catch((err) => {
+					aruga.reply(from, err, id)
+					console.log(err)
+				})
+			})
+			break
         case prefix+'resep':
             if (args.length == 0) return aruga.reply(from, `Untuk mencari resep makanan\nCaranya ketik: ${prefix}resep [search]\n\ncontoh: ${prefix}resep tahu`, id)
             const cariresep = body.slice(7)
@@ -2692,6 +2742,18 @@ case prefix+'ytsearch':
                 aruga.reply(from, 'Ada yang Error!', id)
             })
             break
+			case prefix+'quotesislamic':
+			case prefix+'quotesislam':
+			axios.get(`https://urbaee-xyz.herokuapp.com/api/randomquote/muslim?apikey=Urbaeexyz`)
+			.then(async(res) => {
+				const islm = res.data.result.text_id
+				aruga.reply(from, islm, id)
+				.catch((err) => {
+					aruga.reply(from, err, id)
+					console.log(err)
+				})
+			})
+			break
             case prefix+'stalktiktok':
             case prefix+'stalktik':
             case prefix+'stalktt':
@@ -2790,15 +2852,6 @@ case prefix+'ytsearch':
             const wikip = body.slice(6)
             const wikis = await rugaapi.wiki(wikip)
             await aruga.reply(from, wikis, id)
-            .catch(() => {
-                aruga.reply(from, 'Ada yang Error!', id)
-            })
-            break
-        case prefix+'cuaca':
-            if (args.length == 0) return aruga.reply(from, `Untuk melihat cuaca pada suatu daerah\nketik: ${prefix}cuaca [daerah]`, id)
-            const cuacaq = body.slice(7)
-            const cuacap = await rugaapi.cuaca(cuacaq)
-            await aruga.reply(from, cuacap, id)
             .catch(() => {
                 aruga.reply(from, 'Ada yang Error!', id)
             })
@@ -3425,6 +3478,12 @@ case prefix+'ytsearch':
 		const segey = `${res.data.result}`
 		aruga.reply(from, segey, id)
 		console.log(color(`${segey}`, 'green'))
+		.catch((err) => {
+			aruga.reply(from, 'Maaf, mungkin API sedang Maintenance', id)
+		})
+	})
+	.catch((err) => {
+		console.log(err)
 	})
     break
     case prefix+'simi2':
@@ -3688,6 +3747,20 @@ case prefix+'ytsearch':
                 aruga.reply(from, 'Pilih enable atau disable!', id)
             }
             break
+	case prefix+'deleteleft':
+    if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
+		let index = left.includes(chat.id)
+		left.splice(index)
+		fs.writeFileSync('./lib/database/left.json', JSON.stringify(left))
+		aruga.reply(from, 'berhasil mendelete semua id grup didalam database left.json', id)
+		break
+	case prefix+'deletewelcome':
+	if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
+		let walcm = welkom.includes(chat.id)
+		welkom.splice(walcm)
+		fs.writeFileSync('./lib/database/welcome.json', JSON.stringify(welkom))
+		aruga.reply(from, 'berhasil mendelete semua id didalam database welcome.json', id)
+		break
 	 case prefix+'welcome':
             if (!isGroupMsg) return aruga.reply(from, 'Perintah ini hanya bisa di gunakan didalam Grup!', id)
             if (!isGroupAdmins) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh Admin Grup!', id)
@@ -3951,6 +4024,26 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
 						}
 						await aruga.reply(from, xoxo, id)
 						break
+						case prefix+'listleft':
+						if (!isOwnerB) return aruga.reply(from, 'Fitur ini hanya bisa digunakan oleh owner bot!', id)
+						const lefting = left
+						let lefs = `List ID Grup\n\n`
+						for (let i = 0; i < lefting.length; i++) {
+							lefs += '-'
+							lefs += `${lefting[i]}\n`
+						}
+						await aruga.reply(from, lefs, id)
+						break
+						case prefix+'listwelcome':
+						if (!isOwnerB) return aruga.reply(from, 'Fitur ini hanya bisa digunakan oleh owner bot!', id)
+						const wulcum = welkom
+						let wels = `List ID Grup\n\n`
+						for (let i = 0; i < wulcum.length; i++) {
+							wels += '-'
+							wels += `${wulcum[i]}\n`
+						}
+						await aruga.reply(from, wels, id)
+						break
 						case prefix+'listimg':
 							const imagick = listimg
 							let kemtull = `╔══✪〘 *List Image!* 〙✪══\n`
@@ -4085,9 +4178,9 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                     case prefix+'translate':
                         if (args.length == 0) return aruga.reply(from, `Untuk translate kata gunakan ${prefix}translate [kode bahasa]|Kata kata\n\nContoh : ${prefix}translate en|Bagaimana kabarmu?`, id)
                             const suway1 = arg.split('|')[0]
-			    const suway2 = arg.split('|')[1]
+							const suway2 = arg.split('|')[1]
                             await axios.get('https://api-translate.azharimm.tk/translate?engine=google&text='+suway2+'&to='+suway1).then(res => {
-			    const texttr = `Kata : *${res.data.data.origin}*\n\nTranslate to ${suway1} : *${res.data.data.result}*\n\nTarget : *${res.data.data.targets[0]}*`
+			    const texttr = res.data.data.result
                             aruga.reply(from, texttr, id)
                         })
                         break
