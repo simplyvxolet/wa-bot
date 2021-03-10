@@ -67,7 +67,7 @@ const {
     custom,
     picturemis
  } = require('./utils/fetcher')
-
+ 
 const fs = require('fs-extra')
 const banned = JSON.parse(fs.readFileSync('./settings/banned.json'))
 const simi = JSON.parse(fs.readFileSync('./settings/simi.json'))
@@ -171,7 +171,6 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
         const groupMembers = isGroupMsg ? await aruga.getGroupMembersId(groupId) : ''
         const GroupLinkDetector = antilink.includes(chatId)
         const stickermsg = message.type === 'sticker'
-		const Math_js = require('mathjs')
 
         // Bot Prefix
 		const commands = caption || body || ''
@@ -2944,16 +2943,18 @@ case prefix+'ytsearch':
                 })
                 break
 		case prefix+'tiktok':
-			aruga.reply(from, mess.wait, id)
              if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
-             rugaapi.toktok(args)
-				.then(async(res) => {
-					await aruga.sendFileFromUrl(from, res.url, '', '', id)
-                    .catch(() => {
-                        aruga.reply(from, 'Error njing', id)
-                    })
-                })
-            break
+             const bodynya = body.slice(8)
+			 aruga.reply(from, mess.wait, id)
+			 axios.get(`https://api.vhtear.com/tiktokdl?link=${bodynya}&apikey=${vhtearkey}`)
+			 .then(async(res) => {
+				 await aruga.sendFileFromUrl(from, res.data.result.video, 'tiktok.mp4', ``, id)
+				 .catch((err) => {
+					 aruga.reply(from, 'Error', id)
+					 console.log(err)
+				 })
+			 })
+			 break
             case prefix+'tiktok2':
                 if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
                 aruga.reply(from, mess.wait, id)
@@ -3971,15 +3972,34 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                         const ch = `https://chat.whatsapp.com/HUPrOw9W2wvFG3iy7d8qmb\n\nSkuyy joinn`
                         await aruga.sendLinkWithAutoPreview(from, ch)
                         break
+					case prefix+'tiktokaudio':
+					if (args.length == 0) return aruga.reply(from, `Fitur untuk mengkonversi Video menjadi Audio!\nKirim perintah ${prefix}tiktokaudio link tiktok`, id)
+					const linktk = body.slice(13)
+					aruga.reply(from, mess.wait, id)
+					axios.get(`http://docs-jojo.herokuapp.com/api/tiktok_audio?url=${linktk}`)
+					.then(async(res) => {
+						await aruga.sendFileFromUrl(from, res.data.result, '', '', id)
+						.catch(() => {
+							aruga.reply(from, 'error', id)
+						})
+					})
+					.catch((err) => {
+						console.log(err)
+					})
+					break
                     case prefix+'mtk':
-                        if (args.length === 3) return aruga.reply(from, `[❗] Kirim perintah *${prefix}math [ Angka ]*\nContoh : ${prefix}math 12 * 12\n*NOTE* :\n- Untuk Perkalian Menggunakan *\n- Untuk Pertambahan Menggunakan +\n- Untuk Pengurangan Mennggunakan -\n- Untuk Pembagian Menggunakan /`)
+                        if (args.length === 0) return aruga.reply(from, `[❗] Kirim perintah *${prefix}math [ Angka ]*\nContoh : ${prefix}mtk 12 * 12\n*NOTE* :\n- Untuk Perkalian Menggunakan *\n- Untuk Pertambahan Menggunakan +\n- Untuk Pengurangan Mennggunakan -\n- Untuk Pembagian Menggunakan /`)
                         const mtk = body.slice(5)
-                        if (typeof Math_js.evaluate(mtk) !== "number") {
-                        aruga.reply(from, `"${mtk}", bukan angka!\n[❗] Kirim perintah *${prefix}math [ Angka ]*\nContoh : ${prefix}math 12 * 12\n*NOTE* :\n- Untuk Perkalian Menggunakan *\n- Untuk Pertambahan Menggunakan +\n- Untuk Pengurangan Mennggunakan -\n- Untuk Pembagian Menggunakan /`, id)
-                    } else {
-                        aruga.reply(from, `*Bot Answer :*\n*${mtk} = ${Math_js.evaluate(mtk)}*`, id)
-                    }
-                    break
+						axios.get(`https://api.vhtear.com/calculator?value=${mtk}&apikey=${vhtearkey}`)
+						.then(async(res) => {
+							const jawabannya = res.data.result.data
+							const salah = res.data.result.data
+							aruga.reply(from, jawabannya, id)
+							.catch((err) => {
+								aruga.reply(from, salah, id)
+							})
+						})
+						break
                     case prefix+'screen': {
                         if (!isOwnerB) return await aruga.reply(from, 'Fitur ini hanya dapat digunakan oleh admin bot')
                         const snap = await aruga.getSnapshot()
