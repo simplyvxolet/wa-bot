@@ -10,7 +10,6 @@ const fetch = require('node-fetch')
 const translatte = require('translatte')
 const bent = require('bent')
 const path = require('path')
-const Math_js = require('mathjs')
 const ffmpeg = require('fluent-ffmpeg')
 const request = require('request-promise')
 const emojiUnicode = require('emoji-unicode')
@@ -172,6 +171,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
         const groupMembers = isGroupMsg ? await aruga.getGroupMembersId(groupId) : ''
         const GroupLinkDetector = antilink.includes(chatId)
         const stickermsg = message.type === 'sticker'
+		const Math_js = require('mathjs')
 
         // Bot Prefix
 		const commands = caption || body || ''
