@@ -18,6 +18,18 @@
 <a href="https://github.com/Urbaeexyz/whatsapp-bot2">
  <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=Urbaeexyz&repo=wa-bot&theme=dark" />
   </p>
+ 
+ ## Things I Code With
+<p>
+    <img
+        src="https://img.shields.io/badge/node.js%20-%2343853D.svg?&style=for-the-badge&logo=node.js&logoColor=white" />
+    <img
+        src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" />
+  
+  
+ 
+<p align="left"><a href="https://wa.me/62895334962050?text=/menu" target="_blank">My Whatsapp BOT</a>.</p>
+</div>
   
   
  ### FFMPEG
