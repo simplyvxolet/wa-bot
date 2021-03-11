@@ -21,8 +21,8 @@ const start = async (aruga = new aruga()) => {
     })
 	
 	aruga.onGlobalParticipantsChanged((async (heuh) => {
-            await welcome(vf, heuh) 
-            left(vf, heuh)
+            await welcome(aruga, heuh) 
+            left(aruga, heuh)
             }))
 
     aruga.onMessage((message) => {
