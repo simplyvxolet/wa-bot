@@ -4229,14 +4229,6 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                             const aiquote = await axios.get("http://inspirobot.me/api?generate=true")
                             await aruga.sendFileFromUrl(from, aiquote.data, 'quote.jpg', 'FOLLOW NGAB \ :V https://www.instagram.com/_l_.lawliet_/' , id )
                         break
-		case prefix+'attp':
-		const bodyna = body.slice(5)
-		await aruga.sendStickerfromUrl(from, `https://api.xteam.xyz/attp?file&text=${bodyna}`)
-		.catch((err) => {
-			aruga.reply(from, 'Error om', id)
-			console.log(err)
-		  })
-		break
                 case prefix+'ttp':
                      axios.get(`https://tobz-api.herokuapp.com/api/ttp?text=${body.slice(5)}&apikey=BotWeA`)
                         .then(async(res) => {
