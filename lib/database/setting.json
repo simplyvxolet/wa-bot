@@ -1,10 +1,10 @@
 {
-  "ownerNumber": "628xxx@c.us",
+  "ownerNumber": "628@c.us",
   "memberLimit": 1000,
   "groupLimit": 50,
   "prefix": "/",
   "mtc": false,
-  "banChats": false,
+  "banChats": true,
   "Rest": true,
   "vhtearkey": "YOUR-APIKEY",
   "iTechApi": "A46cZH-iBjv3i-JR36B5-Ah3U7u-iI4snA",
