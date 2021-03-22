@@ -90,7 +90,6 @@ let cecann = JSON.parse(fs.readFileSync('./lib/helper/cecan.json'))
 let listimg = JSON.parse(fs.readFileSync('./lib/database/listimage.json'))
 
 let { 
-    ownerNumber, 
     groupLimit, 
     memberLimit,
     vhtearkey,
@@ -1583,7 +1582,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 		if (args.length == 0) return aruga.reply(from, `Kirim perintah ${prefix}tr [kodebahasa] [reply caption]\n\ncontoh : ${prefix}tr id [reply caption}`, id)
 		const suwayy0 = arg.split('|')[0]
 		const suwayy00 = quotedMsg.type == 'chat' ? quotedMsg.body : quotedMsg.type == 'image' ? quotedMsg.caption : ''
-		axios.get('https://api-translate.azharimm.tk/translate?engine=google&text='+suwayy00+'&to='+suwayy0).then(res => {
+		axios.get(`https://amm-api-translate.herokuapp.com/translate?engine=google&text=${suwayy00}&to=${suwayy0}`).then(res => {
 		const trans = res.data.data.result
 		aruga.reply(from, trans, id)
 		})
@@ -3137,11 +3136,11 @@ console.log(err)
 		//break
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-           axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(7)}`)
+           axios.get(`http://kocakz.herokuapp.com/api/media/ytsearch?query=${body.slice(7)}`)
             .then(async (res) => {
-			console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration}`, 'green'))
-                 await aruga.sendFileFromUrl(from, `${res.data.result.result[0].thumbnails[0].url}`, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} menit\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)
-				 rugaapi.ytmp3(`https://youtu.be/${res.data.result.result[0].id}`)
+			console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].duration} menit`, 'green'))
+                 await aruga.sendFileFromUrl(from, `${res.data.result[0].thumbnail}`, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].duration} menit\nViews: ${res.data.result[0].viewCount}\nUploaded: ${res.data.result[0].uploadDate}\nChannel: ${res.data.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)
+				 rugaapi.ytmp3(`https://youtu.be/${res.data.result[0].id}`)
                 .then(async(res) => {
 				const ah = res.result
 				const forurl = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${ah}`)
@@ -4300,7 +4299,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                         if (args.length == 0) return aruga.reply(from, `Untuk translate kata gunakan ${prefix}translate [kode bahasa]|Kata kata\n\nContoh : ${prefix}translate en|Bagaimana kabarmu?`, id)
                             const suway1 = arg.split('|')[0]
 							const suway2 = arg.split('|')[1]
-                            await axios.get('https://api-translate.azharimm.tk/translate?engine=google&text='+suway2+'&to='+suway1).then(res => {
+                            await axios.get(`https://amm-api-translate.herokuapp.com/translate?engine=google&text=${suway2}&to=${suway1}`).then(res => {
 			    const texttr = res.data.data.result
                             aruga.reply(from, texttr, id)
                         })
