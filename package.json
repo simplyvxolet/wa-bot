@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/Urbaeexyz/wa-bot#readme",
   "dependencies": {
-    "@open-wa/wa-automate": "^3.9.0",
+    "@open-wa/wa-automate": "3.9.0",
     "app-root-path": "^3.0.0",
     "axios": "^0.21.1",
     "bent": "^7.3.12",
