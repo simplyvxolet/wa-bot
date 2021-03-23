@@ -3,9 +3,9 @@
   "groupLimit": 50,
   "prefix": "/",
   "mtc": false,
-  "banChats": true,
+  "banChats": false,
   "Rest": true,
-  "vhtearkey": "skinjhonson",
+  "vhtearkey": "YOUR-APIKEY",
   "iTechApi": "A46cZH-iBjv3i-JR36B5-Ah3U7u-iI4snA",
   "keepSave": "Fj4OgInAUVRvNK16phVoT9KzNg6D4vigTZQZlVLchaClRr"
 }
