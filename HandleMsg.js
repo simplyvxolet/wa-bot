@@ -648,16 +648,6 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
                 const deviceinfo = `- Battery Level : ${device.battery}%\n  ├ Is Charging : ${charged}\n  └ 24 Hours Online : ${device.is24h}\n  ├ OS Version : ${device.phone.os_version}\n  └ Build Number : ${device.phone.os_build_number}\n\n _*Jam :*_ ${moment(t * 1000).format('HH:mm:ss')}`
                 aruga.sendText(from, `*Device Info*\n${deviceinfo}\n\nPenggunaan RAM: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB*\nCPU: *${os.cpus().length}*\n\nStatus :\n- *${loadedMsg}* Loaded Messages\n- *${groups.length}* Group Chats\n- *${chatIds.length - groups.length}* Personal Chats\n- *${chatIds.length}* Total Chats\n\nSpeed: ${latensi.toFixed(4)} _Second_`)
                 break
-				case prefix+'tageveryone':
-				if (!isGroupMsg) return aruga.reply(from, 'dasfasf', id)
-				if (!isOwnerB) return aruga.reply(from, 'fsafaf', id)
-				const taxt = body.slice(13)
-				try {
-					aruga.tagEveryone(groupId, `pesan : ${taxt}`, true)
-				} catch (err) {
-					console.log(err)
-				}
-					break
                 case prefix+'setpic':
                     if (!isOwnerB) return aruga.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner Bot!`, id)
                     if (isMedia) {
