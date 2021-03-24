@@ -206,7 +206,7 @@ module.exports = HandleMsg = async (aruga, message) => {
         const url = args.length !== 0 ? args[0] : ''
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
-		const isQuotedGif = quotedMsg && quotedMsg.type === 'gif'
+		const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
 		const isQuotedFile = quotedMsg && quotedMsg.type === 'file'
 		const reason = q ? q : 'Gada'
 
@@ -1522,7 +1522,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                     try {
                         const mediaData = await decryptMedia(message, uaOverride)
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await aruga.sendMp4AsSticker(from, videoBase64, { fps: 10, startTime: `00:00:00.0`, endTime : `00:00:06.0`, loop: 0 }, { author: `${authorPacksgif}`, pack: `${namaPacksgif}`, keepScale: true })
+                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: `${authorPacksgif}`, pack: `${namaPacksgif}`, keepScale: false })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                 
@@ -1538,7 +1538,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                     try {
                         const mediaData = await decryptMedia(quotedMsg, uaOverride)
                         const videoBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
-                        await aruga.sendMp4AsSticker(from, videoBase64, { fps: 10, startTime: `00:00:00.0`, endTime : `00:00:06.0`, loop: 0 }, { author: `${authorPacksgif}`, pack: `${namaPacksgif}`, crop: false })
+                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: `${authorPacksgif}`, pack: `${namaPacksgif}`, keepScale: false })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                 
@@ -2417,20 +2417,6 @@ break
                                 await aruga.reply(from, 'Format pesan salah...', id)
                             }
                         break
-            case prefix+'instastory':
-            case prefix+'igstory':
-		if (!isPrem) return aruga.reply(from, 'Command Premium!\nChat owner buat mendaftar!', id)
-                if (args.length == 0) return aruga.reply(from, 'Format pesan salah!', id)
-                await aruga.reply(from, mess.wait, id)
-                    rugaapi.its(args)
-                    .then(async ({ result }) => {
-                        for (let i = 0; i < result.story.itemlist.length; i++) {
-                            const { urlDownload } = result.story.itemlist[i]
-                            await aruga.sendFileFromUrl(from, urlDownload, '', '', id)
-                            console.log('Success sending IG Story!')
-                        }
-                    })
-            break
 			case prefix+'pinterest2':
 				if (args.length == 0) return aruga.reply(from, `Kirim perintah ${prefix}pinterest2 link url`, id)
 				const argim = body.slice(12)
@@ -2460,9 +2446,9 @@ break
                         case prefix+'instagram':
                            if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
                             const igUrl = body.slice(4)
-			    axios.get(`https://api.zeks.xyz/api/ig?url=${igUrl}&apikey=apivinz`)
+			    axios.get(`https://fzn-gaz.herokuapp.com/api/igdl?url=${igUrl}`)
 			    .then(async(res) => {
-				await aruga.sendFileFromUrl(from, res.data.result[0].url, '', `*From: ${res.data.owner}*`, id)
+				await aruga.sendFileFromUrl(from, res.data.result.url, '', `*from: ${res.data.result.username}*\n*fullname: ${res.data.result.fullname}*\n*caption: ${res.data.result.caption}*`, id)
 				.catch(err => {
 					aruga.reply(from, 'Error', id)
 				})
@@ -3411,19 +3397,6 @@ case prefix+'ytsearch':
                     })
                 })
                 break
-                case prefix+'igstory':
-                    if (args.length == 0) return aruga.reply(from, `Kirim perintah ${prefix}igstory [linkigstory]`, id)
-                    aruga.reply(from, '_Scrapping Metadata..._', id)
-                    rugaapi.story(body.slice(9))
-                    .then(async(res) => {
-                        const { urlDownload } = itemlist
-                        if (res.error) return aruga.sendFileFromUrl(from, `${res.url}`, '', `${res.error}`, id)
-                        await aruga.sendFileFromUrl(from, `${urlDownload[0]}`, '', '', id)
-                    })
-                    .catch(() => {
-                        aruga.reply(from, 'Error...' , id)
-                    })
-                    break
                 case prefix+'ig2':
                     if (args.length == 0) return aruga.reply(from, `Kirim perintah ${prefix}ig2 linkig`, id)
                     aruga.reply(from, '_Scrapping Metadataa..._', id)
@@ -3466,6 +3439,22 @@ console.log(err)
 				 console.log(err)
 			 })
 			 break
+			case prefix+'tiktoknowm':
+			if (args.length == 0) return aruga.reply(from, `Untuk mendownload video dari tiktok, gunakan ${prefix}tiktoknowm link`, id)
+			const lika = body.slice(12)
+			aruga.reply(from, mess.wait, id)
+			axios.get(`https://api.zeks.xyz/api/tiktok?url=${lika}&apikey=apivinz`)
+			.then(async(res) => {
+				await aruga.sendFileFromUrl(from, res.data.no_watermark, '', `*music name: ${res.data.music_name}*`, id)
+				await aruga.sendFileFromUrl(from, res.data.audio, '', '', id)
+				.catch(() => {
+					aruga.reply(from, 'Mungkin url anda salah', id)
+				})
+			})
+			.catch(err => {
+				console.log(err)
+			})
+			break
             case prefix+'tiktok':
                 if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
 				const linktik = body.slice(8)
@@ -3557,15 +3546,34 @@ console.log(err)
 		})
 		})
 		break
+		case prefix+'igstory':
+		case prefix+'instastory':
+		if (args.length == 0) return aruga.reply(from, `Mencari story dari username, Gunakan ${prefix}igstory username|jumlahyangingindidownload\nContoh: ${prefix}igstory ewkharis|2`, id)
+		const xas = body.slice(9)
+		const xas1 = q.split('|')[0]
+		const xas2 = q.split('|')[1]
+		aruga.reply(from, mess.wait, id)
+		try {
+			const xas3 = await axios.get(`http://docs-jojo.herokuapp.com/api/igstory?username=${xas1}`)
+			const xas4 = xas3.data
+			if (xas2 > 5) return aruga.reply(from, 'Maksimal 5!', id)
+			for (let i = 0; i < xas2; i++) {
+				await aruga.sendFileFromUrl(from, xas4.result[i].url, '', '', id)
+			}
+		} catch (err) {
+			console.log(err)
+			aruga.reply(from, 'Maaf, username salah, silahkan masukkan username yang benar', id)
+		}
+		break
 		case prefix+'wallhd':
 		if (args.length == 0) return aruga.reply(from, `Fitur untuk mencari wallpaper HD gunakan ${prefix}wallhd nama image.jumlah\nContoh: ${prefix}wallhd aesthetic.3`, id)
-		const wew = body.slice(8)
-		const wew2 = wew.split('.')[0]
-		const wew3 = wew.split('.')[1]
+		const wew2 = q.split('.')[0]
+		const wew3 = q.split('.')[1]
 		aruga.reply(from, mess.wait, id)
 		try {
 			const wew4 = await axios.get(`https://api.vhtear.com/walpaper?query=${wew2}&apikey=${vhtearkey}`)
 			const wew5 = wew4.data
+			if (wew3 > 7) return aruga.reply(from, `Maksimal 7 image!`, id)
 			for (let i = 0; i < wew3; i++) {
 				await aruga.sendFileFromUrl(from, wew5.result[i].LinkImg, '', '', id)
 			}
@@ -3577,8 +3585,8 @@ console.log(err)
         case prefix+'findstiker':
            if (args.length == 0) return aruga.reply(from, `Format pesan salah!\nContoh : ${prefix}findstiker gore|4`, id)
               await aruga.reply(from, mess.wait, id)
-			  const namstik = arg.split('|')[0]
-			  const jumstik = arg.split('|')[1]
+			  const namstik = q.split('|')[0]
+			  const jumstik = q.split('|')[1]
               try {
                   const nihah = await axios.get(`https://api.vhtear.com/wasticker?query=${namstik}&apikey=${vhtearkey}`)
                   const beres = nihah.data
@@ -3593,17 +3601,19 @@ console.log(err)
 		case prefix+'postig':
 		if (args.length == 0) return aruga.reply(from, `Fitur untuk mencari post dari instagram seseorang\nketik ${prefix}postig username|jumlah\ncontoh: ${prefix}postig yourrkayesss|3`, id)
 		const wall1 = body.slice(8)
-		const jml = wall1.split('|')[0]
-		const jml2 = wall1.split('|')[1]
+		const jml = q.split('|')[0]
+		const jml2 = q.split('|')[1]
 		aruga.reply(from, mess.wait, id)
 		try {
 			const wall = await axios.get(`http://docs-jojo.herokuapp.com/api/insta_v2?username=${jml}`)
 			const wall2 = wall.data
+			if (jml2 > 7) return aruga.reply(from, 'Maksimal 7!', id)
 			for (let i = 0; i < jml2; i++) {
 				await aruga.sendFileFromUrl(from, wall2.resource[i].url, '', '', id)
 			}
 		} catch (err) {
 			console.log(err)
+			aruga.reply(from, 'Terjadi kesalahan pada sistem, silahkan coba lagi!', id)
 		}
 		break
 	    //case prefix+'anjay':
@@ -4442,8 +4452,8 @@ console.log(err)
             }
             break
         case prefix+'ban':
-	    var qmban = quotedMsgObj.sender.id
             if (!isOwnerB && !isPrem) return aruga.reply(from, 'Perintah ini hanya untuk Owner bot!', id)
+			var qmban = quotedMsgObj.sender.id
 	    try {
                 banned.push(qmban)
                 fs.writeFileSync('./settings/banned.json', JSON.stringify(banned))
