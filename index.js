@@ -29,10 +29,17 @@ const start = async (aruga = new aruga()) => {
         HandleMsg(aruga, message)
     })
 
-    aruga.onIncomingCall(async (call) => {
-        await aruga.sendText(call.peerJid, `Kamu telah menelpon BOT\nMaaf kamu akan diblockir!\nChat owner: wa.me/${ownerNumber} agar dibuka blok-nya!`)
-        await aruga.contactBlock(call.peerJid)
-            .then(() => console.log(`Seseorang menelpon BOT, dan telah diblokir. ID: ${call.peerJid}`))
+    aruga.onIncomingCall(async (callData) => {
+        // ketika seseorang menelpon nomor bot akan mengirim pesan
+        await aruga.sendText(callData.peerJid, 'Maaf sedang tidak bisa menerima panggilan.\n\n-bot')
+        .then(async () => {
+            // bot akan memblock nomor itu
+            await aruga.contactBlock(callData.peerJid)
+        })
+    })
+
+    aruga.onAnyMessage((anal) => { 
+        messageLog(anal.fromMe, anal.type)
     })
 }
 create(options(start))
