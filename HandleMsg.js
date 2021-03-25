@@ -1903,6 +1903,24 @@ module.exports = HandleMsg = async (aruga, message) => {
 		})
 	      })
 		break
+	case prefix+'startgif': //By: Thoriq Azzikra
+	  if (isMedia || isQuotedVideo || isQuotedFile) {
+		try {
+		const mulai = q.split('|')[0]
+		const akhir = q.split('|')[1]
+		if (args.length == 0) return aruga.reply(from, `untuk mencustom stiker gif, kirim video atau reply video dengan cara ${prefix}startgif mulaidetik|akhirdetik\nContoh: ${prefix}startgif 07|10`, id)
+		aruga.reply(from, mess.wait, id)
+		const encryptMedia = isQuotedVideo || isQuotedFile ? quotedMsg : message
+		const mediaData = await decryptMedia(encryptMedia, uaOverride)
+		await aruga.sendMp4AsSticker(from, mediaData, { crop: true, fps: 30, square: 240, startTime: `00:00:${mulai}.0`, endTime: `00:00:${akhir}.0`, loop: 0 }, { keepScale: false, author: `${pushname}`, pack: `${pushname}` })
+		} catch (err) {
+			console.log(err)
+			aruga.reply(from, 'err', id)
+		}
+	} else {
+		aruga.reply(from, 'Format salah', id)
+	}
+	break
            case prefix+'stickergif':
         case prefix+'stikergif':
 	case prefix+'sgif':
