@@ -3364,10 +3364,8 @@ case prefix+'ytsearch':
                 if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}ssweb [link website]`, id)
 		const webss = body.slice(7)
 		aruga.reply(from, mess.wait, id)
-		axios.get(`https://api.zeks.xyz/api/ssweb?url=${webss}&apikey=apivinz`)
-		.then(async(res) => {
-			await aruga.sendFileFromUrl(from, res.data.result, 'img.jpg', `nihh ${pushname} ss-an ${webss} nya`, id)
-	})
+		await aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/ssweb?apikey=dd42c2d20db7c924ccf66f5f&url=${webss}`, 'img.jpg' , '', id)
+		break
                 break
             case prefix+'fb2':
             case prefix+'fbvid':
@@ -3643,10 +3641,10 @@ console.log(err)
 				} else {
 					var behd = thumbHD
 				}
-                 await aruga.sendFileFromUrl(from, behd, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} menit\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)
-				 rugaapi.ymp3(`https://youtu.be/${res.data.result.result[0].id}`)
+                 await aruga.sendFileFromUrl(from, behd, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].accessibility.duration}\nViews: ${res.data.result.result[0].viewCount.text}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)
+				 rugaapi.ytmp3(`https://youtu.be/${res.data.result.result[0].id}`)
                 .then(async(res) => {
-				const ah = res.link_audio
+				const ah = res.result
 				const forurl = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${ah}`)
 				const iniurl = forurl.data.result
 				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${iniurl}`, id)
