@@ -1911,18 +1911,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 		})
 	      })
 		break
-	case prefix+'postimg':
-	if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
-	if (isMedia || isQuotedImage) {
-		const forcap = body.slice(9)
-		aruga.reply(from, mess.wait, id)
-		const encryptMedia = isQuotedImage ? quotedMsg: message
-        const mediaData = await decryptMedia(encryptMedia, uaOverride)
-		aruga.postImageStatus(`data:${mimetype};base64,${mediaData.toString('base64')}`, forcap)
-	} else {
-		aruga.reply(from, 'Error', id)
-	}
-	break
 	case prefix+'startgif': //By: Thoriq Azzikra
 	  if (isMedia || isQuotedVideo || isQuotedFile) {
 		try {
@@ -2993,25 +2981,6 @@ case prefix+'ytsearch':
             aruga.reply(from, 'Ada yang Error!', id)
         })
     break
-	case prefix+'giftovid':
-	if (isMedia && isQuotedSticker) {
-		try {
-		aruga.reply(from, mess.wait, id)
-		const encryptMedia = isQuotedSticker ? quotedMsg : message
-		const Mimetype = isQuotedSticker ? quotedMsg.mimetype : mimetype
-		const mediaData = await decryptMedia(encryptMedia)
-		let name = new Date() * 1
-		let urlvid = `${name}.${_mimetype.replace(/.+\//, '')}`
-		const uploadvid = await axios.get(`http://zekais-api.herokuapp.com/imgbb?url=${urlvid}`)
-		const linkvid = uploadVid.data.result
-		aruga.reply(from, linkvid, id)
-		} catch (err) {
-			console.log(err)
-		}
-	} else {
-		aruga.reply(from, 'error', id)
-	}
-	break
 	case prefix+'tomp3':
 	   if ((isMedia || isQuotedVideo || isQuotedFile)) {
             aruga.reply(from, mess.wait, id)
