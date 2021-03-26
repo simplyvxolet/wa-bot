@@ -2,14 +2,17 @@ const { create, vf } = require('@open-wa/wa-automate')
 const { color, options } = require('./function')
 const left = require('./lib/left')
 const welcome = require('./lib/welcome')
+const figlet = require('figlet')
 const fs = require('fs-extra')
 const HandleMsg = require('./HandleMsg')
 
-
 const start = async (aruga = new aruga()) => {
-    console.log(color('[URBAE BOT]', 'magenta'), color('URBAE BOT is now online!', 'aqua'))
-    
-    aruga.onStateChanged((state) => {
+		console.log('------------------------------------------------------------------------')
+        console.log(color(figlet.textSync('Urbaeexyz Bot', { font: 'slant', horizontalLayout: 'default' })))
+        console.log('------------------------------------------------------------------------')
+        console.log(color('[CREATOR]', 'aqua'), color('Thoriq Azzikra', 'magenta'))
+        console.log(color('[BOT]', 'aqua'), color('URBAE BOT is now Online!', 'magenta'))
+		aruga.onStateChanged((state) => {
         console.log(color('-> [STATE]'), state)
         if (state === 'CONFLICT') aruga.forceRefocus()
         if (state === 'UNPAIRED') aruga.forceRefocus()

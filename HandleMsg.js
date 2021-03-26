@@ -7,6 +7,7 @@ const axios = require('axios')
 const os = require('os')
 const speed = require('performance-now')
 const fetch = require('node-fetch')
+const chalk = require('chalk')
 const translatte = require('translatte')
 const bent = require('bent')
 const path = require('path')
@@ -123,7 +124,7 @@ function waktu(seconds) { // TOBZ
             var s = Math.floor(seconds % 60);
             var dDisplay = d > 0 ? d + (d == 1 ? " Day,":" Day,") : "";
             var hDisplay = h > 0 ? h + (h == 1 ? " Hours,":" Hours,") : "";
-            var mDisplay = m > 0 ? m + (m == 1 ? " Minute,":" Minute,") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " Minutes,":" Minutes,") : "";
             var sDisplay = s > 0 ? s + (s == 1 ? " Second,":" Second") : "";
             return dDisplay + hDisplay + mDisplay + sDisplay;
         }
@@ -229,8 +230,8 @@ module.exports = HandleMsg = async (aruga, message) => {
         
         //
 		if(!isCmd && isKasar && isGroupMsg) { console.log(color('[BADW]', 'orange'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats}`), 'from', color(pushname), 'in', color(name || formattedTitle)) }
-        if (isCmd && !isGroupMsg) { console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname)) }
-        if (isCmd && isGroupMsg) { console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle)) }
+        if (isCmd && !isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta'))}
+        if (isCmd && isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta') , 'in', color(name || formattedTitle, 'aqua')) }
 
       if (chats == 'Assalamualaikum'){
           aruga.reply(from, 'Waalaikumsalam wr wb.', id)
@@ -1944,20 +1945,20 @@ module.exports = HandleMsg = async (aruga, message) => {
         case prefix+'stikergif':
 	case prefix+'sgif':
 	  aruga.reply(from, mess.wait, id)
-           if (isMedia && type === 'video' || mimetype === 'image/gif') {
+           if (isMedia && type === 'video/mp4' && message.duration < 11 || mimetype === 'image/gif' && message.duration < 11) {
                 try {
                     const mediaData = await decryptMedia(message, uaOverride)
-                    await aruga.sendMp4AsSticker(from, mediaData, {crop: true, square: 240, fps: 30, startTime: `00:00:00.0`, endTime : `00:00:10.0`,loop: 0}, {keepScale: false, author: authorr, pack: pack }, id)
+                    await aruga.sendMp4AsSticker(from, mediaData, {crop: true, square: 200, fps: 30, startTime: `00:00:00.0`, endTime : `00:00:10.0`,loop: 0}, {keepScale: false, author: authorr, pack: pack }, id)
                 } catch (err) {
                     aruga.reply(from, `Skala video terlalu besar! mohon kecilkan skala video\nMinimal 240x240`, id)
                 }
-            } else if (quotedMsg && quotedMsg.type == 'video' || quotedMsg && quotedMsg.mimetype == 'image/gif') {
+            } else if (quotedMsg && quotedMsg.type == 'video' && quotedMsg.duration < 11 || quotedMsg && quotedMsg.mimetype == 'image/gif' && quotedMsg.duration < 11) {
                 const mediaData = await decryptMedia(quotedMsg, uaOverride)
-                await aruga.sendMp4AsSticker(from, mediaData, {crop: true, square: 240, fps: 30, startTime: `00:00:00.0`, endTime : `00:00:10.0`,loop: 0}, {keepScale: false, author: authorr, pack: pack}, id)
+                await aruga.sendMp4AsSticker(from, mediaData, {crop: true, square: 200, fps: 30, startTime: `00:00:00.0`, endTime : `00:00:10.0`,loop: 0}, {keepScale: false, author: authorr, pack: pack}, id)
             } else {
-                aruga.reply(from, `Kesalahan ⚠️ Hanya bisa video/gif apabila file media berbentuk gambar ketik /stickergif`, id)
+                aruga.reply(from, `Error, maksimal durasi 10 detik!`, id)
 		.catch((err) => {
-			aruga.reply(from, `Error! Size media terlalu besar! Maksimal 7 detik!`, id)
+			aruga.reply(from, `Error! Size media terlalu besar! Maksimal 10 detik dengan skala 240x240!`, id)
 		})
     	}
             break
