@@ -1931,7 +1931,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 		aruga.reply(from, mess.wait, id)
 		const encryptMedia = isQuotedVideo || isQuotedFile ? quotedMsg : message
 		const mediaData = await decryptMedia(encryptMedia, uaOverride)
-		await aruga.sendMp4AsSticker(from, mediaData, { crop: true, fps: 30, square: 200, startTime: `00:00:${mulai}.0`, endTime: `00:00:${akhir}.0`, loop: 0 }, { keepScale: false, author: `${pushname}`, pack: `${pushname}` })
+		await aruga.sendMp4AsSticker(from, mediaData, { crop: true, fps: 30, square: 240, startTime: `00:00:${mulai}.0`, endTime: `00:00:${akhir}.0`, loop: 0 }, { keepScale: false, author: `${pushname}`, pack: `${pushname}` })
 		} catch (err) {
 			console.log(err)
 			aruga.reply(from, 'Kecilkan skala video!\nMinimal 240x240', id)
@@ -2301,27 +2301,6 @@ break
                     console.log(err)
                     await aruga.sendFileFromUrl(from, errorurl2, 'error.png', '💔️ Maaf, Jadwal tidak ditemukan')
             }
-            break
-			case prefix+'testgif':
-			if (isMedia || isQuotedVideo) {
-                if (mimetype === 'video/mp4' && message.duration < 10 || mimetype === 'image/gif' && message.duration < 10) {
-                    var mediaData = await decryptMedia(message, uaOverride)
-                    aruga.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
-                    var filename = `./media/stickergif.${mimetype.split('/')[1]}`
-                    await fs.writeFileSync(filename, mediaData)
-                    await exec(`gify ${filename} ./media/stickergf.gif --fps=30 --scale=320:-1`, async function (error, stdout, stderr) {
-                        var gif = await fs.readFileSync('./media/stickergf.gif', { encoding: "base64" })
-                        await aruga.sendImageAsSticker(from, `data:image/gif;base64,${gif.toString('base64')}`)
-                        .catch(() => {
-                            aruga.reply(from, 'Maaf filenya terlalu besar!', id)
-                        })
-                    })
-                  } else {
-                    aruga.reply(from, `[❗] Kirim gif dengan caption *${prefix}stickergif* max 10 sec!`, id)
-                   }
-                } else {
-		    aruga.reply(from, `[❗] Kirim gif dengan caption *${prefix}stickergif*`, id)
-	        }
             break
 			case prefix+'shitposting':
 				aruga.reply(from, mess.wait, id)
