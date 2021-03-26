@@ -4359,8 +4359,8 @@ console.log(err)
         //Owner Group
         case prefix+'kickall': //mengeluarkan semua member
         if (!isGroupMsg) return aruga.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-		let isOwnerGroup = chat.groupMetadata.owner == serial
-        if (!isOwnerGroup && !isOwnerB) return aruga.reply(from, 'Maaf, perintah ini hanya dapat digunakan oleh Owner Grup!', id)
+		let isOwnerGroup = sender.id === chat.groupMetadata.owner
+        if (!isOwnerGroup) return aruga.reply(from, 'Maaf, perintah ini hanya dapat digunakan oleh Owner Grup!', id)
         if (!isBotGroupAdmins) return aruga.reply(from, 'Gagal, silahkan tambahkan bot sebagai admin grup!', id)
             const allMem = await aruga.getGroupMembers(groupId)
             for (let i = 0; i < allMem.length; i++) {
