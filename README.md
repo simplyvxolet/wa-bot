@@ -7,7 +7,7 @@
 <p align="center">
 <a href="https://github.com/Urbaeexyz"><img title="Author" src="https://img.shields.io/badge/AUTHOR-Thoriq-blue.svg?style=for-the-badge&logo=github"></a>
 <p align="center">
-<a href="https://github.com/Urbaeexyz/followers"><img title="Followers" src="https://img.shields.io/github/followers/Urbaeexyz?color=blue&style=flat-square"></a>
+<a href="https://github.com/Urbaeexyz?tab=followers"><img title="Followers" src="https://img.shields.io/github/followers/Urbaeexyz?color=blue&style=flat-square"></a>
 <a href="https://github.com/Urbaeexyz/wa-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Urbaeexyz/wa-bot?color=red&style=flat-square"></a>
 <a href="https://github.com/Urbaeexyz/wa-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Urbaeexyz/wa-bot?color=red&style=flat-square"></a>
 <a href="https://github.com/Urbaeexyz/wa-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Urbaeexyz/wa-bot?label=Watchers&color=blue&style=flat-square"></a>
