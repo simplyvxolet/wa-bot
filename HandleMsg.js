@@ -193,7 +193,7 @@ module.exports = HandleMsg = async (aruga, message) => {
         const argxx = commands.toLowerCase()
         const argss =  commands.split(' ')
 		const command = commands.toLowerCase().split(' ')[0] || ''
-		const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~`,*zxcv!?@#$%^&.\/\\©^]/.test(command) ? command.match(/^[!?#$^/\/\\©^]/gi) : '-'
+		const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~`,*zxcv!?@#$%^&.\/\\©^]/.test(command) ? command.match(/^[!?#$,^+z.,/\/\\©^]/gi) : '-'
         global.prefix
 		body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
         const arg = body.trim().substring(body.indexOf(' ') + 1)
@@ -207,7 +207,8 @@ module.exports = HandleMsg = async (aruga, message) => {
         const uaOverride = process.env.UserAgent
         const url = args.length !== 0 ? args[0] : ''
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
-        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
+        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video/mp4'
+		const isQuotedGif = quotedMsg && quotedMsg.type === 'gif'
 		const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
 		const isQuotedFile = quotedMsg && quotedMsg.type === 'file'
 		const reason = q ? q : 'Gada'
@@ -314,6 +315,9 @@ module.exports = HandleMsg = async (aruga, message) => {
       if (chats == 'halo'){
           aruga.sendPtt(from, './media/ohayou.mp3', id)
       }
+	  if (mentionedJidList.includes(ownerNumber)) {
+		  aruga.reply(from, 'ngapain tag Thoriq?\npc aja kali sabii', id)
+	  }
       if (chats == 'woi'){
           aruga.sendPtt(from, './media/nani-kore.mp3', id)
       }
@@ -623,16 +627,16 @@ module.exports = HandleMsg = async (aruga, message) => {
 		}
 		break
 		case prefix+'private':
+			if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
 			if (setting.banChats === true) return
-            if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa di gunakan oleh Owner Bot!', id)
             setting.banChats = true
             banChats = true
             fs.writeFileSync('./lib/database/setting.json', JSON.stringify(setting, null, 2))
             aruga.reply(from, 'Private Commands has been enable', id)
             break
 		case prefix+'public':
-			if (setting.banChats === false) return
 			if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh owner Bot!', id)
+			if (setting.banChats === false) return
 			setting.banChats = false
 			banChats = false
 			fs.writeFileSync('./lib/database/setting.json', JSON.stringify(setting, null, 2))
@@ -1521,6 +1525,72 @@ module.exports = HandleMsg = async (aruga, message) => {
 						aruga.reply(from, 'format pesan salah om', id)
 					}
         break
+		case prefix+'stickergiffull':
+		case prefix+'stikergiffull':
+		case prefix+'sgiffull':
+		if (isMedia && type === 'video' || mimetype == 'sticker/gif') {
+			aruga.reply(from, mess.wait, id)
+			try {
+				const mediaData = await decryptMedia(message, uaOverride)
+				const vidbase = `data:${mimetype};base64,${mediaData.toString('base64'))}`
+				await aruga.sendMp4AsSticker(from, vidbase, {crop: false, fps: 30, square: 240, startTime: `00:00:00.0`, endTime: `00:00:10.0`, loop: 0 }, {keepScale: true, author: authorr, pack: pack })
+				.then(async () => {
+					console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
+				})
+			} catch (err) {
+				console.log(err)
+				aruga.reply(from, 'Durasi video terlalu panjang, mohon kecilkan sedikit\nminimal 9 detik', id)
+			}
+		} else if(quotedMsg && quotedMsg.type === 'video' || quotedMsg.type === 'sticker/gif') {
+			aruga.reply(from, mess.wait, id)
+			try {
+				const mediaData = await decryptMedia(quotedMsg, uaOverride)
+				const vidBase = `data:${quotedMsg.mimetype},${mediaData.toString('base64'))}`
+				await aruga.sendMp4AsSticker(from, vidBase, {crop: false, fps: 30, square: 240, startTime: `00:00:00.0`, endTime: `00:00:10.01`, loop: 0 }, {keepScale: true, author: authorr, pack: pack })
+				.then(async () => {
+					console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
+				})
+			} catch (err) {
+				console.log(err)
+				aruga.reply(from, 'Durasi video terlalu panjang, mohon kecilkan sedikit\nMinimal 9 detik', id)
+			}
+		} else {
+			aruga.reply(from, 'Size video terlalu besar, Mohon kurangi durasi video', id)
+		}
+		break
+		case prefix+'stickergif':
+		case prefix+'stikergif':
+		case prefix+'sgif':
+		if (isMedia && type === 'video' || mimetype === 'sticker/gif') {
+                    aruga.reply(from, mess.wait, id)
+                    try {
+                        const mediaData = await decryptMedia(message, uaOverride)
+                        const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
+                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: authorr, pack: pack, keepScale: false })
+                            .then(async () => {
+                                console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))            
+                            })
+                    } catch (err) {
+                        console.error(err)
+                        await aruga.reply(from, `Ukuran video terlalu besar`, id)
+                    }
+                } else if(quotedMsg && quotedMsg.type === 'sticker' || quotedMsg && quotedMsg.type === 'video') {
+					aruga.reply(from, mess.wait, id)
+                    try {
+                        const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                        const videoBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: authorr, pack: pack, keepScale: false })
+                            .then(async () => {
+                                console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))       
+                            })
+                    } catch (err) {
+                        console.error(err)
+                        await aruga.reply(from, `Ukuran video terlalu besar\nMaksimal size adalah 1MB!`, id)
+                    }
+                } else {
+                    await aruga.reply(from, `Ukuran video terlalu besar`, id)
+                }
+            break
             case prefix+'sgifwm':
                 if (isMedia && type === 'video' || mimetype === 'sticker/gif') {
                     if (!q.includes('|')) return await aruga.reply(from, `Untuk membuat stickergif watermark\ngunakan ${prefix}sgifwm author | packname`, id)
@@ -1941,27 +2011,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 		aruga.reply(from, 'Format salah', id)
 	}
 	break
-           case prefix+'stickergif':
-        case prefix+'stikergif':
-	case prefix+'sgif':
-	  aruga.reply(from, mess.wait, id)
-           if (isMedia && type === 'video/mp4' && message.duration < 11 || mimetype === 'image/gif' && message.duration < 11) {
-                try {
-                    const mediaData = await decryptMedia(message, uaOverride)
-                    await aruga.sendMp4AsSticker(from, mediaData, {crop: true, square: 200, fps: 30, startTime: `00:00:00.0`, endTime : `00:00:10.0`,loop: 0}, {keepScale: false, author: authorr, pack: pack }, id)
-                } catch (err) {
-                    aruga.reply(from, `Skala video terlalu besar! mohon kecilkan skala video\nMinimal 240x240`, id)
-                }
-            } else if (quotedMsg && quotedMsg.type == 'video' && quotedMsg.duration < 11 || quotedMsg && quotedMsg.mimetype == 'image/gif' && quotedMsg.duration < 11) {
-                const mediaData = await decryptMedia(quotedMsg, uaOverride)
-                await aruga.sendMp4AsSticker(from, mediaData, {crop: true, square: 200, fps: 30, startTime: `00:00:00.0`, endTime : `00:00:10.0`,loop: 0}, {keepScale: false, author: authorr, pack: pack}, id)
-            } else {
-                aruga.reply(from, `Error, maksimal durasi 10 detik!`, id)
-		.catch((err) => {
-			aruga.reply(from, `Error! Size media terlalu besar! Maksimal 10 detik dengan skala 240x240!`, id)
-		})
-    	}
-            break
         case prefix+'stikergiphy':
         case prefix+'stickergiphy':
             if (args.length !== 1) return aruga.reply(from, `Maaf, format pesan salah.\nKetik pesan dengan ${prefix}stickergiphy <link_giphy>`, id)
@@ -3706,7 +3755,7 @@ console.log(err)
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik`, 'green'))
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik`, 'aqua'))
                  await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration}\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
 				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
