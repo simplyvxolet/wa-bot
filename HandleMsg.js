@@ -1532,7 +1532,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			aruga.reply(from, mess.wait, id)
 			try {
 				const mediaData = await decryptMedia(message, uaOverride)
-				const vidbase = `data:${mimetype};base64,${mediaData.toString('base64'))}`
+				const vidbase = `data:${mimetype};base64,${mediaData.toString('base64')}`
 				await aruga.sendMp4AsSticker(from, vidbase, {crop: false, fps: 30, square: 240, startTime: `00:00:00.0`, endTime: `00:00:10.0`, loop: 0 }, {keepScale: true, author: authorr, pack: pack })
 				.then(async () => {
 					console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
@@ -1545,7 +1545,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			aruga.reply(from, mess.wait, id)
 			try {
 				const mediaData = await decryptMedia(quotedMsg, uaOverride)
-				const vidBase = `data:${quotedMsg.mimetype},${mediaData.toString('base64'))}`
+				const vidBase = `data:${quotedMsg.mimetype},${mediaData.toString('base64')}`
 				await aruga.sendMp4AsSticker(from, vidBase, {crop: false, fps: 30, square: 240, startTime: `00:00:00.0`, endTime: `00:00:10.01`, loop: 0 }, {keepScale: true, author: authorr, pack: pack })
 				.then(async () => {
 					console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
