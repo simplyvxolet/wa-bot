@@ -212,6 +212,10 @@ module.exports = HandleMsg = async (aruga, message) => {
 		const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
 		const isQuotedFile = quotedMsg && quotedMsg.type === 'file'
 		const reason = q ? q : 'Gada'
+		const gifcrop = { crop: true, square: 240, fps: 30, loop: 0, startTime: `00:00:00.0`, endTime: `00:00:10.0` }
+		const gifxyz = { crop: false, square: 240, fps: 30, loop: 0, startTime: `00:00:00.0`, endTime: `00:00:10.0` }
+		const StickerMetadata = { author : '@thoriqazzikra_', pack: 'Urbaeexyz', keepScale: true }
+		const StickerMetadatacrop = { author : '@thoriqazzikra_', pack: 'Urbaeexyz', keepScale: false }
 
         // [IDENTIFY]
         const ownerNumber = '62895334951166@c.us'
@@ -593,7 +597,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) 
 	}
 	
-		if (isMuted(chatId) && banChat() && !isGroupAdmins || !isBlocked && !isBanned || !isOwnerB ) {
+		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwner || isGroupAdmins ) {
         switch (command) {
         // Menu and TnC
 		case prefix+'mute':
@@ -1533,7 +1537,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			try {
 				const mediaData = await decryptMedia(message, uaOverride)
 				const vidbase = `data:${mimetype};base64,${mediaData.toString('base64')}`
-				await aruga.sendMp4AsSticker(from, vidbase, {crop: false, fps: 30, square: 240, startTime: `00:00:00.0`, endTime: `00:00:10.0`, loop: 0 }, {keepScale: true, author: authorr, pack: pack })
+				await aruga.sendMp4AsSticker(from, vidbase, gifxyz, StickerMetadata)
 				.then(async () => {
 					console.log(color(`Sticker Gif processed for ${processTime(t, moment())} seconds`, 'aqua'))
 				})
@@ -1546,7 +1550,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                     try {
                         const mediaData = await decryptMedia(quotedMsg, uaOverride)
                         const videoBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
-                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: false, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: authorr, pack: pack, keepScale: true })
+                        await aruga.sendMp4AsSticker(from, videoBase64, gifxyz, StickerMetadata)
                             .then(async () => {
                                 console.log(color(`Sticker Gif processed for ${processTime(t, moment())} seconds`, 'aqua'))       
                             })
@@ -1566,7 +1570,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                     try {
                         const mediaData = await decryptMedia(message, uaOverride)
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: authorr, pack: pack, keepScale: false })
+                        await aruga.sendMp4AsSticker(from, videoBase64, gifcrop, StickerMetadatacrop )
                             .then(async () => {
                                 console.log(color(`Sticker Gif processed for ${processTime(t, moment())} seconds`, 'aqua'))            
                             })
@@ -1579,7 +1583,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                     try {
                         const mediaData = await decryptMedia(quotedMsg, uaOverride)
                         const videoBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
-                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: authorr, pack: pack, keepScale: false })
+                        await aruga.sendMp4AsSticker(from, videoBase64, gifcrop, StickerMetadatacrop)
                             .then(async () => {
                                 console.log(color(`Sticker Gif processed for ${processTime(t, moment())} seconds`, 'aqua'))       
                             })
@@ -1872,12 +1876,12 @@ module.exports = HandleMsg = async (aruga, message) => {
 		if (isMedia && type === 'image') {
                 const mediaData = await decryptMedia(message, uaOverride)
                 const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                await aruga.sendImageAsSticker(from, imageBase64, {keepScale: true, author: `@thoriqazzikra_`, pack: `Urbaeexyz`})
+                await aruga.sendImageAsSticker(from, imageBase64, StickerMetadata)
 				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
             } else if (quotedMsg && quotedMsg.type == 'image') {
                 const mediaData = await decryptMedia(quotedMsg, uaOverride)
                 const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
-                await aruga.sendImageAsSticker(from, imageBase64, { author: "@thoriqazzikra_", pack: "Urbaeexyz", keepScale: true })
+                await aruga.sendImageAsSticker(from, imageBase64, StickerMetadata)
 				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
 			} else {
 				aruga.reply(from, mess.error.St, id)
@@ -1889,13 +1893,13 @@ module.exports = HandleMsg = async (aruga, message) => {
 			if (isMedia && type === 'image') {
                 const mediaData = await decryptMedia(message, uaOverride)
                 const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                await aruga.sendImageAsSticker(from, imageBase64, {keepScale: false, author: `@thoriqazzikra_`, pack: `Urbaeexyz`})
+                await aruga.sendImageAsSticker(from, imageBase64, StickerMetadatacrop)
 				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
 				aruga.reply(from, `Haii ${pushname} jika ingin membuat stiker tanpa dipotong, silahkan post/reply foto dengan caption ${prefix}sfull`, id)
             } else if (quotedMsg && quotedMsg.type == 'image') {
                 const mediaData = await decryptMedia(quotedMsg, uaOverride)
                 const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
-                await aruga.sendImageAsSticker(from, imageBase64, { author: author, pack: pack, keepScale: false })
+                await aruga.sendImageAsSticker(from, imageBase64, StickerMetadatacrop)
 				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
 				aruga.reply(from, `Haii ${pushname} jika ingin membuat stiker tanpa dipotong, silahkan post/reply foto dengan caption ${prefix}sfull`, id)
 			} else {
