@@ -101,6 +101,7 @@ let {
     apiKey,
 	banChats,
 	tobzapi,
+	lindowapi,
 	mtc: mtcState
 } = setting
 
@@ -1595,6 +1596,37 @@ module.exports = HandleMsg = async (aruga, message) => {
                     await aruga.reply(from, `Ukuran video terlalu besar`, id)
                 }
             break
+			case prefix+'startgif': //By: Thoriq Azzikra
+			if (isMedia && type === 'video' || mimetype === 'sticker/gif') {
+			try {
+				aruga.reply(from, mess.wait, id)
+				const mulai = q.split('|')[0]
+				const akhir = q.split('|')[1]
+				if (args.length == 0) return aruga.reply(from, `untuk mencustom stiker gif, kirim video atau reply video dengan cara ${prefix}startgif mulaidetik|akhirdetik\nContoh: ${prefix}startgif 07|10`, id)
+				const mediaData = await decryptMedia(message, uaOverride)
+				const vidBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
+				await aruga.sendMp4AsSticker(from, vidBase64, { crop: true, loop: 0, fps: 30, square: 240, startTime: `00:00:${mulai}.0`, endTime: `00:00:${akhir}.0` }, StickerMetadatacrop)
+			} catch (err) {
+			console.log(err)
+			aruga.reply(from, 'Kecilkan skala video!\nMinimal 240x240', id)
+		}
+	} else if(quotedMsg && quotedMsg.type === 'video/mp4' || quotedMsg && quotedMsg.mimetype === 'sticker/gif'){
+		aruga.reply(from, 'Format salah', id)
+		try {
+			if (args.length == 0) return await aruga.reply(from, `untuk mencustom stiker gif, kirim video atau reply video dengan cara ${prefix}startgif mulaidetik|akhirdetik\nContoh: ${prefix}startgif 07|10`, id)
+			const mulais = q.split('|')[0]
+			const akhirs = q.split('|')[1]
+			const mediaData = await decryptMedia(quotedMsg, uaOverride)
+			const vidBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+			await aruga.sendMp4AsSticker(from, vidBase64, { crop: true, loop: 0, fps: 30, square: 240, startTime: `00:00:${mulais}.0`, endTime: `00:00:${akhirs}.0` }, StickerMetadatacrop)
+		} catch (err) {
+			console.log(err)
+			aruga.reply(from, 'Mohon kecilkan durasi video', id)
+		}
+	} else {
+		aruga.reply(from, 'Format pesannya salah sayang', id)
+	}
+	break
             case prefix+'sgifwm':
                 if (isMedia && type === 'video' || mimetype === 'sticker/gif') {
                     if (!q.includes('|')) return await aruga.reply(from, `Untuk membuat stickergif watermark\ngunakan ${prefix}sgifwm author | packname`, id)
@@ -1997,24 +2029,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 	const capts = `${read}͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏͏${more}`
 	aruga.reply(from, capts, id)
 	break
-	case prefix+'startgif': //By: Thoriq Azzikra
-	  if (isMedia || isQuotedVideo || isQuotedFile) {
-		try {
-		const mulai = q.split('|')[0]
-		const akhir = q.split('|')[1]
-		if (args.length == 0) return aruga.reply(from, `untuk mencustom stiker gif, kirim video atau reply video dengan cara ${prefix}startgif mulaidetik|akhirdetik\nContoh: ${prefix}startgif 07|10`, id)
-		aruga.reply(from, mess.wait, id)
-		const encryptMedia = isQuotedVideo || isQuotedFile ? quotedMsg : message
-		const mediaData = await decryptMedia(encryptMedia, uaOverride)
-		await aruga.sendMp4AsSticker(from, mediaData, { crop: true, fps: 30, square: 240, startTime: `00:00:${mulai}.0`, endTime: `00:00:${akhir}.0`, loop: 0 }, { keepScale: false, author: `${pushname}`, pack: `${pushname}` })
-		} catch (err) {
-			console.log(err)
-			aruga.reply(from, 'Kecilkan skala video!\nMinimal 240x240', id)
-		}
-	} else {
-		aruga.reply(from, 'Format salah', id)
-	}
-	break
         case prefix+'stikergiphy':
         case prefix+'stickergiphy':
             if (args.length !== 1) return aruga.reply(from, `Maaf, format pesan salah.\nKetik pesan dengan ${prefix}stickergiphy <link_giphy>`, id)
@@ -2322,14 +2336,10 @@ break
             case prefix+'ytmp3':
                 if (args.length == 0) return aruga.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp3 [link_yt]`, id)
                 aruga.reply(from, mess.wait, id)
-				axios.get(`https://st4rz.herokuapp.com/api/yta2?url=${body.slice(7)}`)
+				rugaapi.ymp3(args)
                 .then(async(res) => {
-				await aruga.sendFileFromUrl(from, res.data.thumb, '', `「 *YOUTUBE MP3* 」\n\n*Judul:* ${res.data.title}\n*Ext:* ${res.data.ext}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
-				const maurl = res.data.result
-				const beurl = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${maurl}`)
-				const tourl = beurl.data.result
-				if (!isPrem) return aruga.reply(from, `Maaf, karena anda bukan user Premium, silahkan download menggunakan link dibawah\n\nLink: ${tourl}`, id)
-				aruga.sendFileFromUrl(from, maurl, '', '', id)
+				await aruga.sendFileFromUrl(from, res.thumb, '', `「 *YOUTUBE MP3* 」\n\n*Judul:* ${res.title}\n*Filesize:* ${res.filesize}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
+				aruga.sendFileFromUrl(from, res.result, '', '', id)
                 .catch(() => {
 				aruga.reply(from, `Error nich`,id)
 			 })
@@ -3231,7 +3241,7 @@ case prefix+'ytsearch':
             break
         case prefix+'memes':
             aruga.reply(from, mess.wait, id)
-            aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/random/meme?apikey=LindowGanteng`, 'img.jpg', '', id)
+            aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/random/meme?apikey=${lindowapi}`, 'img.jpg', '', id)
             .catch(() => {
                 aruga.reply(from, 'Ada yang Error!', id)
             })
@@ -3565,13 +3575,10 @@ console.log(err)
             case prefix+'ytmp4':
             if (args.length == 0) return aruga.reply(from, `Untuk mendownload video dari youtube\nketik: ${prefix}ytmp4 [link_yt]`, id)
             const linkmp4 = body.slice(7)
-			axios.get(`https://st4rz.herokuapp.com/api/ytv2?url=${linkmp4}`)
+			rugaapi.ymp4(args)
 			.then(async(res) => {
-				aruga.sendFileFromUrl(from, res.data.thumb, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.data.title}\n*Ext:* ${res.data.ext}\n\n*_${mess.wait}_*`, id)
-				const beas = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${res.data.result}`)
-				const beas2 = beas.data.result
-				if(!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan Link\n\nLink: ${beas2}`, id)
-				await aruga.sendFileFromUrl(from, res.data.result, 'vid.mp4', '', id)
+				aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${res.filesize}\n*Resolution:* ${res.resolution}\n*Ext:* ${res.ext}\n\n*_${mess.wait}_*`, id)
+				await aruga.sendFileFromUrl(from, res.result, 'vid.mp4', '', id)
 				.catch(() => {
 					aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi', id)
 				})
@@ -3641,7 +3648,6 @@ console.log(err)
 		case prefix+'igstory':
 		case prefix+'instastory':
 		if (args.length == 0) return aruga.reply(from, `Mencari story dari username, Gunakan ${prefix}igstory username|jumlahyangingindidownload\nContoh: ${prefix}igstory ewkharis|2`, id)
-		const xas = body.slice(9)
 		const xas1 = q.split('|')[0]
 		const xas2 = q.split('|')[1]
 		aruga.reply(from, mess.wait, id)
@@ -3742,7 +3748,7 @@ console.log(err)
 			//console.log(err)
 		//})
 		//break
-		case prefix+'play':
+		case prefix+'song':
 		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		if (args.length == 0) return aruga.reply(from, 'judulnya ape?', id)
 		const songsc = body.slice(6)
@@ -3756,7 +3762,6 @@ console.log(err)
 			})
 		})
 		break
-		/*
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
@@ -3765,17 +3770,14 @@ console.log(err)
                  await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration}\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
 				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
-				const fetchers = await fetch(res.audio[0].url)
-				const buffers = await fetchers.buffer()
-				sleep(1000)
-				fs.writeFile('./media/play.mp3', buffers)
-				aruga.sendAudio(from, './media/play.mp3', '', '', id)
+				if(Number(res.filesize.split(' MB')[0]) >= 10) return aruga.reply(from, 'Size audio terlalu besar!', id)
+				aruga.sendFileFromUrl(from, res.result, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
                                    })
                                 })
                         })
-                        break */
+                        break
 		case prefix+'trendingtwit':
                     case prefix+'trendtwit':
                         await aruga.reply(from, mess.wait, id)
