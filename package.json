@@ -22,11 +22,12 @@
   "homepage": "https://github.com/Urbaeexyz/wa-bot#readme",
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.1",
-    "@open-wa/wa-automate": "3.9.0",
+    "@open-wa/wa-automate": "^3.9.17",
     "app-root-path": "^3.0.0",
     "axios": "^0.21.1",
     "bent": "^7.3.12",
     "canvacord": "^5.1.0",
+    "canvas": "^2.7.0",
     "chalk": "^4.1.0",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
@@ -52,7 +53,9 @@
     "sastrawijs": "^1.0.3",
     "sharp": "^0.27.2",
     "stream": "0.0.2",
-    "translatte": "^3.0.0"
+    "translatte": "^3.0.0",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.7"
   },
   "directories": {
     "lib": "lib"
