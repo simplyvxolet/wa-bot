@@ -229,7 +229,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 		const pack = 'Urbaeexyz'
         
         //
-		if(!isCmd && isKasar && isGroupMsg) { console.log(color('[BADW]', 'orange'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats}`), 'from', color(pushname), 'in', color(name || formattedTitle)) }
+		if(!isCmd && isKasar && isGroupMsg) { console.log(color('[BADW]', 'orange'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats}`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) }
         if (isCmd && !isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta'))}
         if (isCmd && isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta') , 'in', color(name || formattedTitle, 'aqua')) }
 
@@ -512,7 +512,7 @@ module.exports = HandleMsg = async (aruga, message) => {
             const mediaData = await decryptMedia(message, uaOverride)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
             await aruga.sendImageAsSticker(from, imageBase64, { author: '@thoriqazzikra_', pack: 'Urbaeexyz' })
-            console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+            console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
         }
 		
         // Kerang Menu
@@ -577,7 +577,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 
 	// Filter Banned People
 	if (isBanned && isCmd) {
-		console.log(color('[BAN]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle)) 
+		console.log(color('[BAN]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) 
 	}
 	if (isBanned && isCmd) {
 		return aruga.reply(from, `Maaf *_${pushname}_* anda telah dibanned untuk menggunakan command Bot!`, id)
@@ -585,7 +585,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 	
 	// Filter Blocked People
 	if (isBlocked) {
-			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle)) 
+			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) 
 	}
 	
 		if (isMuted(chatId) && banChat() && !isGroupAdmins || !isBlocked && !isBanned || !isOwnerB ) {
@@ -1532,7 +1532,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
                         await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: `${authorPacksgif}`, pack: `${namaPacksgif}`, keepScale: false })
                             .then(async () => {
-                                console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                                console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
                                 
                             })
                     } catch (err) {
@@ -1548,7 +1548,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                         const videoBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
                         await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: `${authorPacksgif}`, pack: `${namaPacksgif}`, keepScale: false })
                             .then(async () => {
-                                console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                                console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
                                 
                             })
                     } catch (err) {
@@ -1803,12 +1803,12 @@ module.exports = HandleMsg = async (aruga, message) => {
                 const mediaData = await decryptMedia(message, uaOverride)
                 const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
                 await aruga.sendImageAsSticker(from, imageBase64, {keepScale: true, author: `@thoriqazzikra_`, pack: `Urbaeexyz`})
-				console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
             } else if (quotedMsg && quotedMsg.type == 'image') {
                 const mediaData = await decryptMedia(quotedMsg, uaOverride)
                 const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
                 await aruga.sendImageAsSticker(from, imageBase64, { author: "@thoriqazzikra_", pack: "Urbaeexyz", keepScale: true })
-				console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
 			} else {
 				aruga.reply(from, mess.error.St, id)
 			}			
@@ -1820,13 +1820,13 @@ module.exports = HandleMsg = async (aruga, message) => {
                 const mediaData = await decryptMedia(message, uaOverride)
                 const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
                 await aruga.sendImageAsSticker(from, imageBase64, {keepScale: false, author: `@thoriqazzikra_`, pack: `Urbaeexyz`})
-				console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
 				aruga.reply(from, `Haii ${pushname} jika ingin membuat stiker tanpa dipotong, silahkan post/reply foto dengan caption ${prefix}sfull`, id)
             } else if (quotedMsg && quotedMsg.type == 'image') {
                 const mediaData = await decryptMedia(quotedMsg, uaOverride)
                 const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
                 await aruga.sendImageAsSticker(from, imageBase64, { author: author, pack: pack, keepScale: false })
-				console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
 				aruga.reply(from, `Haii ${pushname} jika ingin membuat stiker tanpa dipotong, silahkan post/reply foto dengan caption ${prefix}sfull`, id)
 			} else {
 				aruga.reply(from, mess.error.St, id)
@@ -1974,7 +1974,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 const smallGifUrl = 'https://media.giphy.com/media/' + giphyCode + '/giphy-downsized.gif'
                 aruga.sendGiphyAsSticker(from, smallGifUrl).then(() => {
                     aruga.reply(from, 'Here\'s your sticker')
-                    console.log(`Sticker Processed for ${processTime(t, moment())} Second`)
+                    console.log(color(`Sticker Processed for ${processTime(t, moment())} Second`, 'aqua'))
                 }).catch((err) => console.log(err))
             } else if (isMediaGiphy) {
                 const gifUrl = url.match(new RegExp(/(giphy|source).(gif|mp4)/, 'gi'))
@@ -3710,7 +3710,7 @@ console.log(err)
                  await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration}\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
 				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
-				const bers = res.mp3
+				const bers = res.url
 				await aruga.sendFileFromUrl(from, bers, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
@@ -4519,6 +4519,13 @@ console.log(err)
 		fs.writeFileSync('./lib/database/left.json', JSON.stringify(left))
 		aruga.reply(from, 'berhasil mendelete semua id grup didalam database left.json', id)
 		break
+	case prefix+'deleteban':
+	if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
+	let delban = banned.includes(chats)
+	banned.splice(delban)
+	fs.writeFileSync('./settings/banned.json', JSON.stringify(banned))
+	aruga.reply(from, 'Berhasil menghapus semua user banned', id)
+	break
 	case prefix+'deletewelcome':
 	if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
 		let walcm = welkom.includes(chats)

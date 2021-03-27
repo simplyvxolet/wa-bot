@@ -7,9 +7,9 @@ const fs = require('fs-extra')
 const HandleMsg = require('./HandleMsg')
 
 const start = async (aruga = new aruga()) => {
-		console.log('------------------------------------------------------------------------')
+		console.log(color('------------------------------------------------------------------------', 'white'))
         console.log(color(figlet.textSync('Urbaeexyz Bot', { font: 'slant', horizontalLayout: 'default' })))
-        console.log('------------------------------------------------------------------------')
+        console.log(color('------------------------------------------------------------------------', 'white'))
         console.log(color('[CREATOR]', 'aqua'), color('Thoriq Azzikra', 'magenta'))
         console.log(color('[BOT]', 'aqua'), color('URBAE BOT is now Online!', 'magenta'))
 		aruga.onStateChanged((state) => {

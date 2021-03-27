@@ -8,7 +8,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
  * @param {string} [color] 
  */
 const color = (text, color) => {
-    return !color ? chalk.green(text) : chalk.keyword(color)(text)
+    return !color ? chalk.cyanBright(text) : chalk.keyword(color)(text)
 }
 
 /**
