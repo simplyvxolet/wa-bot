@@ -1541,23 +1541,23 @@ module.exports = HandleMsg = async (aruga, message) => {
 				console.log(err)
 				aruga.reply(from, 'Durasi video terlalu panjang, mohon kecilkan sedikit\nminimal 9 detik', id)
 			}
-		} else if(quotedMsg && quotedMsg.type === 'video' || quotedMsg.type === 'sticker/gif') {
-			aruga.reply(from, mess.wait, id)
-			try {
-				const mediaData = await decryptMedia(quotedMsg, uaOverride)
-				const vidBase = `data:${quotedMsg.mimetype},${mediaData.toString('base64')}`
-				await aruga.sendMp4AsSticker(from, vidBase, {crop: false, fps: 30, square: 240, startTime: `00:00:00.0`, endTime: `00:00:10.01`, loop: 0 }, {keepScale: true, author: authorr, pack: pack })
-				.then(async () => {
-					console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
-				})
-			} catch (err) {
-				console.log(err)
-				aruga.reply(from, 'Durasi video terlalu panjang, mohon kecilkan sedikit\nMinimal 9 detik', id)
-			}
-		} else {
-			aruga.reply(from, 'Size video terlalu besar, Mohon kurangi durasi video', id)
-		}
-		break
+		} else if(quotedMsg && quotedMsg.type === 'sticker' || quotedMsg && quotedMsg.type === 'video') {
+					aruga.reply(from, mess.wait, id)
+                    try {
+                        const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                        const videoBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: false, fps: 30, square: 240, startTime: `00:00:00.0`, endTime : `00:00:10.0`, loop: 0 }, { author: authorr, pack: pack, keepScale: true })
+                            .then(async () => {
+                                console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))       
+                            })
+                    } catch (err) {
+                        console.error(err)
+                        await aruga.reply(from, `Ukuran video terlalu besar\nMaksimal size adalah 1MB!`, id)
+                    }
+                } else {
+                    await aruga.reply(from, `Ukuran video terlalu besar`, id)
+                }
+				break
 		case prefix+'stickergif':
 		case prefix+'stikergif':
 		case prefix+'sgif':
