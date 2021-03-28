@@ -1602,7 +1602,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 				aruga.reply(from, mess.wait, id)
 				const mulai = q.split('|')[0]
 				const akhir = q.split('|')[1]
-				if (args.length == 0) return aruga.reply(from, `untuk mencustom stiker gif, kirim video atau reply video dengan cara ${prefix}startgif mulaidetik|akhirdetik\nContoh: ${prefix}startgif 07|10`, id)
 				const mediaData = await decryptMedia(message, uaOverride)
 				const vidBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
 				await aruga.sendMp4AsSticker(from, vidBase64, { crop: true, loop: 0, fps: 30, square: 240, startTime: `00:00:${mulai}.0`, endTime: `00:00:${akhir}.0` }, StickerMetadatacrop)
@@ -1610,23 +1609,25 @@ module.exports = HandleMsg = async (aruga, message) => {
 			console.log(err)
 			aruga.reply(from, 'Kecilkan skala video!\nMinimal 240x240', id)
 		}
-	} else if(quotedMsg && quotedMsg.type === 'video/mp4' || quotedMsg && quotedMsg.mimetype === 'sticker/gif'){
-		aruga.reply(from, 'Format salah', id)
-		try {
-			if (args.length == 0) return await aruga.reply(from, `untuk mencustom stiker gif, kirim video atau reply video dengan cara ${prefix}startgif mulaidetik|akhirdetik\nContoh: ${prefix}startgif 07|10`, id)
-			const mulais = q.split('|')[0]
-			const akhirs = q.split('|')[1]
-			const mediaData = await decryptMedia(quotedMsg, uaOverride)
-			const vidBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
-			await aruga.sendMp4AsSticker(from, vidBase64, { crop: true, loop: 0, fps: 30, square: 240, startTime: `00:00:${mulais}.0`, endTime: `00:00:${akhirs}.0` }, StickerMetadatacrop)
-		} catch (err) {
-			console.log(err)
-			aruga.reply(from, 'Mohon kecilkan durasi video', id)
-		}
-	} else {
-		aruga.reply(from, 'Format pesannya salah sayang', id)
-	}
-	break
+	} else if(quotedMsg && quotedMsg.type === 'sticker' || quotedMsg && quotedMsg.type === 'video') {
+					aruga.reply(from, mess.wait, id)
+                    try {
+						const mulaini = q.split('|')[0]
+						const akhirni = q.split('|')[1]
+                        const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                        const videoBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+                        await aruga.sendMp4AsSticker(from, videoBase64, { crop: true, loop: 0, square: 240, fps: 30, startTime: `00:00:${mulaini}.0`, endTime: `00:00:${akhirni}` }, StickerMetadatacrop)
+                            .then(async () => {
+                                console.log(color(`Sticker Gif processed for ${processTime(t, moment())} seconds`, 'aqua'))       
+                            })
+                    } catch (err) {
+                        console.error(err)
+                        await aruga.reply(from, `Ukuran video terlalu besar\nMaksimal size adalah 1MB!`, id)
+                    }
+                } else {
+                    await aruga.reply(from, `Ukuran video terlalu besar`, id)
+                }
+            break
             case prefix+'sgifwm':
                 if (isMedia && type === 'video' || mimetype === 'sticker/gif') {
                     if (!q.includes('|')) return await aruga.reply(from, `Untuk membuat stickergif watermark\ngunakan ${prefix}sgifwm author | packname`, id)
@@ -3367,21 +3368,17 @@ case prefix+'ytsearch':
             case prefix+'goldpb':
                 if (args.length == 0) return aruga.reply(from, `Bot akan mengirimkan Gold Play Button dengan nama yang kalian custom sendiri\nContoh : ${prefix}goldpb Urbaee`, id)
                 const yuza = body.slice(8)
-                await aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/ephoto1/goldplaybutton?apikey=dd42c2d20db7c924ccf66f5f&text=${yuza}`, 'img.jpg', `Congrats *${pushname}* for have 1 Million Subscribers`, id)
-		await aruga.sendImageAsSticker(from, `http://lolhuman.herokuapp.com/api/ephoto1/goldplaybutton?apikey=dd42c2d20db7c924ccf66f5f&text=${yuza}`, { author: authorr, pack: pack, keepScale: false })
-		.catch((err) => {
-			aruga.reply(from, 'Error om', id)
-			console.log(err)
-		})
+                await aruga.sendFileFromUrl(from, `https://fzn-gaz.herokuapp.com/api/gplaybutton?text=${yuza}`, 'img.jpg', `Congrats *${pushname}* for have 1 Million Subscribers`, id)
+				.catch(() => {
+					aruga.reply(from, 'Error disebabkan oleh sistem', id)
+				})
 		break
             case prefix+'silverpb':
                 if (args.length == 0) return aruga.reply(from, `Bot akan mengirimkan Silver Play Button dengan kata yang anda masukkan\nContoh : ${prefix}silverpb Urbaee`, id)
 		const silsc = body.slice(10)
-		await aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/ephoto1/silverplaybutton?apikey=dd42c2d20db7c924ccf66f5f&text=${silsc}`, 'image.jpg', `Congrats *${pushname}* for have 100.000 Subscribers`, id)
-		await aruga.sendImageAsSticker(from, `http://lolhuman.herokuapp.com/api/ephoto1/silverplaybutton?apikey=dd42c2d20db7c924ccf66f5f&text=${silsc}`, { author: authorr, pack: pack, keepScale: false })
-		.catch((err) => {
-			aruga.reply(from, 'Error om', id)
-			console.log(err)
+		await aruga.sendFileFromUrl(from, `https://fzn-gaz.herokuapp.com/api/splaybutton?text=${silsc}`, '', '', id)
+		.catch(() => {
+			aruga.reply(from, 'Error disebabkan oleh sistem', id)
 		})
 	    break
             case prefix+'stalktwit':
