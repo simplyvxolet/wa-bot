@@ -3809,11 +3809,11 @@ console.log(err)
 		break
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-           axios.get(`https://lindow-api.herokuapp.com/api/ytsearch?judul=${body.slice(6)}&apikey=${lindowapi}`)
+           axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].timestamp} detik`, 'aqua'))
-                 await aruga.sendFileFromUrl(from, res.data.result[0].thumb, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].timestamp}\nViews: ${res.data.result[0].views}\nUploaded: ${res.data.result[0].ago}\n\n*_Wait, lagi ngirim Audionya_*`, id)
-				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].id}`)
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik`, 'aqua'))
+                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
+				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
 				if(Number(res.filesize.split(' MB')[0]) >= 10) return aruga.reply(from, 'Size audio terlalu besar!', id)
 				aruga.sendFileFromUrl(from, res.result, '', '', id)
@@ -3842,11 +3842,11 @@ console.log(err)
                         break
            case prefix+'play2'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-           axios.get(`https://lindow-api.herokuapp.com/api/ytsearch?judul=${body.slice(7)}&apikey=${lindowapi}`)
+           axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(7)}&apikey=apivinz`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].timestamp} detik`, 'aqua'))
-                 await aruga.sendFileFromUrl(from, res.data.result[0].thumb, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].timestamp}\nViews: ${res.data.result[0].views}\nUploaded: ${res.data.result[0].ago}\n\n*_Wait, lagi ngirim Videonya_*`, id)
-				 rugaapi.ymp4(`https://youtu.be/${res.data.result[0].id}`)
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik`, 'aqua'))
+                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Videonyaa_*`, id)
+				 rugaapi.ymp4(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
 				aruga.sendFileFromUrl(from, res.result, '', '', id)
                                 .catch(() => {
