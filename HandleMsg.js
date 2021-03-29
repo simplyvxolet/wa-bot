@@ -3812,7 +3812,7 @@ console.log(err)
            axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
             .then(async (res) => {
 				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik`, 'aqua'))
-                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
+                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
 				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
 				if(Number(res.filesize.split(' MB')[0]) >= 10) return aruga.reply(from, 'Size audio terlalu besar!', id)
@@ -3845,7 +3845,7 @@ console.log(err)
            axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(7)}&apikey=apivinz`)
             .then(async (res) => {
 				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik`, 'aqua'))
-                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Videonyaa_*`, id)
+                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Videonyaa_*`, id)
 				 rugaapi.ymp4(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
 				aruga.sendFileFromUrl(from, res.result, '', '', id)
