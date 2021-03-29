@@ -847,7 +847,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 aruga.sendFileFromUrl(from, `https://api.vhtear.com/logoff?hero=${awikxs}&text=${jadiin}&apikey=${vhtearkey}`, `${jadiin}.jpg`, 'nehh ngab...', id)
                 break
         case prefix+'logoph':
-            if (args.length === 1) return aruga.reply(from, `Kirim perintah *${prefix}pornhub [ Teks1|Teks2 ]*,\n\n contoh : *${prefix}logoph Urbaee| XYZ*`, id)
+            if (args.length === 0) return aruga.reply(from, `Kirim perintah *${prefix}pornhub [ Teks1|Teks2 ]*,\n\n contoh : *${prefix}logoph Urbaee|XYZ*`, id)
                 const lpornhub = q.split('|')[0]
                 const lpornhub2 = q.split('|')[1]   
                 if (lpornhub > 10) return aruga.reply(from, '*Teks1 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
@@ -2396,18 +2396,21 @@ break
                 }
                 break
                 case prefix+'glitch':
-                    if (args.length === 0) return aruga.reply(from, `Kirim perintah *${prefix}glitch [ |Teks1|Teks2 ]*, contoh *${prefix}glitch |Urbae|Dev Elaina*`, id)
-                    argz = body.trim().split('|')
-                    if (argz.length >= 2) {
+                    if (args.length === 0) return aruga.reply(from, `Kirim perintah *${prefix}glitch [ Teks1|Teks2 ]*, contoh *${prefix}glitch |Urbaeexyz|Dev Thoriq*`, id)
+					try {
                         aruga.reply(from, mess.wait, id)
-                        const glitch1 = argz[1]
-                        const glitch2 = argz[2]
+                        const glitch1 = q.split('|')[0]
+                        const glitch2 = q.split('|')[1]
                         if (glitch1.length > 10) return aruga.reply(from, '*Teks1 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
                         if (glitch2.length > 15) return aruga.reply(from, '*Teks2 Terlalu Panjang!*\n_Maksimal 15 huruf!_', id)
-                        aruga.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${glitch1}&text2=${glitch2}&apikey=${vhtearkey}`)
-                    } else {
-                        await aruga.reply(from, `Wrong Format!\n[❗] Kirim perintah *${prefix}glitch [ |Teks1|Teks2 ]*, contoh *${prefix}glitch |Urbae|Dev Elaina*`, id)
-                    }
+                        aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/gtext?text1=${glitch1}&text2=${glitch2}&apikey=apivinz`)
+						.catch(err => {
+							console.log(err)
+							aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi', id)
+						})
+					} catch (err) {
+						aruga.reply(from, 'Format pesannya salah tuh', id)
+					}
                     break
 					case prefix+'javcosplay':
 					await aruga.reply(from, mess.wait, id)
@@ -3562,15 +3565,18 @@ console.log(err)
 		break
 		case prefix+'lolivid': //BY : piyo
 		aruga.reply(from, mess.wait, id)
-		axios.get(`http://piyobot.cf/api/loli/`)
-		.then(async(res) => {
-			aruga.sendFileFromUrl(from, res.data.result.link, 'loli.mp4', '', id)
-			.catch(err => {
-				console.log(err)
-				aruga.reply(from, 'terjadi kesalahan', id)
-			})
-		})
-		break
+                fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/loli.txt')
+                .then(res => res.text())
+                     .then(body => {
+                        let lolipiyo = body.split('\n')
+                        let papololi = lolipiyo[Math.floor(Math.random() * lolipiyo.length)]
+                        aruga.sendFileFromUrl(from, papololi, 'loli.mp4', 'Nih asu', id)
+                        .then(() => console.log('Success sending Video Loli'))
+                            })
+                            .catch(() => {
+                                aruga.reply(from, 'Ada yang Error!', id)
+                            })
+                break
 		case prefix+'tiktok2':
              if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
              const bodynya = body.slice(9)
