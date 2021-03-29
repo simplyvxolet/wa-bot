@@ -852,7 +852,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 const lpornhub2 = q.split('|')[1]   
                 if (lpornhub > 10) return aruga.reply(from, '*Teks1 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
                 if (lpornhub2 > 10) return aruga.reply(from, '*Teks2 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
-                aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/phlogo?text1=${1pornhub}&text2=${1pornhub2}&apikey=apivinz`)
+                aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/phlogo?text1=${lpornhub}&text2=${lpornhub2}&apikey=apivinz`, '', '', id)
             break
         case prefix+'slightning':
             if (isMedia && type === 'image') {
