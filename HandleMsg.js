@@ -1,6 +1,5 @@
 ﻿require('dotenv').config()
 const { decryptMedia } = require('@open-wa/wa-automate')
-
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const axios = require('axios')
