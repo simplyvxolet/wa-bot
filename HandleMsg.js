@@ -101,6 +101,7 @@ let {
 	banChats,
 	tobzapi,
 	lindowapi,
+	onlydev,
 	mtc: mtcState
 } = setting
 
@@ -1164,7 +1165,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 				const ahhayu = cecanin[random2]
 				aruga.sendFile(from, ahhayu, 'img.jpg', 'nehh cecan', id)
 				break
-                case prefix+'ameliandani':
+                case prefix+'amel':
                     if (!isGroupMsg) return aruga.reply(from, 'Fitur ini hanya bisa digunakan didalam Grup!', id)
                     const andani = fs.readFileSync('./lib/amelia.json')
                     const amel = JSON.parse(andani)
@@ -2463,21 +2464,134 @@ break
                                     aruga.reply(from, 'Error', id)
                                 })
                                 break
-                            case prefix+'asupan':
-                                if (!isGroupMsg) return await aruga.reply(from, 'Fitur ini hanya bisa digunakan didalam grup!', id)
-                                await aruga.reply(from, mess.wait, id)
-                                axios.get(`http://lolhuman.herokuapp.com/api/asupan?apikey=dd42c2d20db7c924ccf66f5f`)
-                                    .then(async (res) => {
-                                     aruga.sendFileFromUrl(from, res.data.result, 'asupan.mp4', `nehh asupan ${pushname}`, id)
-									 .catch(() => {
-											aruga.reply(from, res.data.message, id)
-                                    })
+								case prefix+'asupan':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/asupan?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'asupan.mp4', 'nihh asupan random', id)
+								})
+								.catch((err) => {
+									console.log(err)
+									aruga.reply(from, 'Error, mungkin server api sedang down!', id)
+								})
+								break
+								case prefix+'ranal':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/asupanrana?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'ranal.mp4', 'nihh Asupan Ranal Haddar', id)
+									.catch(() => {
+										aruga.reply(from, 'Error! mungkin server api sedang down', id)
 									})
-                                    .catch(async (err) => {
-                                        console.error(err)
-                                        await aruga.reply(from, 'Error!', id)
-                                    })
-                            break
+								})
+								.catch(err => {
+									console.log(err)
+									aruga.reply(from, 'Errorr nich', id)
+								})
+								break
+								case prefix+'kaiahelga':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/asupankaia?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'kaia.mp4', 'nihh asupan Kaia Helga', id)
+									.catch(() => {
+										aruga.reply(from, mess.wait, id)
+									})
+								})
+								.catch((err) => {
+									console.log(err)
+									aruga.reply(from, 'Lagi error', id)
+								})
+								break
+								case prefix+'unaa':
+								case prefix+'una':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/asupanuna?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'unaa.mp4', 'nihh asupan Unaa', id)
+									.catch(() => {
+										aruga.reply(from, 'Lagi error', id)
+									})
+								})
+								.catch(err => {
+									console.log(err)
+									aruga.reply(from, 'Errorrrrrr', id)
+								})
+								break
+								case prefix+'gheanaila':
+								case prefix+'ghea':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/asupanghea?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'ghea.mp4', 'nihh asupan Ghea Naila', id)
+									.catch(() => {
+										aruga.reply(from, 'Server api sedang error', id)
+									})
+								})
+								.catch(err => {
+									console.log(err)
+									aruga.reply(from, 'Lagi error', id)
+								})
+								break
+								case prefix+'jessicajane':
+								case prefix+'jessica':
+								case prefix+'jane':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/asupanjane?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'jes.mp4', 'nihh asupan Jessica Jane', id)
+									.catch(() => {
+										aruga.reply(from, 'Lagi error nih, server api sedang down kali', id)
+									})
+								})
+								.catch(err => {
+									console.log(err)
+									aruga.reply(from, 'Lagi error', id)
+								})
+								break
+								case prefix+'salwa':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/asupansalwa?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'salwa.mp4', 'nih asupann Salwa', id)
+									.catch(() => {
+										aruga.reply(from, 'Error, mungkin server api sedang down', id)
+									})
+								})
+								.catch(err => {
+									console.log(err)
+									aruga.reply(from, 'Server api sedang down', id)
+								})
+								break
+								case prefix+'ruby':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/asupanruby?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'ruby.mp4', 'nih asupan Ruby!', id)
+									.catch(() => {
+										aruga.reply(from, 'Error, mungkin server api sedang down', id)
+									})
+								})
+								.catch(err => {
+									console.log(err)
+									aruga.reply(from, 'Lagi error', id)
+								})
+								break
+								case prefix+'fahriskroep':
+								case prefix+'fahri':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`https://onlydevcity.herokuapp.com/api/lordfahri?apikey=${onlydev}`)
+								.then(async(res) => {
+									aruga.sendFileFromUrl(from, res.data.result.url, 'fahri.mp4', 'nihh lord fahri skroepp', id)
+									.catch(() => {
+										aruga.reply(from, 'Error, mungkin server api sedang down', id)
+									})
+								})
+								.catch(err => {
+									console.log(err)
+									aruga.reply(from, 'lagi error', id)
+								})
+								break
 case prefix+'bioskop':
 			if (args.length == 0) return aruga.reply(from, `Fitur untuk mencari bioskop yang ada dikota Kalian\nGunakan ${prefix}bioskop nama kota\nContoh: ${prefix}bioskop Pontianak`, id)
 			const namabis = body.slice(9)
