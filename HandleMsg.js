@@ -3057,7 +3057,7 @@ case prefix+'ytsearch':
 			})
 			break
 		case prefix+'cekjodoh':
-			if (args.length == 0) return aruga.reply(from, `Untuk mengecek jodoh melalui nama\nketik: ${prefix}cekjodoh nama-kamu nama-pasangan\n\ncontoh: ${prefix}cekjodoh bagas siti\n\nhanya bisa pakai nama panggilan (satu kata)`)
+			if (args.length == 0) return aruga.reply(from, `Untuk mengecek jodoh melalui nama\nketik: ${prefix}cekjodoh nama-kamu nama-pasangan\n\ncontoh: ${prefix}cekjodoh bagas siti\n\nhanya bisa pakai nama panggilan (satu kata)`, id)
 			rugaapi.cekjodoh(args[0],args[1])
 			.then(async(res) => {
 				await aruga.sendFileFromUrl(from, `${res.link}`, '', `${res.text}`, id)
@@ -3280,6 +3280,21 @@ case prefix+'ytsearch':
                 aruga.reply(from, `Maaf query tidak tersedia. Silahkan ketik ${prefix}kpop untuk melihat list query`)
             }
             break
+		case prefix+'ppcp':
+		case prefix+'ppcouple':
+		aruga.reply(from, mess.wait, id)
+		axios.get(`https://lindow-api.herokuapp.com/api/ppcouple?apikey=${lindowapi}`)
+		.then(async(res) => {
+			await aruga.sendFileFromUrl(from, res.data.result.male, 'cp.jpg', '', id)
+			await aruga.sendFileFromUrl(from, res.data.result.female, 'cp.jpg', '', id)
+			.catch(() => {
+				aruga.reply(from, 'lagii error nich', id)
+			})
+		})
+		.catch(err => {
+			console.log(err)
+		})
+		break
         case prefix+'memes':
             aruga.reply(from, mess.wait, id)
             aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/random/meme?apikey=${lindowapi}`, 'img.jpg', '', id)
