@@ -244,144 +244,9 @@ module.exports = HandleMsg = async (aruga, message) => {
       if (chats == 'assalamualaikum'){
           aruga.reply(from, 'Waalaikumsalam wr wb.', id)
       }
-      if (chats == 'P'){
-          aruga.sendPtt(from, './media/nani-kore.mp3', id)
-      }
-      if (chats == 'p'){
-          aruga.sendPtt(from, './media/nani-kore.mp3', id)
-      }
-      if (chats == 'Bot'){
-          aruga.sendPtt(from, './media/nani-kore.mp3', id)
-      }
-      if (chats == 'bot'){
-          aruga.sendPtt(from, './media/nani-kore.mp3', id)
-      }
-      if (chats == 'kontol'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Kontol') {
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'song') {
-          aruga.sendPtt(from, './media/song.mp3', id)
-      }
-      if (chats == 'kntl') {
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'ajg'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Ajg'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'AJG'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'pepek'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Pepek'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Ppq'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'PPQ'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'ngentot'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Ngentot'){
-          aruga.sendPtt(from, './media.astg.mp3', id)
-      }
-      if (chats == 'Anjg'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'anjg'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'anjing'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Anjing'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Hi'){
-          aruga.sendPtt(from, './media/ohayou.mp3', id)
-      }
-      if (chats == 'hi'){
-          aruga.sendPtt(from, './media/ohayou.mp3', id)
-      }
-      if (chats == 'Halo'){
-          aruga.sendPtt(from, './media/ohayou.mp3', id)
-      }
-      if (chats == 'halo'){
-          aruga.sendPtt(from, './media/ohayou.mp3', id)
-      }
 	  if (mentionedJidList.includes(ownerNumber)) {
 		  aruga.reply(from, 'ngapain tag Thoriq?\npc aja kali sabii', id)
 	  }
-      if (chats == 'woi'){
-          aruga.sendPtt(from, './media/nani-kore.mp3', id)
-      }
-      if (chats == 'Woi'){
-          aruga.sendPtt(from, './media/nani-kore.mp3', id)
-      }
-      if (chats == 'Asu'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'asu'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Asw'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'asw'){
-          aruga.sendPtt(from, './media/astg.mp3', id)
-      }
-      if (chats == 'Gblk'){
-          aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'gblk'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'Goblok'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'goblok'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'Gblg'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'gblg'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'bego'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'Bego'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'Tolol'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'tolol'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'bodo'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'Bodo'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'bodoh'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
-      if (chats == 'Bodoh'){
-        aruga.sendPtt(from, './media/bakaa.mp3', id)
-      }
 
 
         const mess = {
@@ -3830,11 +3695,11 @@ console.log(err)
 		break
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-           axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
+           axios.get(`https://lindow-api.herokuapp.com/api/ytsearch?judul=${body.slice(6)}&apikey=${lindowapi}`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik`, 'aqua'))
-                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration}\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
-				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].video.id}`)
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].timestamp} detik`, 'aqua'))
+                 await aruga.sendFileFromUrl(from, res.data.result[0].thumb, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].timestamp}\nViews: ${res.data.result[0].views}\nUploaded: ${res.data.result[0].ago}\n\n*_Wait, lagi ngirim Audionya_*`, id)
+				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].id}`)
                 .then(async(res) => {
 				if(Number(res.filesize.split(' MB')[0]) >= 10) return aruga.reply(from, 'Size audio terlalu besar!', id)
 				aruga.sendFileFromUrl(from, res.result, '', '', id)
@@ -3863,11 +3728,11 @@ console.log(err)
                         break
            case prefix+'play2'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-           axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
+           axios.get(`https://lindow-api.herokuapp.com/api/ytsearch?judul=${body.slice(7)}&apikey=${lindowapi}`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik`, 'aqua'))
-                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration}\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Videonya_*`, id)
-				 rugaapi.ymp4(`https://youtu.be/${res.data.result[0].video.id}`)
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].timestamp} detik`, 'aqua'))
+                 await aruga.sendFileFromUrl(from, res.data.result[0].thumb, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].timestamp}\nViews: ${res.data.result[0].views}\nUploaded: ${res.data.result[0].ago}\n\n*_Wait, lagi ngirim Videonya_*`, id)
+				 rugaapi.ymp4(`https://youtu.be/${res.data.result[0].id}`)
                 .then(async(res) => {
 				aruga.sendFileFromUrl(from, res.result, '', '', id)
                                 .catch(() => {
