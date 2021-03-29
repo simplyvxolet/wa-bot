@@ -1,6 +1,5 @@
 ﻿require('dotenv').config()
 const { decryptMedia } = require('@open-wa/wa-automate')
-
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const axios = require('axios')
@@ -3562,15 +3561,18 @@ console.log(err)
 		break
 		case prefix+'lolivid': //BY : piyo
 		aruga.reply(from, mess.wait, id)
-		axios.get(`http://piyobot.cf/api/loli/`)
-		.then(async(res) => {
-			aruga.sendFileFromUrl(from, res.data.result.link, 'loli.mp4', '', id)
-			.catch(err => {
-				console.log(err)
-				aruga.reply(from, 'terjadi kesalahan', id)
-			})
-		})
-		break
+                fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/loli.txt')
+                .then(res => res.text())
+                     .then(body => {
+                        let lolipiyo = body.split('\n')
+                        let papololi = lolipiyo[Math.floor(Math.random() * lolipiyo.length)]
+                        aruga.sendFileFromUrl(from, papololi, 'loli.mp4', 'Nih asu', id)
+                        .then(() => console.log('Success sending Video Loli'))
+                            })
+                            .catch(() => {
+                                aruga.reply(from, 'Ada yang Error!', id)
+                            })
+                break
 		case prefix+'tiktok2':
              if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
              const bodynya = body.slice(9)
