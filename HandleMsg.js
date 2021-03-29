@@ -699,23 +699,23 @@ module.exports = HandleMsg = async (aruga, message) => {
             break
 		case prefix+'rbts':
 		aruga.reply(from, mess.wait, id)
-		aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/bts`, 'img.jpg', 'nehh', id)
+		aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/bts?apikey=${lindowapi}`, 'img.jpg', 'nehh', id)
 		break
 		case prefix+'rvidanime':
 		aruga.reply(from, mess.wait, id)
-		aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/randomaesthetic`, 'anime.mp4', '', id)
+		aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/randomaesthetic?apikey=${lindowapi}`, 'anime.mp4', '', id)
 		break
 		case prefix+'rexo':
 		aruga.reply(from, mess.wait, id)
-		aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/exo`, 'img.jpg', 'nehh', id)
+		aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/exo?apikey=${lindowapi}`, 'img.jpg', 'nehh', id)
 		break
 		case prefix+'rblackpink':
 		aruga.reply(from, mess.wait, id)
-		aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/blackpink`, 'img.jpg', 'nehh', id)
+		aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/blackpink?apikey=${lindowapi}`, 'img.jpg', 'nehh', id)
 		break
 		case prefix+'rcitacita':
 		aruga.reply(from, mess.wait, id)
-		await aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/citacita`, 'citacita.mp3', '', id)
+		await aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/citacita?&apikey=${lindowapi}`, 'citacita.mp3', '', id)
 		break
 		case prefix+'ceritahorror':
 		case prefix+'ceritahoror':
@@ -846,19 +846,13 @@ module.exports = HandleMsg = async (aruga, message) => {
                 let awikxs = hero[Math.floor(Math.random() * hero.length)]
                 aruga.sendFileFromUrl(from, `https://api.vhtear.com/logoff?hero=${awikxs}&text=${jadiin}&apikey=${vhtearkey}`, `${jadiin}.jpg`, 'nehh ngab...', id)
                 break
-        case prefix+'pornhub':
-            if (args.length === 1) return aruga.reply(from, `Kirim perintah *${prefix}pornhub [ |Teks1|Teks2 ]*,\n\n contoh : *${prefix}pornhub |Dimas| HUB*`, id)
-            argz = body.trim().split('|')
-            if (argz.length >= 2) {
-                aruga.reply(from, `sabar brok eug proses dolo....`, id)
-                const lpornhub = argz[1]
-                const lpornhub2 = argz[2]   
+        case prefix+'logoph':
+            if (args.length === 1) return aruga.reply(from, `Kirim perintah *${prefix}pornhub [ Teks1|Teks2 ]*,\n\n contoh : *${prefix}logoph Urbaee| XYZ*`, id)
+                const lpornhub = q.split('|')[0]
+                const lpornhub2 = q.split('|')[1]   
                 if (lpornhub > 10) return aruga.reply(from, '*Teks1 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
                 if (lpornhub2 > 10) return aruga.reply(from, '*Teks2 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
-                aruga.sendFileFromUrl(from, `https://docs-jojo.herokuapp.com/api/phblogo?text1=${lpornhub}&text2=${lpornhub2}`)
-            } else {
-                await aruga.reply(from, `Wrong Format!\n[❗] Kirim perintah *${prefix}pornhub [ |Teks1| Teks2 ]*,\n\n contoh : *${prefix}logopornhub |Dimas| HUB*`, id)
-            }
+                aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/phlogo?text1=${1pornhub}&text2=${1pornhub2}&apikey=apivinz`)
             break
         case prefix+'slightning':
             if (isMedia && type === 'image') {
@@ -2930,8 +2924,8 @@ if (args.length == 0) return aruga.reply(from, `Mendapatkan detail video dari we
 const pcas = body.slice(6)
 axios.get(`http://kocakz.herokuapp.com/api/media/xnxx/detail?url=${pcas}`)
 .then(async(res) => {
-	const shrturl = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${res.data.result.files.low}`)
-	const shrturl2 = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${res.data.result.files.high}`)
+	const shrturl = await axios.get(`https://api.zeks.xyz/api/urlshort?url=${res.data.result.files.low}&apikey=apivinz`)
+	const shrturl2 = await axios.get(`https://api.zeks.xyz/api/urlshort?url=${res.data.result.files.high}&apikey=apivinz`)
 	const iniurl0 = shrturl.data.result
 	const iniurl2 = shrturl2.data.result
 	const forply = `*•Judul:* ${res.data.result.title}\n*•Url:* ${res.data.result.URL}\n*•Duration:* ${res.data.result.duration}\n\n*•Download Video :*\nLow Quality: ${iniurl0}\nHigh Quality: ${iniurl2}`
@@ -3484,9 +3478,9 @@ case prefix+'ytsearch':
         case prefix+'chord':
             if (args.length == 0) return aruga.reply(from, `Untuk mencari lirik dan chord dari sebuah lagu\bketik: ${prefix}chord [judul_lagu]`, id)
             const chordq = body.slice(7)
-            axios.get(`http://docs-jojo.herokuapp.com/api/chord?q=${chordq}`)
+            axios.get(`https://api.vhtear.com/chordguitar?query=${chordq}&apikey=${vhtearkey}`)
             .then(async(res) => {
-		const textchord = `Chord Guitar : ${chordq}\n\n${res.data.result}`
+		const textchord = `Chord Guitar : ${chordq}\n\n${res.data.result.result}`
                aruga.reply(from, textchord, id)
             })
             break
@@ -5075,7 +5069,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                         if (args.length == 0) return aruga.reply(from, `Untuk mengkonversi uang dari negara luar menjadi IDR\nContoh : ${prefix}convertduit usd|2000\n\nDan untuk mengecek mata uang bisa gunakan ${prefix}matauang`, id)
                         const duit1 = arg.split('|')[0]
                         const duit2 = arg.split('|')[1]
-                        await axios.get('currency?curhttps://api.terhambar.com/r='+duit1+'&bal='+duit2).then(res => {
+                        await axios.get('https://api.terhambar.com/r='+duit1+'&bal='+duit2).then(res => {
                             const duitnya = `Konversi mata uang ${res.data.result.currency} dari ${duit2}\n\nBalance Currency : *${res.data.result.balanceCurrency}*\n\nHasil Dirupiahkan : *${res.data.result.resultConvert}*`
                             aruga.reply(from, duitnya, id)
                         })
@@ -5104,7 +5098,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                         break
                     case prefix+'wpanime' :
                             aruga.reply(from, mess.wait, id)
-							aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/wallpaper/mobile`, 'img.jpg', '', id)
+							aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/wallpaper/mobile?apikey=${lindowapi}`, 'img.jpg', '', id)
 							break
                     case prefix+'aiquote' :
                             const aiquote = await axios.get("http://inspirobot.me/api?generate=true")
