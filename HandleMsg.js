@@ -3560,6 +3560,17 @@ console.log(err)
 			console.log(err)
 		})
 		break
+		case prefix+'lolivid': //BY : piyo
+		aruga.reply(from, mess.wait, id)
+		axios.get(`http://piyobot.cf/api/loli/`)
+		.then(async(res) => {
+			aruga.sendFileFromUrl(from, res.data.result.link, 'loli.mp4', '', id)
+			.catch(err => {
+				console.log(err)
+				aruga.reply(from, 'terjadi kesalahan', id)
+			})
+		})
+		break
 		case prefix+'tiktok2':
              if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}tiktok [linkTiktok]*`, id)
              const bodynya = body.slice(9)
