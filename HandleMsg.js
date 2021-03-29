@@ -2495,6 +2495,50 @@ break
 				await aruga.reply(from, 'Error njing', id)
 				}
 				break
+				case prefix+'3dphoto':
+					if (isMedia || isImage || isQuotedImage) {
+						aruga.reply(from, mess.wait, id)
+						const encrypt = isQuotedImage ? quotedMsg : message
+						const mediaData = await decryptMedia(encrypt, uaOverride)
+						const beimage = await uploadImages(mediaData, `${sender}_img`)
+						await aruga.sendFileFromUrl(from, `https://videfikri.com/api/textmaker/3dlinephoto/?urlgbr=${beimage}`, '', '', id)
+						.catch(() => {
+							aruga.reply(from, 'Kesalahan waktu mengupload foto, silahkan coba lagi', id)
+						})
+					} else {
+						aruga.reply(from, 'Format pesan salah, silahkan post/reply foto', id)
+					}
+					break
+					case prefix+'pencil':
+					case prefix+'pensil':
+					if (isMedia || isImage || isQuotedImage) {
+						aruga.reply(from, mess.wait, id)
+						const encrypt = isQuotedImage ? quotedMsg : message
+						const mediaData = await decryptMedia(encrypt, uaOverride)
+						const beimages = await uploadImages(mediaData, `${sender}_img`)
+						await aruga.sendFileFromUrl(from, `https://videfikri.com/api/textmaker/pencil/?urlgbr=${beimages}`, '', '', id)
+						.catch(() => {
+							aruga.reply(from, 'Kesalahan waktu mengupload foto, silahkan coba lagi', id)
+						})
+					} else {
+						aruga.reply(from, 'Format pesan salah, silahkan post/reply foto', id)
+					}
+					break
+					case prefix+'pencil2':
+					case prefix+'pensil2':
+					if (isMedia || isImage || isQuotedImage) {
+						aruga.reply(from, mess.wait, id)
+						const encrypt = isQuotedImage ? quotedMsg : message
+						const mediaData = await decryptMedia(encrypt, uaOverride)
+						const inimage = await uploadImages(mediaData, uaOverride)
+						aruga.sendFileFromUrl(from, `https://videfikri.com/api/textmaker/pencildrawing/?urlgbr=${inimage}`, '', '', id)
+						.catch(() => {
+							aruga.reply(from, 'Kesalahan waktu mengupload foto, silahkan coba lagi', id)
+						})
+					} else {
+						aruga.reply(from, 'Format pesan salah, silahkan post/reply foto', id)
+					}
+					break
                     case prefix+'imagetourl':
                         case prefix+'imgtourl':
                             if (isMedia && isImage || isQuotedImage) {
@@ -3792,16 +3836,15 @@ console.log(err)
                             await aruga.reply(from, 'Error!', id)
                         })
                         break
-          case prefix+'play2'://silahkan kalian custom sendiri jika ada yang ingin diubah
+           case prefix+'play2'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-		   if (!isPrem) return aruga.reply(from, mess.prem, id)
-           axios.get(`https://api.vhtear.com/youtube?query=${body.slice(7)}&apikey=${vhtearkey}`)
+           axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
             .then(async (res) => {
-			console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].duration}`, 'green'))
-                 await aruga.sendFileFromUrl(from, `${res.data.result[0].image}`, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].title}\nDurasi: ${res.data.result[0].duration} menit\nViews: ${res.data.result[0].views}\nChannel: ${res.data.result[0].channel}\n\n*_Wait, lagi ngirim Videonya_*`, id)
-				rugaapi.ymp4(`https://youtu.be/${res.data.result[0].id}`)
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik`, 'aqua'))
+                 await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration}\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Videonya_*`, id)
+				 rugaapi.ymp4(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
-				await aruga.sendFileFromUrl(from, res.result, '', '', id)
+				aruga.sendFileFromUrl(from, res.result, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
                                    })
@@ -5032,7 +5075,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                         if (args.length == 0) return aruga.reply(from, `Untuk mengkonversi uang dari negara luar menjadi IDR\nContoh : ${prefix}convertduit usd|2000\n\nDan untuk mengecek mata uang bisa gunakan ${prefix}matauang`, id)
                         const duit1 = arg.split('|')[0]
                         const duit2 = arg.split('|')[1]
-                        await axios.get('https://api.terhambar.com/currency?curr='+duit1+'&bal='+duit2).then(res => {
+                        await axios.get('currency?curhttps://api.terhambar.com/r='+duit1+'&bal='+duit2).then(res => {
                             const duitnya = `Konversi mata uang ${res.data.result.currency} dari ${duit2}\n\nBalance Currency : *${res.data.result.balanceCurrency}*\n\nHasil Dirupiahkan : *${res.data.result.resultConvert}*`
                             aruga.reply(from, duitnya, id)
                         })
@@ -5068,9 +5111,10 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                             await aruga.sendFileFromUrl(from, aiquote.data, 'quote.jpg', 'FOLLOW NGAB \ :V https://www.instagram.com/_l_.lawliet_/' , id )
                         break
                 case prefix+'ttp':
-                     axios.get(`https://api.xteam.xyz/ttp?text=${body.slice(5)}`)
+				if (args.length == 0) return aruga.reply(from, 'textnya mana?', id)
+                     axios.get(`https://api.areltiyan.site/sticker_maker?text=${body.slice(5)}`)
                         .then(async(res) => {
-						 aruga.sendImageAsSticker(from, res.data.result, {author: authorr, pack: pack})
+						 aruga.sendImageAsSticker(from, res.data.base64, {author: authorr, pack: pack})
 						 .catch((err) => {
 							 console.log(err)
 						 })
