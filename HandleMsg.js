@@ -827,9 +827,11 @@ module.exports = HandleMsg = async (aruga, message) => {
                 break
                 case prefix+'loli':
                 aruga.reply(from, mess.wait, id);
-                axios.get('http://lolis-life-api.herokuapp.com/getLoli').then(res => {
-                    aruga.sendFileFromUrl(from, res.data.url, 'loli.jpeg', "Enjoy these Lolis!", id);
-                });
+                aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/loli?apikey=${lindowapi}`, 'loli.jpg', '', id)
+				.catch(err => {
+					console.log(err)
+					aruga.reply(from, 'error', id)
+				})
                 break
             case prefix+'autosticker':
 	        case prefix+'autostiker':
@@ -2392,13 +2394,42 @@ break
 						aruga.reply(from, mess.wait, id)
 						const encrypt = isQuotedImage ? quotedMsg : message
 						const mediaData = await decryptMedia(encrypt, uaOverride)
-						const inimage = await uploadImages(mediaData, uaOverride)
+						const inimage = await uploadImages(mediaData, `${sender.id}_img`)
 						aruga.sendFileFromUrl(from, `https://videfikri.com/api/textmaker/pencildrawing/?urlgbr=${inimage}`, '', '', id)
 						.catch(() => {
 							aruga.reply(from, 'Kesalahan waktu mengupload foto, silahkan coba lagi', id)
 						})
 					} else {
 						aruga.reply(from, 'Format pesan salah, silahkan post/reply foto', id)
+					}
+					break
+					case prefix+'thuglife':
+					if (isMedia || isImage || isQuotedImage) {
+						aruga.reply(from, mess.wait, id)
+						const encrypt = isQuotedImage ? quotedMsg : message
+						const mediaData = await decryptMedia(encrypt, uaOverride)
+						const inimage = await uploadImages(mediaData, `${sender.id}_img`)
+						await aruga.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/thuglife?url=${inimage}`, 'thuglife.jpg', '', id)
+						.catch(() => {
+							aruga.reply(from, 'lagi error', id)
+						})
+					} else {
+						aruga.reply(from, 'Format pesan salah, hanya bisa foto', id)
+					}
+					break
+					case prefix+'tobecontinue':
+					case prefix+'tobecontinued':
+					if (isMedia || isImage || isQuotedImage) {
+						aruga.reply(from, mess.wait, id)
+						const encrypt = isQuotedImage ? quotedMsg : message
+						const mediaData = await decryptMedia(encrypt, uaOverride)
+						const inimage = await uploadImages(mediaData, `${sender.id}_img`)
+						await aruga.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/tobecontinue?url=${inimage}`, 'tobe.jpg', '', id)
+						.catch(() => {
+							aruga.reply(from, 'Lagi error', id)
+						})
+					} else {
+						aruga.reply(from, 'Format pesan salah, kirim foto bukan video/gif', id)
 					}
 					break
                     case prefix+'imagetourl':
@@ -2759,6 +2790,71 @@ case prefix+'lk21':
 		aruga.reply(from, `Film yang anda cari tidak ada diwebsite`, id)
 	}
 	break
+case prefix+'drakorupdate':
+aruga.reply(from, mess.wait, id)
+try {
+	const latest = await axios.get(`http://zekais-api.herokuapp.com/drakorlatest`)
+	const belasts = latest.data
+	const { result } = belasts
+	let latestdrak = `*「 DRAKOR UPDATE 」*\n`
+	for (let i = 0; i < result.length; i++) {
+		latestdrak += `\n─────────────────\n\n*•Title:* ${result[i].name}\n*•Uploaded:* ${result[i].upload}\n*•Tag:* ${result[i].tag}\n*•Content:* ${result[i].conten}\n\n*•Link Streaming:* ${result[i].url}\n`
+	}
+	await aruga.sendFileFromUrl(from, result[0].thumb, 'korea.jpg', latestdrak, id)
+} catch (err) {
+	console.log(err)
+	aruga.reply(from, 'Lagi error', id)
+}
+break
+case prefix+'drakorapik':
+await aruga.reply(from, mess.wait, id)
+try {
+	const apikdrak = await axios.get(`http://zekais-api.herokuapp.com/filmapikdrama`)
+	const apikkz = apikdrak.data
+	const { result } = apikkz
+	let bedrak = `*「 FILM APIK DRAKOR 」*\n`
+	for (let i = 0; i < result.length; i++) {
+		bedrak += `\n─────────────────\n\n*•Judul:* ${result[i].name}\n*•Episode:* ${result[i].episode}\n*•Stars:* ${result[i].star}\n*•Url:* ${result[i].url}\n`
+	}
+	await aruga.sendFileFromUrl(from, result[0].thumb, 'thumb.jpg', bedrak, id)
+} catch (err) {
+	aruga.reply(from, 'Lagi error', id)
+}
+break
+case prefix+'drakor':
+if (args.length == 0) return aruga.reply(from, `Mencari drakor gunakan ${prefix}drakorasia judul`, id)
+const caridrakor = body.slice(8)
+aruga.reply(from, mess.wait, id)
+try {
+	const juduldrakor = await axios.get(`http://zekais-api.herokuapp.com/drakor?query=${caridrakor}`)
+	const anjays = juduldrakor.data
+	const { download } = anjays
+	let inidrakor = `*•Judul:* ${anjays.title}\n*•Genre:* ${anjays.genre}\n*•Tayang:* ${anjays.tayang}\n*•Director:* ${anjays.director}\n*•Total Episodes:* ${anjays.total_episode}\n*•Sinopsis:* ${anjays.sinopsis}\n`
+	for (let i = 0; i < download.length; i++) {
+		inidrakor += `\n─────────────────\n\n*•Nama:* ${download[i].name}\n\n*•Zippyshare:* ${download[i].Zippyshare}\n\n*•MirrorDrive:* ${download[i].MirrorDrive}\n\n*•Uptocloud:* ${download[i].Uptocloud}\n\n`
+	}
+	await aruga.sendFileFromUrl(from, anjays.thumb, 'drakor.jpg', inidrakor, id)
+} catch (err) {
+	console.log(err)
+	aruga.reply(from, 'Drakor yang anda cari tidak ada', id)
+}
+break
+case prefix+'topanime':
+aruga.reply(from, mess.wait, id)
+try {
+	const topan = await axios.get(`https://onlydevcity.herokuapp.com/api/anime/topanime?apikey=${onlydev}`)
+	const topani = topan.data.result
+	const { data } = topani
+	let topis = `*「 TOP ANIME 」*\n`
+	for (let i = 0; i < data.length; i++) {
+		topis += `\n─────────────────\n\n*•Title:* ${data[i].title}\n*•Studio:* ${data[i].studio}\n*•Peak:* ${data[i].stats.peak}\n*•Previously:* ${data[i].stats.previously}\n*•Weeks On Top:* ${data[i].stats.weeksOnTop}\n*•Status:* ${data[i].stats.status}\n*•Stats:* ${data[i].stats.stat}\n`
+	}
+	await aruga.sendFileFromUrl(from, data[0].imageUrl, 'image.jpg', topis, id)
+} catch (err) {
+	console.log(err)
+	aruga.reply(from, 'Lagi error', id)
+}
+break
 case prefix+'filmkat':
 if (args.length == 0) return aruga.reply(from, `Mencari sebuah kategori film dari website Film Apik, Gunakan ${prefix}filmkat kategori\nContoh: ${prefix}filmkat comedy\n\nGunakan bahasa inggris buat kategorinya`, id)
 const katsearch = body.slice(9)
@@ -3811,7 +3907,7 @@ console.log(err)
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik`, 'aqua'))
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik`, 'aqua'))
                  await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
 				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
@@ -4275,6 +4371,44 @@ console.log(err)
 					console.log(err)
 				})
 				break
+		case prefix+'sfiledown':
+		if (args.length == 0) return aruga.reply(from, `Untuk mendapatkan hasil download, silahkan gunakan ${prefix}sfiledown link sfile`, id)
+		const downsf = body.slice(11)
+		aruga.reply(from, mess.wait, id)
+		axios.get(`https://fzn-gaz.herokuapp.com/api/sfiledl?url=${downsf}`)
+		.then(async(res) => {
+			const dock = res.data.result
+			const tobelink = await axios.get(`https://lindow-api.herokuapp.com/api/short/tiny?url=${dock}&apikey=${lindowapi}`)
+			const link1 = tobelink.data.result.link
+			if (!isPrem) return aruga.reply(from, `Maaf karna anda bukan user premium, silahkan download melalui link dibawah\n\nLink: ${link1}`, id)
+			await aruga.sendFileFromUrl(from, dock, '', '', id)
+			.catch(() => {
+				aruga.reply(from, 'Lagi error', id)
+			})
+		})
+		.catch(err => {
+			console.log(err)
+			aruga.reply(from, 'Linknya ga valid kali atau gada diweb', id)
+		})
+		break
+		case prefix+'sfile':
+		if (args.length == 0) return aruga.reply(from, `Untuk mencari file/config di website Sfile, kirim perintah ${prefix}sfile nama config/file`, id)
+		const cariconfig = body.slice(7)
+		await aruga.reply(from, mess.wait, id)
+		try {
+			const becon = await axios.get(`https://fzn-gaz.herokuapp.com/api/sfile?search=${cariconfig}`)
+			const configdat = becon.data
+			const { result } = configdat
+			let confa = `*「 SFILE 」*\n`
+			for (let i = 0; i < result.length; i++) {
+				confa += `\n─────────────────\n\n*•Title:* ${result[i].title}\n*•Size:* ${result[i].size}\n*•Link:* ${result[i].link}\n`
+			}
+			await aruga.reply(from, confa, id)
+		} catch (err) {
+			console.log(err)
+			aruga.reply(from, 'Lagi error', id)
+		}
+		break
         case prefix+'bot':
             if (args.length == 0) return aruga.reply(from, 'Kirim perintah */ [teks]*\nContoh : */ halo*')
             const que = body.slice(5)
@@ -4326,6 +4460,21 @@ console.log(err)
 	if (args.length == 0) return aruga.reply(from, `textnya mana sayang?`, id)
 	const initextnya = body.slice(6)
 	await aruga.sendFileFromUrl(from, `http://zekais-api.herokuapp.com/sbburn?text=${initextnya}`, '', '', id)
+	break
+	case prefix+'wikihow':
+	aruga.reply(from, mess.wait, id)
+	axios.get(`http://zekais-api.herokuapp.com/wikihow`)
+	.then(async(res) => {
+		const freply = res.data.title
+		await aruga.sendFileFromUrl(from, res.data.url, 'img.jpg', freply, id)
+		.catch(() => {
+			aruga.reply(from, 'Lagi error', id)
+		})
+	})
+	.catch(err => {
+		console.log(err)
+		aruga.reply(from, 'lagi error', id)
+	})
 	break
 	case prefix+'simi':
 		if (args.length == 0) return aruga.reply(from, `Kirim perintah ${prefix}bot [teks]\nContoh : ${prefix}bot halo`, id)
