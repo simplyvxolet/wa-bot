@@ -102,6 +102,7 @@ let {
 	tobzapi,
 	lindowapi,
 	onlydev,
+	lolhuman,
 	mtc: mtcState
 } = setting
 
@@ -468,7 +469,7 @@ module.exports = HandleMsg = async (aruga, message) => {
         // Menu and TnC
 		case prefix+'mute':
 		if (!isGroupMsg) return aruga.reply(from, 'Fitur ini hanya bisa digunakan didalam Grup!', id)
-		if (!isGroupAdmins) return aruga.reply(from, 'Fitur ini hanya bisa digunakan oleh Admin Grup!', id)
+		if (!isOwnerB) return aruga.reply(from, 'Fitur ini hanya bisa digunakan oleh Owner Bot!', id)
 		if (isGroupMsg) {
 			isMuted(chatId) == true
 			if (muted.includes(chatId)) return aruga.reply(from, 'Grup ini sudah dimute sebelumnya', id)
@@ -483,7 +484,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			break
 		case prefix+'unmute':
 		if (!isGroupMsg) return aruga.reply(from, 'Fitur ini hanya bisa digunakan didalam Grup!', id)
-		if (!isGroupAdmins) return aruga.reply(from, 'Fitur ini hanya bisa digunakan oleh Admin Grup!', id)
+		if (!isOwnerB) return aruga.reply(from, 'Fitur ini hanya bisa digunakan oleh Owner Bot!', id)
 		if (isGroupMsg) {
 			isMuted(chatId) == false
 			let indexsz = muted.indexOf(chatId);
@@ -2495,6 +2496,24 @@ break
                                     aruga.reply(from, 'Error', id)
                                 })
                                 break
+								case prefix+'asupan3':
+								aruga.reply(from, mess.wait, id)
+								await aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/asupan?&apikey=${lindowapi}`, 'asupan.mp4', '', id)
+								break
+								case prefix+'asupan2':
+								aruga.reply(from, mess.wait, id)
+								axios.get(`http://lolhuman.herokuapp.com/api/asupan?apikey=${lolhuman}`)
+								.then(async(res) => {
+									await aruga.sendFileFromUrl(from, res.data.result, 'asupan.mp4', 'neh asupan random', id)
+									.catch(() => {
+										aruga.reply(from, 'Lagi error', id)
+									})
+								})
+								.catch(err => {
+									console.log(err)
+									aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi nanti', id)
+								})
+								break
 								case prefix+'asupan':
 								aruga.reply(from, mess.wait, id)
 								axios.get(`https://onlydevcity.herokuapp.com/api/asupan?apikey=${onlydev}`)
@@ -3477,6 +3496,10 @@ case prefix+'ytsearch':
                     aruga.reply(from, 'Maaf, Jenis Handphone yang anda cari tidak dapat kami temukan', id)
                 })
                 break
+				case prefix+'memeindo2':
+				aruga.reply(from, mess.wait, id)
+				await aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/meme/memeindo?apikey=${lolhuman}`, 'img.jpg', '', id)
+				break
 				case prefix+'memeindo':
 				await axios.get('https://api.zeks.xyz/api/memeindo?apikey=apivinz').then(res => {
 					aruga.sendFileFromUrl(from, `${res.data.result}`, 'image.jpg', 'nehh njeng', id)
@@ -5265,7 +5288,9 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                         break
                 case prefix+'ttp':
 				if (args.length == 0) return aruga.reply(from, 'textnya mana?', id)
-                     axios.get(`https://api.areltiyan.site/sticker_maker?text=${body.slice(5)}`)
+				const beword = body.slice(5)
+				if (beword.length > 50) return aruga.reply(from, 'Maximum is 50 words', id)
+                axios.get(`https://api.areltiyan.site/sticker_maker?text=${body.slice(5)}`)
                         .then(async(res) => {
 						 aruga.sendImageAsSticker(from, res.data.base64, {author: authorr, pack: pack})
 						 .catch((err) => {
