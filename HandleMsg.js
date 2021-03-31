@@ -8,6 +8,7 @@ const speed = require('performance-now')
 const fetch = require('node-fetch')
 const chalk = require('chalk')
 const translatte = require('translatte')
+const ms = require('parse-ms')
 const bent = require('bent')
 const path = require('path')
 const bdr = require('rumus-bdr')
@@ -605,6 +606,8 @@ module.exports = HandleMsg = async (aruga, message) => {
 		case prefix+'start':
         case prefix+'menu':
             const test0 = sender.id
+			var cekpuasa = ms(1618160335602 - Date.now())
+			const repls = `${cekpuasa.days}D ${cekpuasa.hours}H ${cekpuasa.minutes}Min ${cekpuasa.seconds}Sec`
 			const jame = moment(t * 1000).format('HH:mm:ss')
             const nyoba2 = await aruga.getProfilePicFromServer(test0)
             if (nyoba2 == undefined) {
@@ -612,7 +615,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 } else {
                 var php2 = nyoba2
                 }
-            await aruga.sendFileFromUrl(from, php2, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
+            await aruga.sendFileFromUrl(from, php2, 'image.jpg', menuId.help(prefix, repls, jame, betime, prem, blockNumber, banned, cts, waver), id)
             .then(() => ((isGroupMsg) && (isGroupAdmins)) ? aruga.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
             break
         case prefix+'menuadmin':
