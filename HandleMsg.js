@@ -3926,6 +3926,26 @@ console.log(err)
 			})
 		})
 		break
+		case prefix+'spotify':
+		if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify judul lagu`, id)
+		const carispot = body.slice(9)
+		axios.get(`http://lolhuman.herokuapp.com/api/spotifysearch?apikey=${lolhuman}&query=${carispot}`)
+		.then(async(res) => {
+			const captspot = `「 *SPOTIFY* 」\n\n• *Title:* ${res.data.result[0].title}\n• *Duration:* ${res.data.result[0].duration}\n• *Artists:* ${res.data.result[0].artists}\n• *Popularity:* ${res.data.result[0].popularity}`
+			await aruga.reply(from, captspot, id)
+			rugaapi.spotify(res.data.result[0].link)
+			.then(async(res) => {
+				aruga.sendFileFromUrl(from, res.link, '', '', id)
+				.catch(() => {
+					aruga.reply(from, 'Error', id)
+				})
+			})
+		})
+		.catch(err => {
+			console.log(err)
+			aruga.reply(from, 'Error tuh', id)
+		})
+		break
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
@@ -4185,6 +4205,7 @@ console.log(err)
                 aruga.sendText(from, 'Jahat kelen sama aku... ( ⇀‸↼‶ )').then(() => aruga.leaveGroup(groupId))
                 break
             case prefix+'del':
+			case prefix+'delete':
                 if (!isGroupAdmins && !isOwnerB) return aruga.reply(from, 'Gagal, fitur ini bakalan work kalo dipake sama admin, member mah gausah sok keras', id)
                 if (!quotedMsg) return aruga.reply(from, `Maaf, format pesan salah silahkan.\nReply pesan bot dengan caption ${prefix}del`, id)
                 if (!quotedMsgObj.fromMe) return aruga.reply(from, `Maaf, format pesan salah silahkan.\nReply pesan bot dengan caption ${prefix}del`, id)
