@@ -94,6 +94,8 @@ after running it you need to scan the qr
 - Get Api NoBackground on [this website](https://www.remove.bg/)
 - Get Api ScreenShot on [this website](https://apiflash.com/)
 - `vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.
+- `lolhuman`: LolHuman API token. you can get it [here](http://lolhuman.herokuapp.com/) by purchasing his API key.
+- `Onlydev`: Only Dev City API token. you can get it [here](https://onlydevcity.herokuapp.com/docs) by purchasing his API key.
 ---
 
 ## Features
