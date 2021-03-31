@@ -46,7 +46,6 @@ const {
     images,
     resep,
     rugaapi,
-    cariKasar,
     downloader,
     sticker
 } = require('./lib')
@@ -228,7 +227,6 @@ module.exports = HandleMsg = async (aruga, message) => {
         const isBanned = banned.includes(pengirim)
 		const isPrivate = banChats == true
 		const isSimi = simi.includes(chatId)
-		const isKasar = await cariKasar(chats)
 		const isNgegas = ngegas.includes(chatId)
         const isAutoStikerOn = _autostiker.includes(chat.id)
         const isImage = type === 'image'
@@ -237,7 +235,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 		const pack = 'Urbaeexyz'
         
         //
-		if(!isCmd && isKasar && isGroupMsg) { console.log(color('[BADW]', 'orange'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats}`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) }
         if (isCmd && !isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta'))}
         if (isCmd && isGroupMsg) { console.log(color('[EXEC]', 'magenta'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`, 'aqua'), 'from', color(`${pushname}`, 'magenta') , 'in', color(name || formattedTitle, 'aqua')) }
 
@@ -465,7 +462,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) 
 	}
 	
-		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwner ) {
+		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB ) {
         switch (command) {
         // Menu and TnC
 		case prefix+'mute':
@@ -587,7 +584,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 		case prefix+'ceritahorror':
 		case prefix+'ceritahoror':
 		aruga.reply(from, mess.wait, id)
-		axios.get(`http://lolhuman.herokuapp.com/api/ceritahoror?apikey=dd42c2d20db7c924ccf66f5f`)
+		axios.get(`http://lolhuman.herokuapp.com/api/ceritahoror?apikey=${lolhuman}`)
 		.then(async(res) => {
 			const becapt = `*Judul:* ${res.data.result.title}\n*Desk:* ${res.data.result.desc}\n*Cerita:* ${res.data.result.story}`
 			await aruga.sendFileFromUrl(from, res.data.result.thumbnail, 'thumb.jpg', becapt, id)
@@ -3641,7 +3638,7 @@ case prefix+'ytsearch':
                 if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}ssweb [link website]`, id)
 		const webss = body.slice(7)
 		aruga.reply(from, mess.wait, id)
-		await aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/ssweb?apikey=dd42c2d20db7c924ccf66f5f&url=${webss}`, 'img.jpg' , '', id)
+		await aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/ssweb?apikey=${lolhuman}&url=${webss}`, 'img.jpg' , '', id)
 		break
                 break
             case prefix+'fb2':
@@ -3868,17 +3865,15 @@ console.log(err)
 		case prefix+'stickerline':
 		case prefix+'stikerline':
 		if (args.length == 0) return aruga.reply(from, `Kirim perintah ${prefix}stickerline link|jumlah\nContoh: ${prefix}stickerline https://store.line.me/stickershop/product/13619/id | 3`, id)
-		if (args.length == 1) return aruga.reply(from, `Jumlahnya mau berapa?`, id)
-		const linkstik = q.split('|')[0]
-		const linksah = q.split('|')[1]
-		if (linksah > 10) return aruga.reply(from, 'Maksimal 10!', id)
+		const linkstik = body.slice(13)
 		try {
 			aruga.reply(from, mess.wait, id)
 			const jadistik = await axios.get(`http://zekais-api.herokuapp.com/stickerline?url=${linkstik}`)
-			const bedaz = jadistik.data.result
-			for (let i = 0; i < linksah; i++) {
-				await aruga.sendImageAsSticker(from, bedaz.sticker[i], {author: authorr, pack: pack })
-			}
+			const bedaz = jadistik.data.result.stickers
+			let randstik = bedaz[Math.floor(Math.random() * bedaz.length)]
+			const thislink = await axios.get(`http://zekais-api.herokuapp.com/webptomp4?url=${randstik}`)
+			const linkres = thislink.data.result
+				await aruga.sendMp4AsSticker(from, linkres, gifxyz, StickerMetadata)
 		} catch (err) {
 			console.log(err)
 			aruga.reply(from, 'Error bang', id)
@@ -4430,7 +4425,7 @@ console.log(err)
 			if (args.length == 0) return aruga.reply(from, `Untuk menstalk akun youtube seseorang\nKetik ${prefix}stalkyt nama channel\nContoh: ${prefix}stalkyt CUCO`, id)
 				aruga.reply(from, mess.wait, id)
 				const ytstlk = body.slice(9)
-				axios.get(`http://lolhuman.herokuapp.com/api/ytchannel?apikey=dd42c2d20db7c924ccf66f5f&query=${ytstlk}`)
+				axios.get(`http://lolhuman.herokuapp.com/api/ytchannel?apikey=${lolhuman}&query=${ytstlk}`)
 				.then(async(res) => {
 					await aruga.sendFileFromUrl(from, res.data.result[0].channel_picture.medium.url, 'img.jpg', `*Nama Channel:* ${res.data.result[0].channel_name}\n*Tentang Channel:* ${res.data.result[0].channel_about}\n*Id Channel:* ${res.data.result[0].channel_id}\n*Channel Created:* ${res.data.result[0].channel_created}`, id)
 					.catch(() => {
@@ -4445,7 +4440,7 @@ console.log(err)
                 if (args.length == 0) return await aruga.reply(from, `Untuk mendapatkan foto dari username tiktok\nUsage : ${prefix}tiktokpic itsandani`, id)
                 const namaih = body.slice(11)
                 aruga.reply(from, mess.wait, id)
-				aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/pptiktok/${namaih}?apikey=dd42c2d20db7c924ccf66f5f`, 'img.jpg', '', id)
+				aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/pptiktok/${namaih}?apikey=${lolhuman}`, 'img.jpg', '', id)
 				.catch(() => {
 					aruga.reply(from, 'error', id)
 				})
@@ -4630,35 +4625,6 @@ console.log(err)
             hehex += '╠\n╚═〘 *U R B A E  B O T* 〙'
             await aruga.sendTextWithMentions(from, `Info dari : @${sender.id.replace(/@c.us/g, '')}\n\n` +textInfo+ '\n\n' +hehex)
             break
-		case prefix+'katakasar':
-			if (!isGroupMsg) return aruga.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-			aruga.reply(from, `Untuk mengaktifkan Fitur Kata Kasar pada Group Chat\n\nApasih kegunaan Fitur Ini? Apabila seseorang mengucapkan kata kasar akan mendapatkan denda\n\nPenggunaan\n${prefix}kasar on --mengaktifkan\n${prefix}kasar off --nonaktifkan\n\n${prefix}reset --reset jumlah denda`, id)
-			break
-		case prefix+'kasar':
-			if (!isGroupMsg) return aruga.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return aruga.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-			if (args.length !== 1) return aruga.reply(from, `Untuk mengaktifkan Fitur Kata Kasar pada Group Chat\n\nApasih kegunaan Fitur Ini? Apabila seseorang mengucapkan kata kasar akan mendapatkan denda\n\nPenggunaan\n${prefix}kasar on --mengaktifkan\n${prefix}kasar off --nonaktifkan\n\n${prefix}reset --reset jumlah denda`, id)
-			if (args[0] == 'on') {
-				ngegas.push(chatId)
-				fs.writeFileSync('./settings/ngegas.json', JSON.stringify(ngegas))
-				aruga.reply(from, 'Fitur Anti Kasar sudah di Aktifkan', id)
-			} else if (args[0] == 'off') {
-				let nixx = ngegas.indexOf(chatId)
-				ngegas.splice(nixx, 1)
-				fs.writeFileSync('./settings/ngegas.json', JSON.stringify(ngegas))
-				aruga.reply(from, 'Fitur Anti Kasar sudah di non-Aktifkan', id)
-			} else {
-				aruga.reply(from, `Untuk mengaktifkan Fitur Kata Kasar pada Group Chat\n\nApasih kegunaan Fitur Ini? Apabila seseorang mengucapkan kata kasar akan mendapatkan denda\n\nPenggunaan\n${prefix}kasar on --mengaktifkan\n${prefix}kasar off --nonaktifkan\n\n${prefix}reset --reset jumlah denda`, id)
-			}
-			break
-		case prefix+'reset':
-			if (!isGroupMsg) return aruga.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return aruga.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-			const reset = db.get('group').find({ id: groupId }).assign({ members: []}).write()
-            if(reset){
-				await aruga.sendText(from, "Klasemen telah direset.")
-            }
-			break
 		case prefix+'mutegrup':
 			if (!isGroupMsg) return aruga.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
             if (!isGroupAdmins) return aruga.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
@@ -5393,6 +5359,14 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                      if (!bsk) aruga.reply(from, '⚠️ Format salah! Ketik */menu* untuk penggunaan.')
                      await aruga.sendText(from, `Pertanyaan: *${bsk}* \n\nJawaban: ${jbsk}`)
                      break
+			case prefix+'listmuted':
+			case prefix+'listmute':
+			let inmuted = `This is list of Muted grup\nTotal : ${muted.length}\n`
+			for (let i of muted) {
+				inmuted += `-\n`
+			}
+			await aruga.reply(from, inmuted, id)
+			break
             case prefix+ 'listban':
                 let bened = `This is list of banned number\nTotal : ${banned.length}\n`
                 for (let i of banned) {
@@ -5467,7 +5441,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
             const allGroupq = await aruga.getAllGroups()
             for (let gclist of allGroupq) {
                 await aruga.sendText(gclist.contact.id, `Maaf bot sedang pembersihan, Total Grup yang Bot join saat ini sebanyak: *${allGroupq.length}*\n\nSilahkan invite bot lagi jika dibutuhkan`)
-				sleep(5000)
+				sleep(1000)
                 await aruga.leaveGroup(gclist.contact.id)
             }
             aruga.reply(from, 'Success leave all group!', id)
@@ -5518,49 +5492,8 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
 				aruga.reply(from, `${err}`, id)
 			})
 		}
-		// Kata kasar function
-		if(!isCmd && isGroupMsg && isNgegas) {
-            const find = db.get('group').find({ id: groupId }).value()
-            if(find && find.id === groupId){
-                const cekuser = db.get('group').filter({id: groupId}).map('members').value()[0]
-                const isIn = inArray(pengirim, cekuser)
-                if(cekuser && isIn !== false){
-                    if(isKasar){
-                        const denda = db.get('group').filter({id: groupId}).map('members['+isIn+']').find({ id: pengirim }).update('denda', n => n + 5000).write()
-                        if(denda){
-                            await aruga.reply(from, "Jangan badword bodoh\nDenda +5.000\nTotal : Rp"+formatin(denda.denda), id)
-                        }
-                    }
-                } else {
-                    const cekMember = db.get('group').filter({id: groupId}).map('members').value()[0]
-                    if(cekMember.length === 0){
-                        if(isKasar){
-                            db.get('group').find({ id: groupId }).set('members', [{id: pengirim, denda: 5000}]).write()
-                        } else {
-                            db.get('group').find({ id: groupId }).set('members', [{id: pengirim, denda: 0}]).write()
-                        }
-                    } else {
-                        const cekuser = db.get('group').filter({id: groupId}).map('members').value()[0]
-                        if(isKasar){
-                            cekuser.push({id: pengirim, denda: 5000})
-                            await aruga.reply(from, "Jangan badword bodoh\nDenda +5.000", id)
-                        } else {
-                            cekuser.push({id: pengirim, denda: 0})
-                        }
-                        db.get('group').find({ id: groupId }).set('members', cekuser).write()
-                    }
-                }
-            } else {
-                if(isKasar){
-                    db.get('group').push({ id: groupId, members: [{id: pengirim, denda: 5000}] }).write()
-                    await aruga.reply(from, "Jangan badword bodoh\nDenda +5.000\nTotal : Rp5.000", id)
-                } else {
-                    db.get('group').push({ id: groupId, members: [{id: pengirim, denda: 0}] }).write()
-                }
-            }
-        }
     }
     } catch (err) {
         console.log(color('[EROR]', 'red'), err)
     }
-}
+	}
