@@ -464,7 +464,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) 
 	}
 	
-		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwner || isGroupAdmins ) {
+		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwner ) {
         switch (command) {
         // Menu and TnC
 		case prefix+'mute':
@@ -5290,7 +5290,7 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
 				if (args.length == 0) return aruga.reply(from, 'textnya mana?', id)
 				const beword = body.slice(5)
 				if (beword.length > 50) return aruga.reply(from, 'Maximum is 50 words', id)
-                axios.get(`https://api.areltiyan.site/sticker_maker?text=${body.slice(5)}`)
+                axios.get(`https://api.areltiyan.site/sticker_maker?text=${beword}`)
                         .then(async(res) => {
 						 aruga.sendImageAsSticker(from, res.data.base64, {author: authorr, pack: pack})
 						 .catch((err) => {
