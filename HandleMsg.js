@@ -220,7 +220,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 		const StickerMetadatacrop = { author : '@thoriqazzikra_', pack: 'Urbaeexyz', keepScale: false }
 
         // [IDENTIFY]
-        const ownerNumber = '62895334951166@c.us'
+        const ownerNumber = ["62895334951166@c.us", "62895334950905@c.us"]
         const isOwnerBot = ownerNumber.includes(pengirim)
         const isOwner = ownerNumber.includes(pengirim)
         const isOwnerB = ownerNumber.includes(pengirim)
@@ -3033,17 +3033,14 @@ try {
 }
 break
 case prefix+'xnxx':
-if (!isPrem) return aruga.reply(from, mess.prem, id)
+if (!isOwnerB) return aruga.reply(from, mess.prem, id)
 if (args.length == 0) return aruga.reply(from, `Mendapatkan detail video dari website xnxx, Gunakan ${prefix}xnxx link\nContoh: ${prefix}xnxx https://www.xnxx.com/video-kt0nb99/who_is_she_big_hot_girl_asia_japan_korean_jav`, id)
 const pcas = body.slice(6)
-axios.get(`http://kocakz.herokuapp.com/api/media/xnxx/detail?url=${pcas}`)
+axios.get(`http://lolhuman.herokuapp.com/api/xnxx?apikey=${lolhuman}&url=${pcas}`)
 .then(async(res) => {
-	const shrturl = await axios.get(`https://api.zeks.xyz/api/urlshort?url=${res.data.result.files.low}&apikey=apivinz`)
-	const shrturl2 = await axios.get(`https://api.zeks.xyz/api/urlshort?url=${res.data.result.files.high}&apikey=apivinz`)
-	const iniurl0 = shrturl.data.result
-	const iniurl2 = shrturl2.data.result
-	const forply = `*•Judul:* ${res.data.result.title}\n*•Url:* ${res.data.result.URL}\n*•Duration:* ${res.data.result.duration}\n\n*•Download Video :*\nLow Quality: ${iniurl0}\nHigh Quality: ${iniurl2}`
-	await aruga.sendFileFromUrl(from, res.data.result.image, 'img.jpg', forply, id)
+	await aruga.sendFileFromUrl(from, res.data.result.thumbnail, 'img.jpg', `「 *XNXX* 」\n\n*Title:* ${res.data.result.title}\n*Duration:* ${res.data.result.duration}\n*Views:* ${res.data.result.view}\n*Rating:* ${res.data.result.rating}\n*Like:* ${res.data.result.like}\n*Dislike:* ${res.data.result.dislike}\n*Comment:* ${res.data.result.comment}`, id)
+	const inihasilvid = res.data.result.link[1].link
+	await aruga.sendFileFromUrl(from, inihasilvid, 'vid.mp4', '' , id)
 	.catch(() => {
 		aruga.reply(from, 'Url salah, silahkan masukkan url yang benar', id)
 	})
@@ -3058,14 +3055,14 @@ if (args.length == 0) return aruga.reply(from, `Mencari video dari website XNXX,
 const xsch = body.slice(12)
 aruga.reply(from, mess.wait, id)
 try {
-	const fucth = await fetch(`http://kocakz.herokuapp.com/api/media/xnxx/search?query=${xsch}`)
-	const fucth1 = await fucth.json()
-	const { result } = await fucth1
+	const fucth = await axios.get(`http://lolhuman.herokuapp.com/api/xnxxsearch?apikey=${lolhuman}&query=${xsch}`)
+	const fucth2 = fucth.data
+	const { result } = fucth2
 	let xsz = `*「 XNXX 」*\n`
 	for (let i = 0; i < result.length; i++) {
-		xsz += `\n─────────────────\n\n• *Title:* ${result[i].title}\n• *Info:* ${result[i].info}\n• *Link:* ${result[i].link}\n`
+		xsz += `\n─────────────────\n\n• *Title:* ${result[i].title}\n• *Views:* ${result[i].views}\n• *Duration:* ${result[i].duration}\n• *Uploader:* ${result[i].uploader}\n• *Link:* ${result[i].link}\n`
 	}
-	await aruga.reply(from, xsz, id)
+	await aruga.sendFileFromUrl(from, result[0].thumbnail, 'thumb.jpg', xsz, id)
 } catch (err) {
 	console.log(err)
 	aruga.reply(from, `Mungkin hasil pencarian yang anda inginkan tidak ada didalam website`, id)
