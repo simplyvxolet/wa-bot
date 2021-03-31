@@ -2858,6 +2858,24 @@ try {
 	aruga.reply(from, 'Drakor yang anda cari tidak ada', id)
 }
 break
+case prefix+'manga':
+if (args.length == 0) return aruga.reply(from, 'Judulnya mana?', id)
+const mangasearch = body.slice(7)
+aruga.reply(from, mess.wait, id)
+try {
+	const mangax = await axios.get(`https://onlydevcity.herokuapp.com/api/manga?search=${mangasearch}&apikey=${onlydev}`)
+	const mangas = mangax.data.result
+	const { downloads } = mangas
+	let mangi = `*•Judul:* ${mangas.title}\n*•Nama:* ${mangas.name}\n*•Type:* ${mangas.type}\n*•Genre:* ${mangas.genre}\n*•Rating:* ${mangas.rating}\n*•Author:* ${mangas.author}\n*•Released Year:* ${mangas.released}\n*•Status:* ${mangas.status}\n*•Note:* ${mangas.note}\n*•Description:* ${mangas.description[0]}\n`
+	for (let i = 0; i < downloads.length; i++) {
+		mangi += `\n─────────────────\n\n*•Web:* ${downloads[i].title}\n*•Detail:* ${downloads[i].date}\n*•Link:* ${downloads[i].link}\n`
+	}
+	await aruga.reply(from, mangi, id)
+} catch (err) {
+	console.log(err)
+	aruga.reply(from, 'Manga yang anda cari tidak ada', id)
+}
+break
 case prefix+'topanime':
 aruga.reply(from, mess.wait, id)
 try {
@@ -3416,6 +3434,25 @@ case prefix+'ytsearch':
             aruga.reply(from, 'Errorr...', id)
         })
         break
+	case prefix+'kusonime':
+	if (args.length == 0) return aruga.reply(from, `Mencari anime dari website Kusonime, gunakan ${prefix}kusonime judul anime`, id)
+	const carianim = body.slice(10)
+	aruga.reply(from, mess.wait, id)
+	try {
+		const kuson = await axios.get(`https://zahirr-web.herokuapp.com/api/anime/kusonime?search=${carianim}&apikey=zahirgans`)
+		const kusondat = kuson.data.result
+		const { download } = kusondat
+		let kusonimx = `*Title:* ${kusondat.title}\n*Title JP:* ${kusondat.title_jp}\n*Genre:* ${kusondat.genre}\n*Season:* ${kusondat.season}\n*Producer:* ${kusondat.producer}\n*Type:* ${kusondat.type}\n*Status:* ${kusondat.status}\n*Score:* ${kusondat.score}\n*Duration:* ${kusondat.duration}\n*Released On:* ${kusondat.released_on}\n*Description:* ${kusondat.description}\n`
+		for (let i = 0; i < download.length; i++) {
+			kusonimx += `\n─────────────────\n\n*•Resolution:* ${download[i].resolution}\n*•Web Down:* ${download[i].download_list[0].downloader}\n*•Link Down:* ${download[i].download_list[0].download_link}\n`
+		}
+		await aruga.sendFileFromUrl(from, kusondat.thumbs, 'kusonime.jpg', kusonimx, id)
+	} catch (err) {
+		console.log(err)
+		aruga.reply(from, 'anime yang anda cari tidak ada', id)
+	}
+	break
+	/*
     case prefix+'kusonime':
         if (args.length == 0) return aruga.reply(from, `Untuk mencari anime batch dari Kusonime, ketik ${prefix}kusonime judul\n\nContih : ${prefix}kusonime naruto`, id)
         rugaapi.kusonime(args[0])
@@ -3423,6 +3460,7 @@ case prefix+'ytsearch':
             await aruga.sendFileFromUrl(from, `${res.link}`, '', `${res.text}, id`)
         })
         break
+		*/
         case prefix+'images':
             if (args.length == 0) return aruga.reply(from, `Untuk mencari gambar dari pinterest\nketik: ${prefix}images [search]\ncontoh: ${prefix}images naruto`, id)
             const cariwall = body.slice(8)
