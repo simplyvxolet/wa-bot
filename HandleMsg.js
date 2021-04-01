@@ -47,7 +47,7 @@ const {
     resep,
     rugaapi,
     downloader,
-    sticker
+    sticker,
 } = require('./lib')
 
 
@@ -1789,14 +1789,16 @@ module.exports = HandleMsg = async (aruga, message) => {
                 const mediaData = await decryptMedia(message, uaOverride)
                 const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
                 await aruga.sendImageAsSticker(from, imageBase64, StickerMetadatacrop)
+				.then(async () => {
 				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
-				aruga.reply(from, `Haii ${pushname} jika ingin membuat stiker tanpa dipotong, silahkan post/reply foto dengan caption ${prefix}sfull`, id)
+				})
             } else if (quotedMsg && quotedMsg.type == 'image') {
                 const mediaData = await decryptMedia(quotedMsg, uaOverride)
                 const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
                 await aruga.sendImageAsSticker(from, imageBase64, StickerMetadatacrop)
+				.then(async(res) => {
 				console.log(color(`Sticker processed for ${processTime(t, moment())} seconds`, 'aqua'))
-				aruga.reply(from, `Haii ${pushname} jika ingin membuat stiker tanpa dipotong, silahkan post/reply foto dengan caption ${prefix}sfull`, id)
+				})
 			} else {
 				aruga.reply(from, mess.error.St, id)
 			}			
@@ -4016,10 +4018,11 @@ console.log(err)
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(7)}&apikey=apivinz`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].duration} detik`, 'aqua'))
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik`, 'aqua'))
                  await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Videonyaa_*`, id)
 				 rugaapi.ymp4(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
+				if(Number(res.filesize.split(' MB')[0] >= 50)) return aruga.reply(from, 'Size video terlalu besar', id)
 				aruga.sendFileFromUrl(from, res.result, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
