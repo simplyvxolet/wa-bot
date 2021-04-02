@@ -462,7 +462,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) 
 	}
 	
-		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB ) {
+		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB || isPrem ) {
         switch (command) {
         // Menu and TnC
 		case prefix+'mute':
@@ -4014,6 +4014,21 @@ console.log(err)
                             await aruga.reply(from, 'Error!', id)
                         })
                         break
+			case prefix+'ytshorts':
+			if (args.length == 0) return aruga.reply(from, `Untuk mendownload video dari snap youtube, gunakan ${prefix}ytshorts link snap`, id)
+			axios.get(`https://api.vhtear.com/youtube_short_download?link=${body.slice(10)}&apikey=${vhtearkey}`)
+			.then(async(res) => {
+				await aruga.sendFileFromUrl(from, res.data.result.image, 'img.jpg', `「 *YOUTUBE SHORTS* 」\n\n*Title:* ${res.data.result.title}\n*Views:* ${res.data.result.view_count}\n*Uploader:* ${res.data.result.uploader}\n\n*_Waitt, lagi ngirim Videonyaa`, id)
+				await aruga.sendFileFromUrl(from, res.data.result.url_video, '', '', id)
+				.catch(() => {
+					aruga.reply(from, 'Linknya salah tuh', id)
+				})
+			})
+			.catch(err => {
+				console.log(err)
+				aruga.reply(from, 'Error', id)
+			})
+			break
            case prefix+'play2'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            axios.get(`https://api.zeks.xyz/api/yts?q=${body.slice(7)}&apikey=apivinz`)
