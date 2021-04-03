@@ -3932,35 +3932,6 @@ console.log(err)
 			aruga.reply(from, 'Terjadi kesalahan pada sistem, silahkan coba lagi!', id)
 		}
 		break
-	    //case prefix+'anjay':
-		//if(args.length == 0) return aruga.reply(from, 'Untuk mencari sebuah lagu dari youtube, dahlah males ngetik anjing', id)
-		//const lgny = body.slice(7)
-		//axios.get(`http://docs-jojo.herokuapp.com/api/yt-play?q=${lgny}`)
-		//.then(async(res) => {
-		//await aruga.sendFileFromUrl(from, res.data.thumb, 'img.jpg', `Lagu ditemukan, dhlh cape ngetik\n\n${res.data.title}\n${res.data.filesize}\n${res.data.duration}\n${res.data.total_view}\n${res.data.uploaded}\n${res.data.channel}\n\nNtar...`, id)
-		//aruga.sendFileFromUrl(from, res.data.link, '', '', id)
-		//.catch(() => {
-			//aruga.reply(from, 'y, error', id)
-		//})
-		//})
-		//.catch((err) => {
-			//console.log(err)
-		//})
-		//break
-		case prefix+'song':
-		if (!isPrem) return aruga.reply(from, mess.prem, id)
-		if (args.length == 0) return aruga.reply(from, 'judulnya ape?', id)
-		const songsc = body.slice(6)
-		axios.get(`https://fzn-gaz.herokuapp.com/api/ytmp3v2?judul=${songsc}`)
-		.then(async(res) => {
-			await aruga.sendFileFromUrl(from, res.data.image, '', `*${res.data.title}*\n*${res.data.size}*\n*${res.data.duration}*`, id)
-			if (Number(res.data.size.split(' MB')[0]) >= 10) return aruga.reply(from, 'Ngotak dikit durasinya', id)
-			aruga.sendFileFromUrl(from, res.data.result, '', '', id)
-			.catch(() => {
-				aruga.reply(from, 'error', id)
-			})
-		})
-		break
 		case prefix+'spotify':
 		if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify judul lagu`, id)
 		const carispot = body.slice(9)
@@ -4108,6 +4079,38 @@ console.log(err)
                     aruga.reply(from, err, id)
                 }
             break
+			case prefix+'searchwp2':
+			if (args.length == 0) return aruga.reply(from, `Mencari wallpaper dengan query, gunakan ${prefix}searchwp2 query`, id)
+			const cariwp2 = body.slice(11)
+			aruga.reply(from, mess.wait, id)
+			axios.get(`http://lolhuman.herokuapp.com/api/wallpaper?apikey=${lolhuman}&query=${cariwp2}`)
+			.then(async(res) => {
+				await aruga.sendFileFromUrl(from, res.data.result, '', '', id)
+				.catch(() => {
+					aruga.reply(from, 'Query yang anda cari tidak dapat ditemukan', id)
+				})
+			})
+			.catch(err => {
+				console.log(err)
+				aruga.reply(from, 'Terjadi kesalahan, silahkan coba ulangi', id)
+			})
+			break
+			case prefix+'searchwp':
+			if (args.length == 0) return aruga.reply(from, `Mencari wallpaper dengan query, gunakan ${prefix}searchwp query\nContoh: ${prefix}searchwp aesthetic`, id)
+			const cariwp = body.slice(10)
+			aruga.reply(from, mess.wait, id)
+			axios.get(`http://lolhuman.herokuapp.com/api/wallpaper2?apikey=${lolhuman}&query=${cariwp}`)
+			.then(async(res) => {
+				aruga.sendFileFromUrl(from, res.data.result, '', '', id)
+				.catch(() => {
+					aruga.reply(from, 'Query yang anda cari tidak dapat ditemukan', id)
+				})
+			})
+			.catch(err => {
+				console.log(err)
+				aruga.reply(from, 'Terjadi kesalahan, silahkan ulangi', id)
+			})
+			break
             case prefix+'covid19':
             case prefix+'corona':
                 rugaapi.corona()
@@ -4504,12 +4507,29 @@ console.log(err)
 			aruga.reply(from, 'Lagi error', id)
 		}
 		break
+		case prefix+'googleimg':
+		if (args.length == 0) return aruga.reply(from, `Kirim perintah ${prefix}googleimg aesthetic|jumlah`, id)
+		const searchimage = q.split('|')[0]
+		const jumlahimage = q.split('|')[1]
+		if (jumlahimage > 13) return aruga.reply(from, 'Maksimal 13', id)
+		aruga.reply(from, mess.wait, id)
+		try {
+			const imageaxios = await axios.get(`https://lindow-api.herokuapp.com/api/googleimg?q=${searchimage}&apikey=${lindowapi}`)
+			const imagedata = imageaxios.data
+			for (let i = 0; i < jumlahimage; i++) {
+				await aruga.sendFileFromUrl(from, imagedata.result[i], '', '', id)
+			}
+		} catch (err) {
+			console.log(err)
+			aruga.reply(from, 'Image yang anda cari tidak ada', id)
+		}
+		break
         case prefix+'bot':
             if (args.length == 0) return aruga.reply(from, 'Kirim perintah */ [teks]*\nContoh : */ halo*')
             const que = body.slice(5)
-            const sigo = await axios.get(`http://ferdiz-api.herokuapp.com/api/simi?text=${que}&bahasa=id`)
+            const sigo = await axios.get(`https://lindow-api.herokuapp.com/api/simi?text=${que}&lang=id&apikey=${lindowapi}`)
             console.log(color(`${que}`, 'green'))
-            const sigot = sigo.data.result
+            const sigot = sigo.data.response.text
             aruga.reply(from, sigot, id)
             console.log(color(`${sigot}`, 'green'))
             break
