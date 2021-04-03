@@ -4079,11 +4079,11 @@ console.log(err)
                     aruga.reply(from, err, id)
                 }
             break
-			case prefix+'searchwp2':
+			case prefix+'searchwp':
 			if (args.length == 0) return aruga.reply(from, `Mencari wallpaper dengan query, gunakan ${prefix}searchwp2 query`, id)
-			const cariwp2 = body.slice(11)
+			const cariwp2 = body.slice(10)
 			aruga.reply(from, mess.wait, id)
-			axios.get(`http://lolhuman.herokuapp.com/api/wallpaper?apikey=${lolhuman}&query=${cariwp2}`)
+			axios.get(`http://lolhuman.herokuapp.com/api/wallpaper2?apikey=${lolhuman}&query=${cariwp2}`)
 			.then(async(res) => {
 				await aruga.sendFileFromUrl(from, res.data.result, '', '', id)
 				.catch(() => {
@@ -4093,22 +4093,6 @@ console.log(err)
 			.catch(err => {
 				console.log(err)
 				aruga.reply(from, 'Terjadi kesalahan, silahkan coba ulangi', id)
-			})
-			break
-			case prefix+'searchwp':
-			if (args.length == 0) return aruga.reply(from, `Mencari wallpaper dengan query, gunakan ${prefix}searchwp query\nContoh: ${prefix}searchwp aesthetic`, id)
-			const cariwp = body.slice(10)
-			aruga.reply(from, mess.wait, id)
-			axios.get(`http://lolhuman.herokuapp.com/api/wallpaper2?apikey=${lolhuman}&query=${cariwp}`)
-			.then(async(res) => {
-				aruga.sendFileFromUrl(from, res.data.result, '', '', id)
-				.catch(() => {
-					aruga.reply(from, 'Query yang anda cari tidak dapat ditemukan', id)
-				})
-			})
-			.catch(err => {
-				console.log(err)
-				aruga.reply(from, 'Terjadi kesalahan, silahkan ulangi', id)
 			})
 			break
             case prefix+'covid19':
