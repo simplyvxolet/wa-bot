@@ -4828,7 +4828,8 @@ console.log(err)
                 fs.writeFileSync('./lib/database/left.json', JSON.stringify(left))
                 aruga.reply(from, 'Fitur left berhasil di aktifkan di group ini!', id)
             } else if (args[0].toLowerCase() === 'disable') {
-                left.splice(chat.id, 1)
+				var thisgc = left.indexOf(groupId)
+                left.splice(thisgc, 1)
                 fs.writeFileSync('./lib/database/left.json', JSON.stringify(left))
                 aruga.reply(from, 'Fitur left berhasil di nonaktifkan di group ini!', id)
             } else {
@@ -4865,7 +4866,8 @@ console.log(err)
                 fs.writeFileSync('./lib/database/welcome.json', JSON.stringify(welkom))
                 aruga.reply(from, 'Fitur welcome berhasil di aktifkan di group ini!', id)
             } else if (args[0].toLowerCase() === 'disable') {
-                welkom.splice(chat.id, 1)
+				var thisgc = welkom.indexOf(groupId)
+                welkom.splice(thisgc, 1)
                 fs.writeFileSync('./lib/database/welcome.json', JSON.stringify(welkom))
                 aruga.reply(from, 'Fitur welcome berhasil di nonaktifkan di group ini!', id)
             } else {
