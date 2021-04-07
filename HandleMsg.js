@@ -3782,7 +3782,7 @@ console.log(err)
             const linkmp4 = body.slice(7)
 			rugaapi.ymp4(args)
 			.then(async(res) => {
-				aruga.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${filesize}\n*Views:* ${res.views}\n*Likes:* ${res.likes}\n*Dislikes:* ${res.dislikes}\n*Uploaded:* ${res.publishDate}\n*Channel:* ${res.channel}\n\nWaitt, lemme send this fuckin' video`, id)
+				aruga.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${res.filesize}\n*Views:* ${res.views}\n*Likes:* ${res.likes}\n*Dislikes:* ${res.dislikes}\n*Uploaded:* ${res.publishDate}\n*Channel:* ${res.channel}\n\nWaitt, lemme send this fuckin' video`, id)
 				await aruga.sendFileFromUrl(from, res.url_video, 'vid.mp4', '', id)
 				.catch(() => {
 					aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi', id)
