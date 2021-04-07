@@ -2212,6 +2212,7 @@ break
 				aruga.reply(from, `Error nich`,id)
 			 })
 			})
+				})
 			.catch(err => {
 				aruga.reply(from, 'error', id)
 			})
