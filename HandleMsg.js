@@ -102,6 +102,7 @@ let {
 	tobzapi,
 	lindowapi,
 	onlydev,
+	fahmiapi,
 	lolhuman,
 	mtc: mtcState
 } = setting
@@ -2192,7 +2193,7 @@ break
                             .then((res) => {
                                 aruga.reply(from, `Berhasil Revoke Grup Link gunakan *${prefix}grouplink* untuk mendapatkan group invite link yang terbaru`, id);
                             })
-                            .catch((err) => {
+                            .catch(() => {
                                 console.log(`[ERR] ${err}`);
                             });
                     }
@@ -2201,10 +2202,12 @@ break
             case prefix+'ytmp3':
                 if (args.length == 0) return aruga.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp3 [link_yt]`, id)
                 aruga.reply(from, mess.wait, id)
-				rugaapi.ymp3(args)
+				axios.get(`https://fahmiapi.herokuapp.com/yt/mp3?url=${args}&apikey=${fahmiapi}`)
                 .then(async(res) => {
-				await aruga.sendFileFromUrl(from, res.thumb, '', `「 *YOUTUBE MP3* 」\n\n*Judul:* ${res.title}\n*Filesize:* ${res.filesize}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
-				aruga.sendFileFromUrl(from, res.dl_link, '', '', id)
+				await aruga.sendFileFromUrl(from, res.data.result.thumbnail, '', `「 *YOUTUBE MP3* 」\n\n*Title:* ${res.data.result.title}\n*Filesize:* ${res.data.result.filesize}\n*Duration:* ${res.data.result.duration} detik\n*Views:* ${res.data.result.views}\n*Likes:* ${res.data.result.likes}\n*Dislikes:* ${res.data.result.dislikes}\n*Uploaded:* ${res.data.result.publishDate}\n*Channel:* ${res.data.result.channel}\n\n*_Waitt, lemme send this fuckin' audio_*`, id)
+				rugaapi.ymp3(res.data.result.url)
+				.then(async(res) => {
+				aruga.sendFileFromUrl(from, res.result, '', '', id)
                 .catch(() => {
 				aruga.reply(from, `Error nich`,id)
 			 })
@@ -3778,8 +3781,8 @@ console.log(err)
             const linkmp4 = body.slice(7)
 			rugaapi.ymp4(args)
 			.then(async(res) => {
-				aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${filesizeF}\n\nWaitt, lemme send this fuckin' video`, id)
-				await aruga.sendFileFromUrl(from, res.dl_link, 'vid.mp4', '', id)
+				aruga.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${filesize}\n*Views:* ${res.views}\n*Likes:* ${res.likes}\n*Dislikes:* ${res.dislikes}\n*Uploaded:* ${res.publishDate}\n*Channel:* ${res.channel}\n\nWaitt, lemme send this fuckin' video`, id)
+				await aruga.sendFileFromUrl(from, res.url_video, 'vid.mp4', '', id)
 				.catch(() => {
 					aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi', id)
 				})
@@ -3960,7 +3963,7 @@ console.log(err)
                  await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Audionya_*`, id)
 				 rugaapi.ymp3(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
-				aruga.sendFileFromUrl(from, res.dl_link, '', '', id)
+				aruga.sendFileFromUrl(from, res.result, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
                                    })
@@ -4007,7 +4010,7 @@ console.log(err)
                  await aruga.sendFileFromUrl(from, res.data.result[0].video.thumbnail_src, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result[0].video.title}\nDurasi: ${res.data.result[0].video.duration} detik\nViews: ${res.data.result[0].video.views}\nUploaded: ${res.data.result[0].video.upload_date}\nChannel: ${res.data.result[0].uploader.username}\n\n*_Wait, lagi ngirim Videonyaa_*`, id)
 				 rugaapi.ymp4(`https://youtu.be/${res.data.result[0].video.id}`)
                 .then(async(res) => {
-				aruga.sendFileFromUrl(from, res.dl_link, '', '', id)
+				aruga.sendFileFromUrl(from, res.url_video, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
                                    })
