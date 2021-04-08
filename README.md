@@ -31,7 +31,9 @@
 </p>
 </div>
 
- 
+# Donate To Me Pls:)
+[Saweria](https://saweria.co/thoriqazzikra)
+
  ## Things I Code With
 <p>
     <img

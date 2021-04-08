@@ -102,6 +102,7 @@ let {
 	tobzapi,
 	lindowapi,
 	onlydev,
+	fahmiapi,
 	lolhuman,
 	mtc: mtcState
 } = setting
@@ -2186,7 +2187,7 @@ break
                             .then((res) => {
                                 aruga.reply(from, `Berhasil Revoke Grup Link gunakan *${prefix}grouplink* untuk mendapatkan group invite link yang terbaru`, id);
                             })
-                            .catch((err) => {
+                            .catch(() => {
                                 console.log(`[ERR] ${err}`);
                             });
                     }
@@ -2195,7 +2196,7 @@ break
             case prefix+'ytmp3':
                 if (args.length == 0) return aruga.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp3 [link_yt]`, id)
                 aruga.reply(from, mess.wait, id)
-				axios.get(`http://fahmiapi.herokuapp.com/yt/mp3?url=${args}&apikey=freeTrial2k21`)
+				axios.get(`http://fahmiapi.herokuapp.com/yt/mp3?url=${args}&apikey=${fahmiapi}`)
                 .then(async(res) => {
 				await aruga.sendFileFromUrl(from, res.data.result.thumbnail, '', `「 *YOUTUBE MP3* 」\n\n*Title:* ${res.data.result.title}\n*Filesize:* ${res.data.result.filesize}\n*Duration:* ${res.data.result.duration} detik\n*Uploaded:* ${res.data.result.publishDate}\n*Likes:* ${res.data.result.likes}\n*Dislikes:* ${res.data.result.dislikes}\n*Views:* ${res.data.result.views}\n*Channel:* ${res.data.result.channel}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
 				rugaapi.ymp3(res.data.result.url)
@@ -2209,6 +2210,7 @@ break
 			 })
 				})
 			})
+				})
 			.catch(err => {
 				aruga.reply(from, 'error', id)
 			})
