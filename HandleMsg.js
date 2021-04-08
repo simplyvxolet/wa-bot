@@ -2210,7 +2210,6 @@ break
 			 })
 				})
 			})
-				})
 			.catch(err => {
 				aruga.reply(from, 'error', id)
 			})
