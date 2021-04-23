@@ -3,6 +3,7 @@ const { decryptMedia } = require('@open-wa/wa-automate')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const axios = require('axios')
+const FormData = require('form-data')
 const os = require('os')
 const speed = require('performance-now')
 const fetch = require('node-fetch')
@@ -104,6 +105,7 @@ let {
 	onlydev,
 	fahmiapi,
 	lolhuman,
+	leysapi,
 	mtc: mtcState
 } = setting
 
@@ -118,6 +120,8 @@ function formatin(duit){
     ribuan = ribuan.join('.').split('').reverse().join('');
     return ribuan;
 }
+
+
 
 function waktu(seconds) { // TOBZ
             seconds = Number(seconds);
@@ -156,6 +160,26 @@ const isMuted = (chatId) => {
             return true
             }
         }
+
+function identify(buffer) {
+     return new Promise(async (resolve, reject) => {
+          const bodyForm = new FormData()
+		  const pathh = './audio.mp3'
+          bodyForm.append('audio', buffer, 'file.mp3')
+           bodyForm.append('apikey', 'apivinz')
+           axios('https://api.zeks.xyz/api/searchmusic', {
+                method: 'POST',
+                headers: {
+        "Content-Type": "multipart/form-data",
+        ...bodyForm.getHeaders()
+                },
+                data: bodyForm
+            })
+                .then(({data}) =>{
+            resolve(data)
+  }).catch(reject)
+     })
+}
 
         function banChat () {
             if(banChats == true) {
@@ -212,6 +236,7 @@ module.exports = HandleMsg = async (aruga, message) => {
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video/mp4'
 		const isQuotedGif = quotedMsg && quotedMsg.type === 'gif'
+		const isQuotedAudio = quotedMsg && quotedMsg.type === 'audio'
 		const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
 		const isQuotedFile = quotedMsg && quotedMsg.type === 'file'
 		const reason = q ? q : 'Gada'
@@ -1380,6 +1405,31 @@ module.exports = HandleMsg = async (aruga, message) => {
         }
 		
 	//Sticker Converter
+	case prefix+'whatmusic':
+	case prefix+'whatmus':
+	case prefix+'whatsong':
+	if (quotedMsg && quotedMsg.type == 'audio' || quotedMsg && quotedMsg.type == 'ptt' || quotedMsg && quotedMsg.type == 'video') {
+		try {
+								await aruga.reply(from, mess.wait, id)
+                                const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                                const detmus = await identify(mediaData)
+								aruga.reply(from, `*Judul:* ${detmus.data.title}\n*Artis:* ${detmus.data.artists}\n*Genre:* ${detmus.data.album}\n*Release Date:* ${detmus.data.release_date}`, id)
+		} catch (err) {
+			console.log(err)
+			aruga.reply(from, 'Maaf, lagu tidak dapat ditemukan', id)
+		}
+		} else if (isMedia && type === 'video' || isMedia && type === 'mp4') {
+			try {
+			await aruga.reply(from, mess.wait, id)
+			const mediaData = await decryptMedia(message, uaOverride)
+			const detmus = await identify(mediaData)
+			aruga.reply(from, `*Judul:* ${detmus.data.title}\n*Artis:* ${detmus.data.artists}\n*Genre:* ${detmus.data.album}\n*Release Date:* ${detmus.data.release_date}`, id)
+			} catch (err) {
+				console.log(err)
+				aruga.reply(from, 'Maaf, lagu tidak dapat ditemukan!', id)
+			}
+		} else aruga.reply(from, `Post/reply audio atau video dengan caption ${whatsong}`, id)
+	break
 	case prefix+'take':
                     if (quotedMsg && quotedMsg.type == 'sticker' || quotedMsg && quotedMsg.type == 'image') {
                         if (!q.includes('|')) return await aruga.reply(from, `Untuk mengubah watermark sticker, reply sticker/image dengan caption ${prefix}take package_name | author_name\n\nContoh: ${prefix}takestick PUNYA GUA | videfikri`, id)
@@ -2196,20 +2246,20 @@ break
             case prefix+'ytmp3':
                 if (args.length == 0) return aruga.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp3 [link_yt]`, id)
                 aruga.reply(from, mess.wait, id)
-				axios.get(`http://fahmiapi.herokuapp.com/yt/mp3?url=${args}&apikey=${fahmiapi}`)
+				fetchJson(`https://leyscoders-api.herokuapp.com/api/ytdl?url=${args}&apikey=${leysapi}`)
                 .then(async(res) => {
-				await aruga.sendFileFromUrl(from, res.data.result.thumbnail, '', `「 *YOUTUBE MP3* 」\n\n*Title:* ${res.data.result.title}\n*Filesize:* ${res.data.result.filesize}\n*Duration:* ${res.data.result.duration} detik\n*Uploaded:* ${res.data.result.publishDate}\n*Likes:* ${res.data.result.likes}\n*Dislikes:* ${res.data.result.dislikes}\n*Views:* ${res.data.result.views}\n*Channel:* ${res.data.result.channel}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
-				rugaapi.ymp3(res.data.result.url)
+				await aruga.sendFileFromUrl(from, res.result[0].thumb, '', `「 *YOUTUBE MP3* 」\n\n*Title:* ${res.result[0].title}\n*Duration:* ${res.result[0].duration} detik\n*Uploaded:* ${res.result[0].published}\n*Likes:* ${res.result[0].like}\n*Dislikes:* ${res.result[0].dislike}\n*Views:* ${res.result[0].view}\n*Channel:* ${res.result[0].author.name}\n*Verified Channel:* ${res.result[0].author.verifed}\n*Subscribers:* ${res.result[0].author.subscriber}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
+				rugaapi.ymp3(args)
 				.then(async(res) => {
-				const bealink = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${res.dl_link}`)
+				/*const bealink = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${res.result}`)
 				const linkbea = bealink.data.result
-				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkbea}`, id)
-				aruga.sendFileFromUrl(from, res.dl_link, '', '', id)
+				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkbea}`, id)*/
+				aruga.sendFileFromUrl(from, res.result, '', '', id)
                 .catch(() => {
 				aruga.reply(from, `Error nich`,id)
 			 })
 				})
-			})
+				})
 			.catch(err => {
 				aruga.reply(from, 'error', id)
 			})
@@ -3861,13 +3911,14 @@ console.log(err)
             case prefix+'ytmp4':
             if (args.length == 0) return aruga.reply(from, `Untuk mendownload video dari youtube\nketik: ${prefix}ytmp4 [link_yt]`, id)
             const linkmp4 = body.slice(7)
-			rugaapi.ymp4(args)
+			fetchJson(`https://leyscoders-api.herokuapp.com/api/ytdl?url=${args}&apikey=${leysapi}`)
 			.then(async(res) => {
-				aruga.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${res.filesize}\n*Uploaded:* ${res.publishDate}\n*Likes:* ${res.likes}\n*Dislikes:* ${res.dislikes}\n*Views:* ${res.views}\n*Channel:* ${res.channel}\n\n*_${mess.wait}_*`, id)
-				const ymp4link = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${res.url_video}`)
-				const ymlink = ymp4link.data.result
-				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${ymlink}`, id)
-				await aruga.sendFileFromUrl(from, res.url_video, 'vid.mp4', '', id)
+			await aruga.sendFileFromUrl(from, res.result[0].thumb, '', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.result[0].title}\n*Duration:* ${res.result[0].duration} detik\n*Uploaded:* ${res.result[0].published}\n*Likes:* ${res.result[0].like}\n*Dislikes:* ${res.result[0].dislike}\n*Views:* ${res.result[0].view}\n*Channel:* ${res.result[0].author.name}\n*Verified Channel:* ${res.result[0].author.verifed}\n*Subscribers:* ${res.result[0].author.subscriber}\n\n*_Waitt, lemme send that fuckin' video_*`, id)
+				/*aruga.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${res.filesize}\n*Uploaded:* ${res.publishDate}\n*Likes:* ${res.likes}\n*Dislikes:* ${res.dislikes}\n*Views:* ${res.views}\n*Channel:* ${res.channel}\n\n*_${mess.wait}_*`, id)
+				var playlinks = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${playlink}&apikey=zahirgans`)
+				 var linkplay = playlinks.data.result.link*/
+				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${res.result[0].url_video}`, id)
+				await aruga.sendFileFromUrl(from, res.result[0].url_video, 'vid.mp4', '', id)
 				.catch(() => {
 					aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi', id)
 				})
@@ -4042,16 +4093,18 @@ console.log(err)
 		break
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-           axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(6)}`)
+           /*axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(6)}`)*/
+			fetchJson(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik`, 'aqua'))
-                 await aruga.sendFileFromUrl(from, res.data.result.result[0].thumbnails[0].url, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)
-				 rugaapi.ymp3(`https://youtu.be/${res.data.result.result[0].id}`)
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result[0].video.title}\nDurasi: ${res.result[0].video.duration} detik`, 'aqua'))
+                 /*await aruga.sendFileFromUrl(from, res.data.result.result[0].thumbnails[0].url, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)*/
+				 await aruga.sendFileFromUrl(from, res.result[0].video.thumbnail_src, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result[0].video.title}\n*Duration:* ${res.result[0].video.duration} detik\n*Views:* ${res.result[0].video.views}\n*Uploaded:* ${res.result[0].video.upload_date}\n*Channel:* ${res.result[0].uploader.username}\n*Verified Channel:* ${res.result[0].uploader.verified}\n*Url:* ${res.result[0].video.url}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id) 
+				 rugaapi.ymp3(`https://youtu.be/${res.result[0].video.id}`)
                 .then(async(res) => {
-				const playlink = res.dl_link
-				 const playlinks = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${playlink}`)
-				 const linkplay = playlinks.data.result
-				 if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkplay}`, id)
+				const playlink = res.result
+				 var playlinks = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${playlink}&apikey=zahirgans`)
+				 var linkplay = playlinks.data.result.link
+				 /*if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkplay}`, id)*/
 				aruga.sendFileFromUrl(from, playlink, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
@@ -4093,17 +4146,18 @@ console.log(err)
 			break
            case prefix+'play2'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
-           axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(7)}`)
+           /*axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(7)}`)*/
+			fetchJson(`https://api.zeks.xyz/api/yts?q=${body.slice(7)}&apikey=apivinz`)
             .then(async (res) => {
-				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik`, 'aqua'))
-                 await aruga.sendFileFromUrl(from, res.data.result.result[0].thumbnails[0].url, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)
-				 rugaapi.ymp4(`https://youtu.be/${res.data.result.result[0].id}`)
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result[0].video.title}\nDurasi: ${res.result[0].video.duration} detik`, 'aqua'))
+                 /*await aruga.sendFileFromUrl(from, res.data.result.result[0].thumbnails[0].url, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)*/
+				 await aruga.sendFileFromUrl(from, res.result[0].video.thumbnail_src, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result[0].video.title}\n*Duration:* ${res.result[0].video.duration} detik\n*Views:* ${res.result[0].video.views}\n*Uploaded:* ${res.result[0].video.upload_date}\n*Channel:* ${res.result[0].uploader.username}\n*Verified Channel:* ${res.result[0].uploader.verified}\n*Url:* ${res.result[0].video.url}\n\n*_Waitt, lagi ngirim Videonyaa_*`, id) 
+				 rugaapi.ymp4(`https://youtu.be/${res.result[0].video.id}`)
                 .then(async(res) => {
-				const axioslink = await axios.get(`http://docs-jojo.herokuapp.com/api/shorturl-at?url=${res.url_video}`)
-				const linkdat = axioslink.data.result
-				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkdat}`, id)
-				if(Number(res.filesize.split(' MB')[0] >= 50)) return aruga.reply(from, 'Size video terlalu besar', id)
-				aruga.sendFileFromUrl(from, res.url_video, '', '', id)
+				/*var playlinks = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${playlink}&apikey=zahirgans`)
+				var linkplay = playlinks.data.result.link*/
+				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${res.result[0].url_video}`, id)
+				aruga.sendFileFromUrl(from, res.result[0].url_video, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
                                    })
