@@ -2,8 +2,8 @@
 <img src="https://avatars.githubusercontent.com/Urbaeexyz" width="225" height="225"/>
 </p>
 <p align="center">
-<a href="#"><img title="Whatsapp-Bot" src="https://img.shields.io/badge/Whatsapp Bot-green?colorA=%23ff0000&colorB=%23017e40&style=for-the-badge"></a>
-</p>
+<a href="https://chat.whatsapp.com/CqTB8qvhCYBBV8ejCRjN5m"><img alt="WhatsApp" src="https://img.shields.io/badge/WhatsApp%20Group-%23017e40?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
+ </p>
 <p align="center">
 <a href="https://github.com/Urbaeexyz"><img title="Author" src="https://img.shields.io/badge/AUTHOR-Thoriq-blue.svg?style=for-the-badge&logo=github"></a>
 <p align="center">
