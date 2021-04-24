@@ -150,8 +150,8 @@ const inArray = (needle, haystack) => {
 }
 
 
-const errorurl = 'https://steamuserimages-a.akamaihd.net/ugc/954087817129084207/5B7E46EE484181A676C02DFCAD48ECB1C74BC423/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
-const errorurl2 = 'https://steamuserimages-a.akamaihd.net/ugc/954087817129084207/5B7E46EE484181A676C02DFCAD48ECB1C74BC423/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
+const errorurl = 'https://i.ibb.co/PNR9rT3/IMG-20210412-WA0036.jpg'
+const errorurl2 = 'https://i.ibb.co/SfPCmsZ/65307459-647461459071676-8817651150049313976-n.jpg'
 
 const isMuted = (chatId) => {
           if(muted.includes(chatId)){
@@ -246,7 +246,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 		const StickerMetadatacrop = { author : '@thoriqazzikra_', pack: 'Urbaeexyz', keepScale: false }
 
         // [IDENTIFY]
-        const ownerNumber = ["62895334951166@c.us", "62895334950905@c.us"]
+        const ownerNumber = "62895334951166@c.us"
         const isOwnerBot = ownerNumber.includes(pengirim)
         const isOwner = ownerNumber.includes(pengirim)
         const isOwnerB = ownerNumber.includes(pengirim)
@@ -270,8 +270,28 @@ module.exports = HandleMsg = async (aruga, message) => {
       if (chats == 'assalamualaikum'){
           aruga.reply(from, 'Waalaikumsalam wr wb.', id)
       }
-	  if (mentionedJidList.includes(ownerNumber)) {
-		  aruga.reply(from, 'ngapain tag Thoriq?\npc aja kali sabii', id)
+	  if (mentionedJidList.includes(ownerNumber)) { /*Y'ALL CAN CUSTOM THIS WHATEVER YOU WANT!*/
+		  const sends = sender.id
+		  const ras = await aruga.getProfilePicFromServer(sends)
+		  if (ras == undefined) {
+			  var pfp = 'https://i.ibb.co/PNR9rT3/IMG-20210412-WA0036.jpg'
+		  } else {
+			  var pfp = ras
+		  }
+		  aruga.reply(from, 'ngapain tag Thoriq?\npc aja kali sabii', id).then(() => {
+			  aruga.sendFileFromUrl(ownerNumber, pfp, 'img.jpg', `*Note Call*\n\n*From:* ${pushname}\n*Group:* ${name}\n*Nomor:* wa.me/${serial.replace(/@c.us/g, '')}\n*Text:* ${chats}`)
+		  })
+	  }
+	  /*Y'ALL CAN CUSTOM THIS CHAT MATCH TO YOUR NICKNAME OR WHATEVER U WANT*/
+	  if (chats.includes("Thoriq") || chats.includes("thoriq") || chats.includes("Rik") || chats.includes("rik") || chats.includes("Riq") || chats.includes("riq")) {
+		  const sesz = sender.id
+		  const ras2 = await aruga.getProfilePicFromServer(sesz)
+		  if (ras2 == undefined) {
+			  var pfp = 'https://i.ibb.co/PNR9rT3/IMG-20210412-WA0036.jpg'
+		  } else {
+			  var pfp = ras2
+		  }
+		  aruga.sendFileFromUrl(ownerNumber, pfp, 'img.jpg', `*Owner Get Call*\n\n*From:* ${pushname}\n*Group:* ${name}\n*Nomor:* wa.me/${serial.replace(/@c.us/g, '')}\n*Text:* ${chats}`)
 	  }
 
 
@@ -1540,7 +1560,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                         await aruga.reply(from, `Ukuran video terlalu besar\nMaksimal size adalah 1MB!`, id)
                     }
                 } else {
-                    await aruga.reply(from, `Ukuran video terlalu besar`, id)
+                    await aruga.reply(from, `Reply/post video atau gif dengan caption ${prefix}sgif`, id)
                 }
             break
 			case prefix+'startgif': //By: Thoriq Azzikra
@@ -3248,15 +3268,15 @@ case prefix+'ytsearch':
     const ytsher = body.slice(10)
     aruga.reply(from, mess.wait, id)
     try {
-        const response2 = await fetch(`https://api.vhtear.com/youtube?query=${encodeURIComponent(ytsher)}&apikey=${vhtearkey}`)
+        const response2 = await fetch(`https://api.zeks.xyz/api/yts?q=${ytsher}&apikey=apivinz`)
         if (!response2.ok) throw new Error(`unexpected response ${response2.statusText}`)
         const jsonserc = await response2.json()
         const { result } = await jsonserc
         let xixixi = `*「 YOUTUBE SEARCH 」*\n\n*Hasil Pencarian : ${ytsher}*\n`
         for (let i = 0; i < result.length; i++) {
-            xixixi += `\n─────────────────\n\n• *Judul* : ${result[i].title}\n• *Ditonton* : ${result[i].views}\n• *Durasi* : ${result[i].duration}\n• *Channel* : ${result[i].channel}\n• *URL* : ${result[i].urlyt}\n`
+            xixixi += `\n─────────────────\n\n• *Judul* : ${result[i].video.title}\n• *Ditonton* : ${result[i].video.views}\n• *Durasi* : ${result[i].video.duration} detik\n• *Uploaded* : ${result[i].video.upload_date}\n• *Channel* : ${result[i].uploader.username}\n• *Verified Channel* : ${result[i].uploader.verified}\n• *Url* : ${result[i].video.url}\n`
         }
-        await aruga.sendFileFromUrl(from, result[0].image, 'thumbserc.jpg', xixixi, id)
+        await aruga.sendFileFromUrl(from, result[0].video.thumbnail_src, 'thumbserc.jpg', xixixi, id)
     } catch (err) {
             console.log(err)
             await aruga.sendFileFromUrl(from, errorurl2, 'error.png', '💔️ Maaf, Video tidak ditemukan')
