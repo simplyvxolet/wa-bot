@@ -32,7 +32,8 @@
 </div>
 
 # Donate To Me Pls:)
-[Saweria](https://saweria.co/thoriqazzikra)
+- [Saweria](https://saweria.co/thoriqazzikra)
+- OVO : 0895334951166
 
  ## Things I Code With
 <p>
