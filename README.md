@@ -33,6 +33,7 @@
 
 # Donate To Me Pls:)
 - [Saweria](https://saweria.co/thoriqazzikra)
+- [Paypal](https://www.paypal.com/paypalme/thoriqazzikra)
 - OVO : 0895334951166
 
  ## Things I Code With
