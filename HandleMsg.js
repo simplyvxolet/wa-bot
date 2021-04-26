@@ -283,7 +283,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 		  })
 	  }
 	  /*Y'ALL CAN CUSTOM THIS CHAT MATCH TO YOUR NICKNAME OR WHATEVER U WANT*/
-	  if (chats.includes("Thoriq") || chats.includes("thoriq") || chats.includes("Rik") || chats.includes("rik") || chats.includes("Riq") || chats.includes("riq")) {
+	  if (chats.includes("Thoriq") || chats.includes("thoriq") || chats.includes("thorik") || chats.includes("Thorik")) {
 		  const sesz = sender.id
 		  const ras2 = await aruga.getProfilePicFromServer(sesz)
 		  if (ras2 == undefined) {
@@ -417,6 +417,8 @@ module.exports = HandleMsg = async (aruga, message) => {
         //fitur anti link
         if (isGroupMsg && GroupLinkDetector && !isGroupAdmins && !isOwner){
             if (chats.match(/(https:\/\/chat.whatsapp.com)/gi)) {
+				const inviteLink1 = await aruga.getGroupInviteLink(groupId);
+				if (chats.includes(inviteLink1)) return aruga.reply(from, `Ini Link Group *${name}* Kamu tidak akan dikick`, id)
                 const check = await aruga.inviteInfo(chats);
                 if (!check) {
                     return
@@ -508,6 +510,8 @@ module.exports = HandleMsg = async (aruga, message) => {
 	if (isBlocked) {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) 
 	}
+	
+	aruga.setPresence(true)
 	
 		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB || isPrem ) {
         switch (command) {
@@ -649,12 +653,13 @@ module.exports = HandleMsg = async (aruga, message) => {
 		case prefix+'eval':
          case prefix+'ev':
                 if (!isOwner) return await aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner!', id)
-                if (!q) return await aruga.reply(from, 'Masukkan kode JS!', id)
+                if (!q) return await aruga.reply(from, 'Masukkan kode Javascript!', id)
                 try {
                     let evaled = await eval(q)
                     if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
                 } catch (err) {
                     console.error(err)
+					aruga.reply(from, 'Kode Js salah', id)
                 }
             break
 		case prefix+'lebaran':
@@ -672,8 +677,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 		case prefix+'start':
         case prefix+'menu':
             const test0 = sender.id
-			const lebaran = await axios.get(`https://xinzbot-api.herokuapp.com/api/hitungmundur?apikey=XinzBot&tanggal=13&bulan=5`)
-			const repls = lebaran.data.result
 			const jame = moment(t * 1000).format('HH:mm:ss')
             const nyoba2 = await aruga.getProfilePicFromServer(test0)
             if (nyoba2 == undefined) {
@@ -681,7 +684,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 } else {
                 var php2 = nyoba2
                 }
-            await aruga.sendFileFromUrl(from, php2, 'image.jpg', menuId.help(prefix, repls, jame, betime, prem, blockNumber, banned, cts, waver), id)
+            await aruga.sendFileFromUrl(from, php2, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
             .then(() => ((isGroupMsg) && (isGroupAdmins)) ? aruga.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
             break
         case prefix+'menuadmin':
@@ -873,7 +876,6 @@ module.exports = HandleMsg = async (aruga, message) => {
         case prefix+'ownerbot':
 	case prefix+'owner':
             await aruga.sendContact(from, ownerNumber)
-            .then(() => aruga.sendText(from, 'Gausah banyak tanya, ini bukan StackOverFlow!'))
             break
             case prefix+'maps':
             if (!isGroupAdmins) return aruga.reply(from, 'Fitur ini hanya bisa digunakan didalam grup!', id)
@@ -1473,6 +1475,18 @@ module.exports = HandleMsg = async (aruga, message) => {
 			}
 		} else aruga.reply(from, `Post/reply audio atau video dengan caption ${whatsong}`, id)
 	break
+	case prefix+'colong':
+	case prefix+'curry':
+	case prefix+'curi':
+	if (quotedMsg && quotedMsg.type == 'sticker') {
+		await aruga.reply(from, mess.wait, id)
+		const mediaData = await decryptMedia(quotedMsg)
+		const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+		await aruga.sendImageAsSticker(from, imageBase64, StickerMetadata)
+	} else {
+		aruga.reply(from, 'Reply stikernya bang', id)
+	}
+	break
 	case prefix+'take':
                     if (quotedMsg && quotedMsg.type == 'sticker' || quotedMsg && quotedMsg.type == 'image') {
                         if (!q.includes('|')) return await aruga.reply(from, `Untuk mengubah watermark sticker, reply sticker/image dengan caption ${prefix}take package_name | author_name\n\nContoh: ${prefix}takestick PUNYA GUA | videfikri`, id)
@@ -1889,6 +1903,8 @@ module.exports = HandleMsg = async (aruga, message) => {
             break
 		case prefix+'fakethumb':
 			if (isMedia && isImage || isQuotedImage) {
+			const strs = chats.match('https') || chats.match('http')
+			if (!strs) return aruga.reply(from, 'Masukkan param https/http', id)
 			aruga.reply(from, mess.wait, id)
 			const qtmds = isQuotedImage ? quotedMsg : message
 			const mimtype = isQuotedImage ? quotedMsg.mimetype : mimetype
@@ -1902,6 +1918,30 @@ module.exports = HandleMsg = async (aruga, message) => {
 			break
 		case prefix+'shutdown':
 		if (!isOwnerB) return aruga.reply(from, 'Lu siapa?', id)
+		aruga.sendText(from, 'Shutdown Bot in')
+		await sleep(1000)
+		aruga.sendText(from, '10')
+		await sleep(1000)
+		aruga.sendText(from, '9')
+		await sleep(1000)
+		aruga.sendText(from, '8')
+		await sleep(1000)
+		aruga.sendText(from, '7')
+		await sleep(1000)
+		aruga.sendText(from, '6')
+		await sleep(1000)
+		aruga.sendText(from, '5')
+		await sleep(1000)
+		aruga.sendText(from, '4')
+		await sleep(1000)
+		aruga.sendText(from, '3')
+		await sleep(1000)
+		aruga.sendText(from, '2')
+		await sleep(1000)
+		aruga.sendText(from, '1')
+		await sleep(1000)
+		aruga.sendText(from, `See y'all later`)
+		await sleep(10000)
 		aruga.kill(true)
 		break
         case prefix+'sticker':
@@ -2290,6 +2330,7 @@ break
             }
             break
 	case prefix+"revoke":
+	if (!isGroupAdmins) return aruga.reply(from, 'Lu admin?', id)
 	if (!isBotGroupAdmins) return aruga.reply(from, 'Perintah ini hanya bisa di gunakan ketika bot menjadi admin', id)
                     if (isBotGroupAdmins) {
                         aruga
@@ -2302,7 +2343,7 @@ break
                             });
                     }
                     break;
-        //Media 
+        //Media
             case prefix+'ytmp3':
                 if (args.length == 0) return aruga.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp3 [link_yt]`, id)
                 aruga.reply(from, mess.wait, id)
@@ -2608,10 +2649,22 @@ break
                                 await aruga.reply(from, mess.wait, id)
                                 const encryptMedia = isQuotedImage ? quotedMsg : message
                                 const mediaData = await decryptMedia(encryptMedia, uaOverride)
-						const jadimg = await uploadImages(mediaData, `${sender.id}_img`)
+						const jadimg = await uploadImages(mediaData, false)
 						aruga.sendImageAsSticker(from, `http://lolhuman.herokuapp.com/api/removebg?apikey=${lolhuman}&img=${jadimg}`, StickerMetadata)
 					} else {
 						aruga.reply(from, `Reply/post foto dengan caption ${prefix}nobg`, id)
+					}
+					break
+					case prefix+'textmaker':
+					if (isMedia && isImage || isQuotedImage) {
+						await aruga.reply(from, mess.wait, id)
+						const textbot = body.slice(11)
+						const skruap = isQuotedImage ? quotedMsg : message
+						const mediaData = await decryptMedia(skruap, uaOverride)
+						const imgs = await uploadImages(mediaData, false)
+						aruga.sendImageAsSticker(from, `https://api.memegen.link/images/custom/_/${textbot}.png?background=${imgs}`, StickerMetadata)
+					} else {
+						aruga.reply(from, 'Reply fotonya om', id)
 					}
 					break
                     case prefix+'imagetourl':
@@ -2620,7 +2673,7 @@ break
                                 await aruga.reply(from, mess.wait, id)
                                 const encryptMedia = isQuotedImage ? quotedMsg : message
                                 const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                                const linkImg = await uploadImages(mediaData, `${sender.id}_img`)
+                                const linkImg = await uploadImages(mediaData, false)
                                 await aruga.reply(from, linkImg, id)
                             } else {
                                 await aruga.reply(from, 'Format pesan salah...', id)
@@ -2655,12 +2708,15 @@ break
                         case prefix+'instagram':
                            if (args.length == 0) return aruga.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
                             const igUrl = body.slice(4)
-			    axios.get(`https://fzn-gaz.herokuapp.com/api/igdl?url=${igUrl}`)
+			    axios.get(`https://videfikri.com/api/igdl/?url=${igUrl}`)
 			    .then(async(res) => {
-				await aruga.sendFileFromUrl(from, res.data.result.url, '', `*from: ${res.data.result.username}*\n*fullname: ${res.data.result.fullname}*\n*caption: ${res.data.result.caption}*`, id)
-				.catch(err => {
-					aruga.reply(from, `Error\nSilahkan gunakan ${prefix}ig2`, id)
-				})
+				if (res.data.result.type_post == 'image') {
+					aruga.sendFileFromUrl(from, res.data.result.img_url, 'ig.jpg', '', id)
+				} else if (res.data.result.type_post == 'video') {
+				await aruga.sendFileFromUrl(from, res.data.result.video, '', `*from: ${res.data.result.username}*\n*fullname: ${res.data.result.fullname}*\n*caption: ${res.data.result.caption}*`, id)
+				} else {
+					aruga.reply(from, 'Terjadi kesalahan', id)
+				}
 				})
 				.catch(err => {
 					aruga.reply(from, `Error\nSilahkan gunakan ${prefix}ig2`, id)
@@ -4810,6 +4866,11 @@ console.log(err)
         break
 	case prefix+'wame':
 		const gethosts = await aruga.getProfilePicFromServer(sender.id)
+		if (gethosts == undefined) {
+			var pfp = errorurl
+		} else {
+			var pfp = gethosts
+		}
 		await aruga.sendFileFromUrl(from, gethosts, '', `wa.me/${serial.replace(/@c.us/g, '')}`, id)
 	break
 	case prefix+'oedotensei':
@@ -5288,7 +5349,8 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
 
                     break
                     case prefix+'grupbot':
-                        const ch = `https://chat.whatsapp.com/HUPrOw9W2wvFG3iy7d8qmb\n\nSkuyy joinn`
+					case prefix+'gcbot':
+                        const ch = `https://chat.whatsapp.com/GB1q8SGBHsNHGW8kkzZd90\n\nSkuyy joinn`
                         await aruga.sendLinkWithAutoPreview(from, ch)
                         break
 					case prefix+'tiktokaudio':
