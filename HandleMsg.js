@@ -4871,7 +4871,7 @@ console.log(err)
 		} else {
 			var pfp = gethosts
 		}
-		await aruga.sendFileFromUrl(from, gethosts, '', `wa.me/${serial.replace(/@c.us/g, '')}`, id)
+		await aruga.sendFileFromUrl(from, pfp, '', `wa.me/${serial.replace(/@c.us/g, '')}`, id)
 	break
 	case prefix+'oedotensei':
 		var qmes = quotedMsgObj.sender.id
