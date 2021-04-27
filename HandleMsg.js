@@ -2352,10 +2352,10 @@ break
 				await aruga.sendFileFromUrl(from, res.result[0].thumb, '', `「 *YOUTUBE MP3* 」\n\n*Title:* ${res.result[0].title}\n*Duration:* ${res.result[0].duration} detik\n*Uploaded:* ${res.result[0].published}\n*Likes:* ${res.result[0].like}\n*Dislikes:* ${res.result[0].dislike}\n*Views:* ${res.result[0].view}\n*Channel:* ${res.result[0].author.name}\n*Verified Channel:* ${res.result[0].author.verifed}\n*Subscribers:* ${res.result[0].author.subscriber}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
 				rugaapi.ymp3(args)
 				.then(async(res) => {
-				const bealink = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${res.result}&apikey=zahirgans`)
-				const linkbea = bealink.data.result.link
-				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkbea}`, id)
-				aruga.sendFileFromUrl(from, res.result, '', '', id)
+				/*const bealink = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${res.result}&apikey=zahirgans`)
+				const linkbea = bealink.data.result.link*/
+				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${res.link}`, id)
+				aruga.sendFileFromUrl(from, res.link, '', '', id)
                 .catch(() => {
 				aruga.reply(from, `Error nich`,id)
 			 })
@@ -4219,10 +4219,10 @@ console.log(err)
 				 await aruga.sendFileFromUrl(from, res.result[0].video.thumbnail_src, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result[0].video.title}\n*Duration:* ${res.result[0].video.duration} detik\n*Views:* ${res.result[0].video.views}\n*Uploaded:* ${res.result[0].video.upload_date}\n*Channel:* ${res.result[0].uploader.username}\n*Verified Channel:* ${res.result[0].uploader.verified}\n*Url:* ${res.result[0].video.url}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id) 
 				 rugaapi.ymp3(`https://youtu.be/${res.result[0].video.id}`)
                 .then(async(res) => {
-				const playlink = res.result
-				 var playlinks = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${playlink}&apikey=zahirgans`)
-				 var linkplay = playlinks.data.result.link
-				 if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkplay}`, id)
+				const playlink = res.link
+				 /*var playlinks = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${playlink}&apikey=zahirgans`)
+				 var linkplay = playlinks.data.result.link*/
+				 if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${playlink}`, id)
 				aruga.sendFileFromUrl(from, playlink, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
@@ -5721,7 +5721,15 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                         if(!cekgrup.isReadOnly) aruga.sendImage(grupnya, imageBase64, 'gambar.jpeg', txtbc)
                     }
                     aruga.reply('Broadcast sukses!')
-                }else{
+                }else if(quotedMsg && quotedMsg.type == 'audio' || quotedMsg && quotedMsg.type == 'ptt') {
+					const mediaData = await decryptMedia(quotedMsg)
+					const audiobase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+					for (let grupnya of semuagrup) {
+						var cekgrup = await aruga.getChatById(grupnya)
+						if(!cekgrup.isReadOnly) aruga.sendPtt(grupnya, audiobase64, 'audio.mp3')
+					}
+				aruga.reply(from, 'Broadcast audio sukses', id)
+				}else{
                     for(let grupnya of semuagrup){
                         var cekgrup = await aruga.getChatById(grupnya)
                         if(!cekgrup.isReadOnly && isMuted(grupnya)) aruga.sendText(grupnya, txtbc)
