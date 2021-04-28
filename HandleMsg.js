@@ -1169,6 +1169,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                     const isOnline = await aruga.isChatOnline(userid) ? '✔' : '❌'
                     var sts = await aruga.getStatus(userid)
                     const bio = sts
+					const premuser = prem.includes(userid) ? 'Premium' : 'Member'
                     const admins = groupAdmins.includes(userid) ? 'Admin' : 'Member'
                     var found = false
                         Object.keys(pengirim).forEach((i) => {
@@ -1192,8 +1193,8 @@ module.exports = HandleMsg = async (aruga, message) => {
                         } else {
                         var nama = contact
                         } 
-                    const caption = `*Detail Member* ✨ \n\n● *Name :* ${nama}\n● *Bio :* ${bio.status}\n● *Chat link :* wa.me/${sender.id.replace('@c.us', '')}\n● *Role :* ${adm}\n● *Banned by Bot :* ${ban ? '✔' : '❌'}\n● *Blocked by Bot :* ${isblocked ? '✔' : '❌'}\n● *Chat with bot :* ${isOnline}`
-                    aruga.sendFileFromUrl(from, pfp, 'dp.jpg', caption)
+                    const caption = `*Detail Member* ✨ \n\n● *Name :* ${nama}\n● *Bio :* ${bio.status}\n● *Chat link :* wa.me/${sender.id.replace('@c.us', '')}\n● *Premium :* ${premuser}\n● *Role :* ${adm}\n● *Banned by Bot :* ${ban ? '✔' : '❌'}\n● *Blocked by Bot :* ${isblocked ? '✔' : '❌'}\n● *Chat with bot :* ${isOnline}`
+                    aruga.sendFileFromUrl(from, pfp, 'dp.jpg', caption, id)
                     }
                     }
                 break     
@@ -1866,6 +1867,9 @@ module.exports = HandleMsg = async (aruga, message) => {
 			aruga.reply(from, `image dengan nama ${delx} berhasil didelete dari database`, id)
 			break
         case prefix+'addstiker': //credit by ./NotF0und
+		case prefix+'addstik':
+		case prefix+'addsticker':
+		case prefix+'addstick':
             let nmHii = body.slice(11)
             if (quotedMsg && quotedMsg.type === 'image' || quotedMsg && quotedMsg.type === 'sticker'){
                 var mediaData = await decryptMedia(quotedMsg, uaOverride)
@@ -1920,16 +1924,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 		if (!isOwnerB) return aruga.reply(from, 'Lu siapa?', id)
 		aruga.sendText(from, 'Shutdown Bot in')
 		await sleep(1000)
-		aruga.sendText(from, '10')
-		await sleep(1000)
-		aruga.sendText(from, '9')
-		await sleep(1000)
-		aruga.sendText(from, '8')
-		await sleep(1000)
-		aruga.sendText(from, '7')
-		await sleep(1000)
-		aruga.sendText(from, '6')
-		await sleep(1000)
 		aruga.sendText(from, '5')
 		await sleep(1000)
 		aruga.sendText(from, '4')
@@ -1947,6 +1941,7 @@ module.exports = HandleMsg = async (aruga, message) => {
         case prefix+'sticker':
         case prefix+'stiker':
         case prefix+'stc':
+		case prefix+'s':
 			if (isMedia && type === 'image') {
                 const mediaData = await decryptMedia(message, uaOverride)
                 const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
@@ -4192,23 +4187,49 @@ console.log(err)
 		case prefix+'spotify':
 		if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari spotify, gunakan ${prefix}spotify judul lagu`, id)
 		const carispot = body.slice(9)
-		axios.get(`http://lolhuman.herokuapp.com/api/spotifysearch?apikey=${lolhuman}&query=${carispot}`)
-		.then(async(res) => {
-			const captspot = `「 *SPOTIFY* 」\n\n• *Title:* ${res.data.result[0].title}\n• *Duration:* ${res.data.result[0].duration}\n• *Artists:* ${res.data.result[0].artists}\n• *Popularity:* ${res.data.result[0].popularity}`
-			await aruga.reply(from, captspot, id)
-			rugaapi.spotify(res.data.result[0].link)
+		const spos = await axios.get(`http://lolhuman.herokuapp.com/api/spotifysearch?apikey=${lolhuman}&query=${carispot}`)
+			aruga.reply(from, mess.wait, id)
+			rugaapi.spotify(spos.data.result[0].link)
 			.then(async(res) => {
+				aruga.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *SPOTIFY* 」\n\n*•Title:* ${res.title}\n*•Duration:* ${res.duration} Sec\n*•Artists:* ${res.artists}\n*•Popularity:* ${res.popularity}\n\n*_Waitt, lemme send this fuckin' audio_*`, id)
+				await sleep(3000)
+				if (!isPrem) return aruga.reply(from, `Karena kamu bukan user Premium, silahkan download menggunakan link\n\nLink: ${res.link}`, id)
 				aruga.sendFileFromUrl(from, res.link, '', '', id)
 				.catch(() => {
 					aruga.reply(from, 'Error', id)
 				})
 			})
-		})
 		.catch(err => {
 			console.log(err)
 			aruga.reply(from, 'Error tuh', id)
 		})
 		break
+		case prefix+'exec':
+                    if (!isOwner) return aruga.reply(from, `Perintah ini hanya bisa di gunakan oleh Owner Ai-Bot!`, id)
+                    if (!q) return await aruga.reply(from, `Format salah pastikan sudah benar di ${prefix}menu`, id)
+                    //const execute = require("child_process")
+                    var spawn = require('child_process').exec;
+                    function os_func() {
+                        this.execCommand = function (command) {
+                            return new Promise((resolve, reject) => {
+                                spawn(command, (error, stdout) => {
+                                    if (error) {
+                                        reject(error);
+                                        return;
+                                    }
+                                    resolve(stdout)
+                                });
+                            })
+                        }
+                    }
+                    var oz = new os_func();
+                    oz.execCommand(q).then((res) => {
+                        aruga.reply(from, `> root@Urbaeexyz:~ # ${res}`, id)
+                    }).catch(err => {
+                        return aruga.reply(from, `> root@Urbaerxyz:~ # ${err}`, id)
+                        //console.log("os >>>", err);
+                    })
+                    break
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            /*axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(6)}`)*/
@@ -5317,6 +5338,9 @@ console.log(err)
 					break
             case prefix+'groupinfo' :
             case prefix+'gcinfo' :
+			case prefix+'grupinfo':
+			case prefix+'infogroup':
+			case prefix+'infogrup':
                     if (!isGroupMsg) return aruga.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
                     var totalMem = chat.groupMetadata.participants.length
                     var desc = chat.groupMetadata.desc
