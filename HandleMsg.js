@@ -1475,7 +1475,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 								await aruga.reply(from, mess.wait, id)
                                 const mediaData = await decryptMedia(quotedMsg, uaOverride)
                                 const detmus = await identify(mediaData)
-								aruga.reply(from, `*Judul:* ${detmus.data.title}\n*Artis:* ${detmus.data.artists}\n*Genre:* ${detmus.data.album}\n*Release Date:* ${detmus.data.release_date}`, id)
+								aruga.reply(from, `*Judul:* ${detmus.data.title}\n*Artis:* ${detmus.data.artists}\n*Album:* ${detmus.data.album}\n*Release Date:* ${detmus.data.release_date}`, id)
 		} catch (err) {
 			console.log(err)
 			aruga.reply(from, 'Maaf, lagu tidak dapat ditemukan', id)
@@ -1485,7 +1485,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			await aruga.reply(from, mess.wait, id)
 			const mediaData = await decryptMedia(message, uaOverride)
 			const detmus = await identify(mediaData)
-			aruga.reply(from, `*Judul:* ${detmus.data.title}\n*Artis:* ${detmus.data.artists}\n*Genre:* ${detmus.data.album}\n*Release Date:* ${detmus.data.release_date}`, id)
+			aruga.reply(from, `*Judul:* ${detmus.data.title}\n*Artis:* ${detmus.data.artists}\n*Album:* ${detmus.data.album}\n*Genre:* ${detmus.data.genre}\n*Release Date:* ${detmus.data.release_date}`, id)
 			} catch (err) {
 				console.log(err)
 				aruga.reply(from, 'Maaf, lagu tidak dapat ditemukan!', id)
