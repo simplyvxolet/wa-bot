@@ -641,7 +641,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 		case prefix+'ceritaseram':
 		case prefix+'ceritahantu':
 		aruga.reply(from, mess.wait, id)
-		axios.get(`https://leyscoders-api.herokuapp.com/api/cersex?apikey=${leysapi}`)
+		axios.get(`https://leyscoders-api.herokuapp.com/api/cerita-horor?apikey=${leysapi}`)
 		.then(async(res) => {
 			const titlehor = res.data.result.title
 			const deschor = res.data.result.desc
