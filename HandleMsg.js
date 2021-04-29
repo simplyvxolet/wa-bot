@@ -282,17 +282,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 			  aruga.sendFileFromUrl(ownerNumber, pfp, 'img.jpg', `*Note Call*\n\n*From:* ${pushname}\n*Group:* ${name}\n*Nomor:* wa.me/${serial.replace(/@c.us/g, '')}\n*Text:* ${chats}`)
 		  })
 	  }
-	  /*Y'ALL CAN CUSTOM THIS CHAT MATCH TO YOUR NICKNAME OR WHATEVER U WANT*/
-	  if (chats.includes("Thoriq") || chats.includes("thoriq") || chats.includes("thorik") || chats.includes("Thorik")) {
-		  const sesz = sender.id
-		  const ras2 = await aruga.getProfilePicFromServer(sesz)
-		  if (ras2 == undefined) {
-			  var pfp = 'https://i.ibb.co/PNR9rT3/IMG-20210412-WA0036.jpg'
-		  } else {
-			  var pfp = ras2
-		  }
-		  aruga.sendFileFromUrl(ownerNumber, pfp, 'img.jpg', `*Owner Get Call*\n\n*From:* ${pushname}\n*Group:* ${name}\n*Nomor:* wa.me/${serial.replace(/@c.us/g, '')}\n*Text:* ${chats}`)
-	  }
 
 
         const mess = {
@@ -645,6 +634,23 @@ module.exports = HandleMsg = async (aruga, message) => {
 		})
 		.catch(err => {
 			console.log(err)
+		})
+		break
+		case prefix+'ceritahorror2'
+		case prefix+'ceritahoror2':
+		case prefix+'ceritaseram':
+		case prefix+'ceritahantu':
+		aruga.reply(from, mess.wait, id)
+		axios.get(`https://leyscoders-api.herokuapp.com/api/cersex?apikey=${leysapi}`)
+		.then(async(res) => {
+			const titlehor = res.data.result.title
+			const deschor = res.data.result.desc
+			const storor = res.data.result.story
+			aruga.reply(from, `*Judul:* ${titlehor}\n*Desk:* ${deschor}\n\n*Cerita:* ${storor}`, id)
+			.catch(err => {
+				console.log(err)
+				aruga.reply(from, 'Terjadi kesalahan, silahkan coba ulangi', id)
+			})
 		})
 		break
 		case prefix+'runtime':
@@ -2748,7 +2754,8 @@ break
 								break
 								case prefix+'asupan2':
 								aruga.reply(from, mess.wait, id)
-								axios.get(`http://lolhuman.herokuapp.com/api/asupan?apikey=${lolhuman}`)
+								// axios.get(`http://lolhuman.herokuapp.com/api/asupan?apikey=${lolhuman}`)
+								axios.get(`http://leyscoders-api.herokuapp.com/api/asupan?apikey=${leysapi}`)
 								.then(async(res) => {
 									await aruga.sendFileFromUrl(from, res.data.result, 'asupan.mp4', 'neh asupan random', id)
 									.catch(() => {
@@ -2917,6 +2924,19 @@ axios.get(`http://docs-jojo.herokuapp.com/api/jadwaltvnow`)
 })
 .catch((err) => {
 	console.log(err)
+})
+break
+case prefix+'sindiran':
+axios.get(`https://leyscoders-api.herokuapp.com/api/skak?apikey=${leysapi}`)
+.then(async(res) => {
+	aruga.reply(from, res.data.result, id)
+	.catch(() => {
+		aruga.reply(from, 'Maaf terjadi kesalahan, mungkin website sedang maintenance', id)
+	})
+})
+.catch(err => {
+	console.log(err)
+	aruga.reply(from, 'Terjadi kesalahan, silahkan coba ulangi', id)
 })
 break
 case prefix+'infoloker':
@@ -3563,9 +3583,9 @@ case prefix+'ytsearch':
             break
     		case prefix+'cerpen':
       			aruga.reply(from, mess.wait, id)
-				axios.get(`http://zekais-api.herokuapp.com/cerpen`)
+				axios.get(`https://leyscoders-api.herokuapp.com/api/cerpen?apikey=${leysapi}`)
       				.then(async (res) => {
-						const ceritanya = `*Judul:* ${res.data.title}\n*Pengarang:* ${res.data.pengarang}\n*Kategori:* ${res.data.category}\n\n*Cerpen:* ${res.data.post}`
+						const ceritanya = `*Judul:* ${res.data.result.title}\n*Pengarang:* ${res.data.result.pengarang}\n*Kategori:* ${res.data.result.kategori}\n\n*Cerpen:* ${res.data.result.story}`
 		    			await aruga.reply(from, ceritanya, id)
 					.catch(() => {
 						aruga.reply(from, 'Maaf, sistem sedang error', id)
@@ -3579,7 +3599,7 @@ case prefix+'ytsearch':
                 if (!isOwnerB) return aruga.reply(from, mess.prem, id)
 			      rugaapi.cersex()
 			      .then(async (res) => {
-			    	await aruga.sendFileFromUrl(from, `${res.image}`, 'image.jpg' , `Judul : ${res.judul}\nCerita : ${res.cerita}`, id)
+			    	await aruga.sendFileFromUrl(from, res.gambar, 'image.jpg' , `Cerita : ${res.result}`, id)
 		      	})
 		      	break
 	    	case prefix+'puisi':
@@ -3637,6 +3657,19 @@ case prefix+'ytsearch':
                 aruga.reply(from, `Maaf query tidak tersedia. Silahkan ketik ${prefix}kpop untuk melihat list query`)
             }
             break
+		case prefix+'ppcp2':
+		case prefix+'ppcouple2':
+		aruga.reply(from, mess.wait, id)
+		axios.get(`https://leyscoders-api.herokuapp.com/api/ppcouple?apikey=${leysapi}`)
+		.then(async(res) => {
+			aruga.sendFileFromUrl(from, res.data.result.male, 'img.jpg', '', id)
+			aruga.sendFileFromUrl(from, res.data.result.female, 'img.jpg', '', id)
+			.catch(err => {
+				console.log(err)
+				aruga.reply(from, 'Error', id)
+			})
+		})
+		break
 		case prefix+'ppcp':
 		case prefix+'ppcouple':
 		aruga.reply(from, mess.wait, id)
