@@ -636,7 +636,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 			console.log(err)
 		})
 		break
-		case prefix+'ceritahorror2'
+		case prefix+'ceritahorror2':
 		case prefix+'ceritahoror2':
 		case prefix+'ceritaseram':
 		case prefix+'ceritahantu':
