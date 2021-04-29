@@ -4,6 +4,7 @@
   "prefix": "/",
   "mtc": false,
   "banChats": false,
+  "hackapi": "404Api",
   "tobzapi": "YOUR-APIKEY",
   "vhtearkey": "YOUR-APIKEY",
   "onlydev": "YOUR-APIKEY",

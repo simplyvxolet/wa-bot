@@ -103,6 +103,7 @@ let {
 	tobzapi,
 	lindowapi,
 	onlydev,
+	hackapi,
 	fahmiapi,
 	lolhuman,
 	leysapi,
@@ -3939,6 +3940,22 @@ case prefix+'ytsearch':
 		await aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/ssweb?apikey=${lolhuman}&url=${webss}`, 'img.jpg' , '', id)
 		break
                 break
+			case prefix+'fb3':
+			case prefix+'facebook3':
+			if (args.length == 0) return aruga.reply(from, 'Linknya mana?', id)
+			fetchJson(`https://h4ck3rs404-api.herokuapp.com/api/fbdown/?url=${body.slice(5)}&apikey=${hackapi}`)
+			.then(async(res) => {
+				if(res.result.error == true) return aruga.reply(from, res.result.message, id)
+				await aruga.sendFileFromUrl(from, res.result.url, 'res.mp4', `Judul: ${res.result.title}`, id)
+				.catch(() => {
+					aruga.reply(from, 'Error', id)
+				})
+			})
+			.catch(err => {
+				console.log(err)
+				aruga.reply(from, err.message, id)
+			})
+			break
             case prefix+'fb2':
             case prefix+'fbvid':
                 if (args.length == 0) return aruga.reply(from, `Untuk mendownload sebuah video dari Facebook, Ketik ${preifx}fb2 [linkvideo]\n\nNote: Link yang valid hanya bisa dari facebook web`, id)
