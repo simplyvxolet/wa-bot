@@ -497,13 +497,13 @@ module.exports = HandleMsg = async (aruga, message) => {
 	}
 	
 	// Filter Blocked People
-	if (isBlocked) {
+	if (isBlocked && isCmd) {
 			console.log(color('[BLOCK]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${chats} [${args.length}]`, 'aqua'), 'from', color(pushname, 'magenta'), 'in', color(name || formattedTitle, 'aqua')) 
 	}
 	
 	aruga.setPresence(true)
 	
-		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB || isPrem ) {
+		if (isCmd && isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB || isPrem ) {
         switch (command) {
         // Menu and TnC
 		case prefix+'exif':
@@ -3439,6 +3439,13 @@ case prefix+'ytsearch':
             rugaapi.artinama(body.slice(10))
 			.then(async(res) => {
 				await aruga.reply(from, `Arti : ${res}`, id)
+				.catch(() => {
+					aruga.reply(from, 'Sedang error', id)
+				})
+			})
+			.catch(err => {
+				console.log(err)
+				aruga.reply(from, err.message, id)
 			})
 			break
 		case prefix+'cekjodoh':
@@ -4843,7 +4850,7 @@ console.log(err)
 		}
 		break
         case prefix+'bot':
-            if (args.length == 0) return aruga.reply(from, 'Kirim perintah */ [teks]*\nContoh : */ halo*')
+            if (args.length == 0) return aruga.reply(from, 'Kirim perintah */ [teks]*\nContoh : */ halo*', id)
             const que = body.slice(5)
             const sigo = await axios.get(`https://lindow-api.herokuapp.com/api/simi?text=${que}&lang=id&apikey=${lindowapi}`)
             console.log(color(`${que}`, 'green'))
