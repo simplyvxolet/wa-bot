@@ -1,6 +1,6 @@
 {
   "name": "wa-bot",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "description": "whatsapp-bot with NodeJS",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/Urbaeexyz/wa-bot#readme",
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.1",
-    "@open-wa/wa-automate": "^3.10.7",
+    "@open-wa/wa-automate": "^3.11.6",
     "app-root-path": "^3.0.0",
     "axios": "^0.21.1",
     "bent": "^7.3.12",
@@ -38,7 +38,6 @@
     "google-it": "^1.6.2",
     "lowdb": "^1.0.0",
     "marked": "^2.0.1",
-    "mathjs": "^9.3.0",
     "moment-timezone": "^0.5.33",
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",

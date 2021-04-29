@@ -2956,8 +2956,8 @@ break
 case prefix+'lk21new':
 aruga.reply(from, mess.wait, id)
 try {
-	const new21 = await axios.get(`https://zahirr-web.herokuapp.com/api/lk21/terbaru?apikey=zahirgans`)
-	const new2 = new21.data.result
+	const new21 = await axios.get(`https://api-lk21.herokuapp.com/newupload`)
+	const new2 = new21.data
 	const { result } = new2
 	let nw21 = `*「 LK21 NEW 」*\n`
 	for (let i = 0; i < result.length; i++) {
@@ -2972,8 +2972,8 @@ break
 case prefix+'lk21comingsoon':
 aruga.reply(from, mess.wait, id)
 try {
-	const nws = await axios.get(`https://zahirr-web.herokuapp.com/api/lk21/comingsoon?apikey=zahirgans`)
-	const nwsa = nws.data.result
+	const nws = await axios.get(`https://api-lk21.herokuapp.com/comingsoon`)
+	const nwsa = nws.data
 	const { result } = nwsa
 	let nwss = `*「 LK21 COMING SOON 」*\n`
 	for (let i = 0; i < result.length; i++) {
@@ -2988,8 +2988,8 @@ break
 case prefix+'lk21seriestv':
 aruga.reply(from, mess.wait, id)
 try {
-	const nwsx = await axios.get(`https://zahirr-web.herokuapp.com/api/lk21/tvseries?apikey=zahirgans`)
-	const nwsax = nwsx.data.result
+	const nwsx = await axios.get(`https://api-lk21.herokuapp.com/tv`)
+	const nwsax = nwsx.data
 	const { result } = nwsax
 	let nwsz = `*「 LK21 SERIES TV 」*\n`
 	for (let i = 0; i < result.length; i++) {
@@ -3006,8 +3006,8 @@ if (args.length == 0) return aruga.reply(from, `Mencari sebuah film berdasarkan 
 const tipex = body.slice(12)
 aruga.reply(from, mess.wait, id)
 try {
-	const aish = await axios.get(`https://zahirr-web.herokuapp.com/api/lk21/country?negara=${tipex}&apikey=zahirgans`)
-	const iash = aish.data.result
+	const aish = await axios.get(`http://api-lk21.herokuapp.com/country?country=${tipex}`)
+	const iash = aish.data
 	const { result } = iash
 	let nwsz = `*「 LK21 COUNTRY 」*\n`
 	for (let i = 0; i < result.length; i++) {
@@ -3016,7 +3016,7 @@ try {
 	await aruga.sendFileFromUrl(from, result[0].thumbnail, 'img.jpg', nwsz, id)
 } catch (err) {
 	console.log(err)
-	aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi nanti', id)
+aruga.reply(from, `Film negara ${tipex} tidak ada didalam website`, id)
 }
 break
 case prefix+'lk21genre':
@@ -3024,8 +3024,8 @@ if (args.length == 0) return aruga.reply(from, `Mencari sebuah film berdasarkan 
 const tipe = body.slice(11)
 aruga.reply(from, mess.wait, id)
 try {
-	const nwz = await axios.get(`https://zahirr-web.herokuapp.com/api/lk21/tvseries?apikey=zahirgans`)
-	const nwa = nwz.data.result
+	const nwz = await axios.get(`http://api-lk21.herokuapp.com/genre?genre=${tipe}`)
+	const nwa = nwz.data
 	const { result } = nwa
 	let nwsz = `*「 LK21 GENRE 」*\n`
 	for (let i = 0; i < result.length; i++) {
@@ -3034,7 +3034,7 @@ try {
 	await aruga.sendFileFromUrl(from, result[0].thumbnail, 'img.jpg', nwsz, id)
 } catch (err) {
 	console.log(err)
-	aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi nanti', id)
+	aruga.reply(from, `Genre ${tipe} tidak ada didalam website!`, id)
 }
 break
 case prefix+'lk21':
@@ -3042,8 +3042,8 @@ case prefix+'lk21':
 	const lksearch = body.slice(6)
 	aruga.reply(from, mess.wait, id)
 	try {
-		const forlk21 = await axios.get(`https://zahirr-web.herokuapp.com/api/lk21/search?film=${lksearch}&apikey=zahirgans`)
-		const likejs = forlk21.data.result
+		const forlk21 = await axios.get(`http://api-lk21.herokuapp.com/search?query=${lksearch}`)
+		const likejs = forlk21.data
 		const { result } = await likejs
 		let elka = `*「 LK 21 」*\n`
 		for (let i = 0; i < result.length; i++) {
@@ -3052,7 +3052,7 @@ case prefix+'lk21':
 		await aruga.sendFileFromUrl(from, result[0].thumbnail, 'thumb.jpg', elka, id)
 	} catch (err) {
 		console.log(err)
-		aruga.reply(from, `Film yang anda cari tidak ada diwebsite`, id)
+		aruga.reply(from, `Film ${lksearch} tidak ada diwebsite`, id)
 	}
 	break
 case prefix+'drakorupdate':
@@ -3143,8 +3143,8 @@ if (args.length == 0) return aruga.reply(from, `Mencari sebuah kategori film dar
 const katsearch = body.slice(9)
 aruga.reply(from, mess.wait, id)
 try {
-	const forkat = await axios.get(`https://zahirr-web.herokuapp.com/api/filmapik/kategori?film=${katsearch}&apikey=zahirgans`)
-	const bekat = forkat.data.result
+	const forkat = await axios.get(`https://api-filmapik.herokuapp.com/category?search=${katsearch}`)
+	const bekat = forkat.data
 	const { result } = await bekat
 	let kat = `*「 FILM APIK CATEGORY 」*\n`
 	for (let i = 0; i < result.length; i++) {
@@ -3152,7 +3152,7 @@ try {
 	}
 	const thumbnailpot = result[0].thumbnailPotrait
 	const thumbnailscp = result[0].detail.thumbnailLandscape
-	if (thumbnailscp == '' || thumbnailscp == undefined) {
+	if (thumbnailscp == '' || thumbnailscp == undefined || thumbnailscp == null) {
 		var pfps = thumbnailpot
 	} else {
 		var pfps = thumbnailscp
@@ -3166,8 +3166,8 @@ break
 case prefix+'filmapiknew':
 aruga.reply(from, mess.wait, id)
 try {
-	const forkats = await axios.get(`https://zahirr-web.herokuapp.com/api/filmapik/terbaru?apikey=zahirgans`)
-	const bekats = forkats.data.result
+	const forkats = await axios.get(`https://api-filmapik.herokuapp.com/latest`)
+	const bekats = forkats.data
 	const { result } = await bekats
 	let kat = `*「 FILM APIK TERBARU 」*\n`
 	for (let i = 0; i < result.length; i++) {
@@ -3209,8 +3209,8 @@ case prefix+'filmapik':
      await aruga.reply(from, mess.wait, id)
      const pilem = body.slice(10)
 	 try {
-		 const scpik = await axios.get(`https://zahirr-web.herokuapp.com/api/filmapik/search?film=${pilem}&apikey=zahirgans`)
-		 const apikjson = scpik.data.result
+		 const scpik = await axios.get(`https://api-filmapik.herokuapp.com/search?q=${pilem}`)
+		 const apikjson = scpik.data
 		 const { result } = await apikjson
 		 let iniapik = `*「 FILM APIK 」*\n`
 		 for (let i = 0; i < result.length; i++) {
@@ -4064,9 +4064,9 @@ console.log(err)
                 break
             case prefix+'playapik':
             if (args.length == 0) return aruga.reply(from, `Untuk mencari detail film dan link download film gunakan ${prefix}playapik id movie\nContoh : ${prefix}playapik 142455`, id)
-            axios.get(`https://zahirr-web.herokuapp.com/api/filmapik/play?id=${body.slice(10)}&apikey=zahirgans`)
+            axios.get(`https://api-filmapik.herokuapp.com/play?id=${body.slice(10)}`)
             .then(async (res) => {
-				const linkapik = res.data.result.link
+				const linkapik = res.data.link
 				await aruga.sendLinkWithAutoPreview(from, linkapik)
 				.catch(() => {
 					aruga.reply(from, 'Error', id)
@@ -4226,7 +4226,7 @@ console.log(err)
                     oz.execCommand(q).then((res) => {
                         aruga.reply(from, `> root@Urbaeexyz:~ # ${res}`, id)
                     }).catch(err => {
-                        return aruga.reply(from, `> root@Urbaerxyz:~ # ${err}`, id)
+                        return aruga.reply(from, `> root@Urbaeexyz:~ # ${err}`, id)
                         //console.log("os >>>", err);
                     })
                     break
