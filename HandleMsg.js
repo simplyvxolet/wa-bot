@@ -253,7 +253,6 @@ module.exports = HandleMsg = async (aruga, message) => {
         const isOwner = ownerNumber.includes(pengirim)
         const isOwnerB = ownerNumber.includes(pengirim)
         const isBanned = banned.includes(pengirim)
-		const isPrivate = banChats == true
 		const isSimi = simi.includes(chatId)
 		const isNgegas = ngegas.includes(chatId)
         const isAutoStikerOn = _autostiker.includes(chat.id)
@@ -507,12 +506,6 @@ module.exports = HandleMsg = async (aruga, message) => {
 		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB || isPrem ) {
         switch (command) {
         // Menu and TnC
-		case prefix+'lolhuman':
-		if (!isOwnerB) return aruga.reply(from, 'Owner Bot Only', id)
-		const apikeys = body.slice(10)
-		lolhuman = apikeys
-		aruga.reply(from, `Apikey Lolhuman berhasil diganti menjadi ${apikeys}`, id)
-		break
 		case prefix+'exif':
 		if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
 		const splitauthor = q.split('|')[1]
