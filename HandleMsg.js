@@ -106,6 +106,8 @@ let {
 	fahmiapi,
 	lolhuman,
 	leysapi,
+	authorstc,
+	packstc,
 	mtc: mtcState
 } = setting
 
@@ -242,8 +244,8 @@ module.exports = HandleMsg = async (aruga, message) => {
 		const reason = q ? q : 'Gada'
 		const gifcrop = { crop: true, square: 240, fps: 30, loop: 0, startTime: `00:00:00.0`, endTime: `00:00:10.0` }
 		const gifxyz = { crop: false, square: 240, fps: 30, loop: 0, startTime: `00:00:00.0`, endTime: `00:00:10.0` }
-		const StickerMetadata = { author : '@thoriqazzikra_', pack: 'Urbaeexyz', keepScale: true }
-		const StickerMetadatacrop = { author : '@thoriqazzikra_', pack: 'Urbaeexyz', keepScale: false }
+		const StickerMetadata = { author : authorstc, pack: packstc, keepScale: true }
+		const StickerMetadatacrop = { author : authorstc, pack: packstc, keepScale: false }
 
         // [IDENTIFY]
         const ownerNumber = "62895334951166@c.us"
@@ -505,6 +507,20 @@ module.exports = HandleMsg = async (aruga, message) => {
 		if (isMuted(chatId) && banChat() && !isBlocked && !isBanned || isOwnerB || isPrem ) {
         switch (command) {
         // Menu and TnC
+		case prefix+'lolhuman':
+		if (!isOwnerB) return aruga.reply(from, 'Owner Bot Only', id)
+		const apikeys = body.slice(10)
+		lolhuman = apikeys
+		aruga.reply(from, `Apikey Lolhuman berhasil diganti menjadi ${apikeys}`, id)
+		break
+		case prefix+'exif':
+		if (!isOwnerB) return aruga.reply(from, 'Perintah ini hanya bisa digunakan oleh Owner Bot!', id)
+		const splitauthor = q.split('|')[1]
+		const packauthor = q.split('|')[0]
+		authorstc = splitauthor
+		packstc = packauthor
+		aruga.reply(from, `Berhasil mengubah pack stiker menjadi ${splitauthor} dan ${packauthor}`, id)
+		break
 		case prefix+'mute':
 		if (!isGroupMsg) return aruga.reply(from, 'Fitur ini hanya bisa digunakan didalam Grup!', id)
 		if (!isOwnerB) return aruga.reply(from, 'Fitur ini hanya bisa digunakan oleh Owner Bot!', id)
@@ -634,6 +650,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 		})
 		.catch(err => {
 			console.log(err)
+			aruga.reply(from, err.message, id)
 		})
 		break
 		case prefix+'ceritahorror2':
@@ -4283,6 +4300,10 @@ console.log(err)
                                    })
                                 })
                         })
+						.catch(err => {
+							console.log(err)
+							aruga.reply(from, err.message, id)
+						})
                         break
 		case prefix+'trendingtwit':
                     case prefix+'trendtwit':
