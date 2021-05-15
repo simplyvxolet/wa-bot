@@ -237,7 +237,7 @@ module.exports = HandleMsg = async (aruga, message) => {
         const uaOverride = process.env.UserAgent
         const url = args.length !== 0 ? args[0] : ''
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
-        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video/mp4'
+        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
 		const isQuotedGif = quotedMsg && quotedMsg.type === 'gif'
 		const isQuotedAudio = quotedMsg && quotedMsg.type === 'audio'
 		const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
@@ -3499,46 +3499,41 @@ case prefix+'ytsearch':
             aruga.reply(from, 'Ada yang Error!', id)
         })
     break
-	/*
-	case prefix+'tomp3':
-	   if ((isMedia || isQuotedVideo || isQuotedFile)) {
-            aruga.reply(from, mess.wait, id)
-            const encryptMedia = isQuotedVideo || isQuotedFile ? quotedMsg : message
-            const _mimetype = isQuotedVideo || isQuotedFile ? quotedMsg.mimetype : mimetype
-            console.log(color('[WAPI]', 'green'), 'Downloading and decrypt media...')
-            const mediaData = await decryptMedia(encryptMedia)
-            let temp = './temp'
-            let name = new Date() * 1
-            let fileInputPath = path.join(temp, 'video', `${name}.${_mimetype.replace(/.+\//, '')}`)
-            let fileOutputPath = path.join(temp, 'audio', `${name}.mp3`)
-            console.log(color('[fs]', 'green'), `Downloading media into '${fileInputPath}'`)
-            fs.writeFile(fileInputPath, mediaData, err => {
-                if (err) return aruga.reply(from, 'Ada yang error saat menulis file\n\n' + err, id)
-                ffmpeg(fileInputPath)
-                    .format('mp3')
-                    .on('start', function (commandLine) {
-                        console.log(color('[FFmpeg]', 'green'), commandLine)
+	case prefix+'tomp3': // by: Piyobot
+                if ((isMedia || isQuotedVideo)) {
+                    await aruga.reply(from, mess.wait, id)
+                    const encryptMedia = isQuotedVideo ? quotedMsg : message
+                    const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
+                    console.log(color('[WAPI]', 'green'), 'Downloading and decrypt media...')
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const temp = './temp'
+                    const name = new Date() * 1
+                    const fileInputPath = path.join(temp, 'video', `${name}.${_mimetype.replace(/.+\//, '')}`)
+                    const fileOutputPath = path.join(temp, 'audio', `${name}.mp3`)
+                    fs.writeFile(fileInputPath, mediaData, (err) => {
+                        if (err) return console.error(err)
+                        ffmpeg(fileInputPath)
+                            .format('mp3')
+                            .on('start', (commandLine) => {
+                                //console.log(color('[FFmpeg]', 'green'), commandLine) Nyepam su
+                            })
+                            .on('progress', (progress) => {
+                                //console.log(color('[FFmpeg]', 'green'), progress) Nyepam ugha
+                            })
+                            .on('end', async () => {
+                                console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
+                                await aruga.sendFile(from, fileOutputPath, 'audio.mp3', '', id)
+                                setTimeout(() => {
+                                    fs.unlinkSync(fileInputPath)
+                                    fs.unlinkSync(fileOutputPath)
+                                }, 30000)
+                            })
+                            .save(fileOutputPath)
                     })
-                    .on('progress', function (progress) {
-                        console.log(color('[FFmpeg]', 'green'), progress)
-                    })
-                    .on('end', function () {
-                        console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
-                        aruga.sendFile(from, fileOutputPath, 'audio.mp3', '', id)
-                        setTimeout(() => {
-                            try {
-                                fs.unlinkSync(fileInputPath)
-                                fs.unlinkSync(fileOutputPath)
-                            } catch (e) {
-                                console.log(color('[ERROR]', 'red'), e)
-                            }
-                        }, 30000)
-                    })
-                    .save(fileOutputPath)
-            })
-        }
-    break
-	*/
+                } else {
+                    await aruga.reply(from, `Reply/post videonya dengan caption ${prefix}tomp3`, id)
+                }
+            break
       	case prefix+'motivasi':
             fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/motivasi/main/motivasi.txt')
             .then(res => res.text())
