@@ -288,8 +288,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 
         const mess = {
             wait: '_Waitt, lemme process this shit_',
-			prem: 'NSFW feature locked while Ramadhan',
-			prem2: `Command Premium!\nHalo ${pushname} Mau menjadi user premium? ga mahal kok bang\n\n20rb = PREMIUM SAMPE KIAMAT\n\nJika anda berminat, silahkan chat pada Owner\n\nwa.me/62895334951166\n\nTrims~\n-Thoriq Azzikra`,
+			prem: `Command Premium!\nHalo ${pushname} Mau menjadi user premium? ga mahal kok bang\n\n20rb = PREMIUM SAMPE KIAMAT\n\nJika anda berminat, silahkan chat pada Owner\n\nwa.me/62895334951166\n\nTrims~\n-Thoriq Azzikra`,
             error: {
                 St: `[❗] Kirim gambar dengan caption *${prefix}sticker* atau tag gambar yang sudah dikirim`,
                 Ti: `[❗] Replay sticker dengan caption *${prefix}stickertoimg* atau tag sticker yang sudah dikirim`,
@@ -952,7 +951,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 };
                 break
                 case prefix+'boobs':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/boobs').then(res => {
                 	aruga.sendStickerfromUrl(from, res.data.url, 'bakaaa hentaii>~<');
@@ -960,14 +959,14 @@ module.exports = HandleMsg = async (aruga, message) => {
                 });
                 break
                 case prefix+'gifhentai':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/Random_hentai_gif').then(res => {
                 	aruga.sendFileFromUrl(from, res.data.result, '.gif');
                 });
                 break
                 case prefix+'bjanime':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id)
                 const sblow = await axios.get(`https://tobz-api.herokuapp.com/api/nsfwblowjob?&apikey=${tobzapi}`)
                 const rblow = sblow.data
@@ -975,15 +974,24 @@ module.exports = HandleMsg = async (aruga, message) => {
                 aruga.sendStickerfromUrl(from, giftub, `RandoBlow.gif`, 'Random Blowjob!', id)
                     break
                 case prefix+'pussy':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/pussy').then(res => {
                 	aruga.sendFileFromUrl(from, res.data.url, '', '', id)
 			aruga.sendStickerfromUrl(from, res.data.url)
                 });
                 break
+                case prefix+'stikerpatrick':
+                case prefix+'stickerpatrick':
+                case prefix+'stickpatrick':
+                case prefix+'stikpatrick':
+                case prefix+'stickpat':
+                case prefix+'stikpat':
+                aruga.reply(from, mess.wait, id)
+                    aruga.sendImageAsSticker(from, `http://lolhuman.herokuapp.com/api/sticker/patrick?apikey=${lolhuman}`, StickerMetadata)
+                    break
                case prefix+'rhentai':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                aruga.reply(from, mess.wait, id);
                axios.get('https://nekos.life/api/v2/img/Random_hentai_gif').then(res => {
                	aruga.sendFileFromUrl(from, res.data.url, '', '', id)
@@ -991,7 +999,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                });
                break
                case prefix+'kissgif':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                aruga.reply(from, mess.wait, id);
                axios.get('https://nekos.life/api/v2/img/kiss').then(res => {
 		const mp4 = res.data.url
@@ -999,21 +1007,21 @@ module.exports = HandleMsg = async (aruga, message) => {
                });
                break
 		case prefix+'sologif':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait, id)
 		axios.get('https://nekos.life/api/v2/img/solog').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url)
 	})
 		break
 		case prefix+'anal':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait, id)
 		axios.get('https://nekos.life/api/v2/img/anal').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url, id)
 		})
 		break
 		case prefix+'feetgif':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait, id)
 		axios.get('https://nekos.life/api/v2/img/feetg').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url)
@@ -1021,28 +1029,28 @@ module.exports = HandleMsg = async (aruga, message) => {
 		break
 
 		case prefix+'ttgif':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait,id)
 		axios.get('https://nekos.life/api/v2/img/boobs').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url)
 		})
 		break
                 case prefix+'cumgif':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/cum').then(res => {
                 	aruga.sendStickerfromUrl(from, res.data.url)
                 });
                 break
                 case prefix+'bjgif':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/bj').then(res => {
                 	aruga.sendStickerfromUrl(from, res.data.url);
                 });
                 break
                 case prefix+'nsfwgif':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/nsfw_neko_gif').then(res => {
                 	aruga.sendStickerfromUrl(from, res.data.url);
@@ -1076,14 +1084,14 @@ module.exports = HandleMsg = async (aruga, message) => {
                     });
                     break
             case prefix+'nekonsfw':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                     aruga.reply(from, mess.wait, id);
                     axios.get('https://nekos.life/api/v2/img/nsfw_neko_gif').then(res => {
                         aruga.sendStickerfromUrl(from, res.data.url, 'Sange.gif', '', id);
             })
                 break
 		case prefix+'lesbian':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait, id)
 		axios.get('https://nekos.life/api/v2/img/les').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url)
@@ -1279,7 +1287,7 @@ module.exports = HandleMsg = async (aruga, message) => {
             case prefix+'bokep': // MFARELS
             case prefix+'randombokep': // MFARELS
             case prefix+'bkp': // MFARELS
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 const mskkntl = fs.readFileSync('./lib/18+.json') // MFARELS
                 const kntlnya = JSON.parse(mskkntl) // MFARELS
                 const rindBkp = Math.floor(Math.random() * kntlnya.length) // MFARELS
@@ -2359,18 +2367,19 @@ break
             case prefix+'ytmp3':
                 if (args.length == 0) return aruga.reply(from, `Untuk mendownload lagu dari youtube\nketik: ${prefix}ytmp3 [link_yt]`, id)
                 aruga.reply(from, mess.wait, id)
-				fetchJson(`https://leyscoders-api.herokuapp.com/api/ytdl?url=${args}&apikey=${leysapi}`)
-                .then(async(res) => {
-				await aruga.sendFileFromUrl(from, res.result[0].thumb, '', `「 *YOUTUBE MP3* 」\n\n*Title:* ${res.result[0].title}\n*Duration:* ${res.result[0].duration} detik\n*Uploaded:* ${res.result[0].published}\n*Likes:* ${res.result[0].like}\n*Dislikes:* ${res.result[0].dislike}\n*Views:* ${res.result[0].view}\n*Channel:* ${res.result[0].author.name}\n*Verified Channel:* ${res.result[0].author.verifed}\n*Subscribers:* ${res.result[0].author.subscriber}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
+				//fetchJson(`https://leyscoders-api.herokuapp.com/api/ytdl?url=${args}&apikey=${leysapi}`)
+                //.then(async(res) => {
+				//await aruga.sendFileFromUrl(from, res.result[0].thumb, '', `「 *YOUTUBE MP3* 」\n\n*Title:* ${res.result[0].title}\n*Duration:* ${res.result[0].duration} detik\n*Uploaded:* ${res.result[0].published}\n*Likes:* ${res.result[0].like}\n*Dislikes:* ${res.result[0].dislike}\n*Views:* ${res.result[0].view}\n*Channel:* ${res.result[0].author.name}\n*Verified Channel:* ${res.result[0].author.verifed}\n*Subscribers:* ${res.result[0].author.subscriber}\n\n*_Waitt, lemme send that fuckin' audio_*`, id)
 				rugaapi.ymp3(args)
 				.then(async(res) => {
-				/*const bealink = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${res.result}&apikey=zahirgans`)
-				const linkbea = bealink.data.result.link*/
-				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${res.link}`, id)
-				aruga.sendFileFromUrl(from, res.link, '', '', id)
+					if (res.status == false) return aruga.reply(from, res.result, id)
+					await aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `「 *YOUTUBE MP3* 」\n\n*Title:* ${res.title}\n*Ext:* ${res.ext}\n\n${mess.wait}`, id)
+				//const bealink = await axios.get(`https://urbaee-xyz.herokuapp.com/api/short/tiny?url=${res.dl_link}&apikey=Urbaeexyz`)
+				//const linkbea = bealink.data.result.link
+				//if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkbea}`, id)
+				aruga.sendFileFromUrl(from, res.result, '', '', id)
                 .catch(() => {
 				aruga.reply(from, `Error nich`,id)
-			 })
 				})
 				})
 			.catch(err => {
@@ -2725,7 +2734,7 @@ break
 				if (res.data.result.type_post == 'image') {
 					aruga.sendFileFromUrl(from, res.data.result.img_url, 'ig.jpg', '', id)
 				} else if (res.data.result.type_post == 'video') {
-				await aruga.sendFileFromUrl(from, res.data.result.video, '', `*from: ${res.data.result.username}*\n*fullname: ${res.data.result.fullname}*\n*caption: ${res.data.result.caption}*`, id)
+				await aruga.sendFileFromUrl(from, res.data.result.video, 'ig.mp4', `*from: ${res.data.result.username}*\n*fullname: ${res.data.result.fullname}*\n*caption: ${res.data.result.caption}*`, id)
 				} else {
 					aruga.reply(from, 'Terjadi kesalahan', id)
 				}
@@ -2738,7 +2747,7 @@ break
                                 if (args.length == 0)return aruga.reply(from, `Kode nuklir tidak ditemukan\nUsage : ${prefix}nhpdf 20935`, id)
                                 rugaapi.nhpdf(args)
                                 .then(async(res) => {
-									if (!isOwnerB) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\nLink: ${res.pdf_file}`, id)
+									if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\nLink: ${res.pdf_file}`, id)
                                     await aruga.sendFileFromUrl(from, `${res.pdf_file}`, '', `${res.title}`, id)
                                 })
                                 .catch(() => {
@@ -3310,7 +3319,7 @@ try {
 }
 break
 case prefix+'xnxx':
-if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+if (!isPrem) return aruga.reply(from, mess.prem, id)
 if (args.length == 0) return aruga.reply(from, `Mendapatkan detail video dari website xnxx, Gunakan ${prefix}xnxx link\nContoh: ${prefix}xnxx https://www.xnxx.com/video-kt0nb99/who_is_she_big_hot_girl_asia_japan_korean_jav`, id)
 const pcas = body.slice(6)
 axios.get(`http://lolhuman.herokuapp.com/api/xnxx?apikey=${lolhuman}&url=${pcas}`)
@@ -3327,7 +3336,7 @@ axios.get(`http://lolhuman.herokuapp.com/api/xnxx?apikey=${lolhuman}&url=${pcas}
 })
 break
 case prefix+'xnxxsearch':
-if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+if (!isPrem) return aruga.reply(from, mess.prem, id)
 if (args.length == 0) return aruga.reply(from, `Mencari video dari website XNXX, Gunakan ${prefix}xnxxsearch judul\nContoh: ${prefix}xnxxsearch japan`, id)
 const xsch = body.slice(12)
 aruga.reply(from, mess.wait, id)
@@ -3614,7 +3623,7 @@ case prefix+'ytsearch':
 				})
 		      	break
 	     	case prefix+'cersex':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
 			      rugaapi.cersex()
 			      .then(async (res) => {
 			    	await aruga.sendFileFromUrl(from, res.gambar, 'image.jpg' , `Cerita : ${res.result}`, id)
@@ -3987,9 +3996,9 @@ case prefix+'ytsearch':
                 case prefix+'ig2':
                     if (args.length == 0) return aruga.reply(from, `Kirim perintah ${prefix}ig2 linkig`, id)
                     aruga.reply(from, '_Scrapping Metadataa..._', id)
-                    axios.get(`https://api.zeks.xyz/api/ig?url=${body.slice(5)}&apikey=apivinz`)
+                    axios.get(`http://lolhuman.herokuapp.com/api/instagram2?apikey=${lolhuman}&url=${body.slice(5)}`)
 			.then(async(res) => {
-			aruga.sendFileFromUrl(from, `${res.data.result[0].url}`, 'ig.mp4', '', id)
+			aruga.sendFileFromUrl(from, res.data.result.media[0], 'ig.mp4', '', id)
 			.catch(() => {
 			aruga.reply(from, 'Error njing', id)
 		})
@@ -4090,21 +4099,22 @@ console.log(err)
 				break
             case prefix+'ytmp4':
             if (args.length == 0) return aruga.reply(from, `Untuk mendownload video dari youtube\nketik: ${prefix}ytmp4 [link_yt]`, id)
-            const linkmp4 = body.slice(7)
-			fetchJson(`https://leyscoders-api.herokuapp.com/api/ytdl?url=${args}&apikey=${leysapi}`)
+			rugaapi.ymp4(body.slice(7))
 			.then(async(res) => {
-			await aruga.sendFileFromUrl(from, res.result[0].thumb, '', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.result[0].title}\n*Duration:* ${res.result[0].duration} detik\n*Uploaded:* ${res.result[0].published}\n*Likes:* ${res.result[0].like}\n*Dislikes:* ${res.result[0].dislike}\n*Views:* ${res.result[0].view}\n*Channel:* ${res.result[0].author.name}\n*Verified Channel:* ${res.result[0].author.verifed}\n*Subscribers:* ${res.result[0].author.subscriber}\n\n*_Waitt, lemme send that fuckin' video_*`, id)
-				/*aruga.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${res.filesize}\n*Uploaded:* ${res.publishDate}\n*Likes:* ${res.likes}\n*Dislikes:* ${res.dislikes}\n*Views:* ${res.views}\n*Channel:* ${res.channel}\n\n*_${mess.wait}_*`, id)
-				var playlinks = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${playlink}&apikey=zahirgans`)
-				 var linkplay = playlinks.data.result.link*/
-				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${res.result[0].url_video}`, id)
-				await aruga.sendFileFromUrl(from, res.result[0].url_video, 'vid.mp4', '', id)
+				await aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${res.filesizeF}\n\n${mess.wait}`, id)
+			//await aruga.sendFileFromUrl(from, res.result[0].thumb, '', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.result[0].title}\n*Duration:* ${res.result[0].duration} detik\n*Uploaded:* ${res.result[0].published}\n*Likes:* ${res.result[0].like}\n*Dislikes:* ${res.result[0].dislike}\n*Views:* ${res.result[0].view}\n*Channel:* ${res.result[0].author.name}\n*Verified Channel:* ${res.result[0].author.verifed}\n*Subscribers:* ${res.result[0].author.subscriber}\n\n*_Waitt, lemme send that fuckin' video_*`, id)
+				//aruga.sendFileFromUrl(from, res.thumbnail, 'thumb.jpg', `「 *YOUTUBE MP4* 」\n\n*Title:* ${res.title}\n*Filesize:* ${res.filesize}\n*Uploaded:* ${res.publishDate}\n*Likes:* ${res.likes}\n*Dislikes:* ${res.dislikes}\n*Views:* ${res.views}\n*Channel:* ${res.channel}\n\n*_${mess.wait}_*`, id)
+				var playlinks = await axios.get(`https://urbaee-xyz.herokuapp.com/api/short/tiny?url=${res.dl_link}&apikey=Urbaeexyz`)
+				 var linkplay = playlinks.data.result.link
+				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkplay}`, id)
+				await aruga.sendFileFromUrl(from, res.dl_link, 'vid.mp4', '', id)
 				.catch(() => {
 					aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi', id)
 				})
 			})
 			.catch((err) => {
 				console.log(err)
+				aruga.reply(from, err.message, id)
 			})
 			break
 			case prefix+'nekopoi':
@@ -4307,10 +4317,11 @@ console.log(err)
 				 await aruga.sendFileFromUrl(from, res.result[0].video.thumbnail_src, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result[0].video.title}\n*Duration:* ${res.result[0].video.duration} detik\n*Views:* ${res.result[0].video.views}\n*Uploaded:* ${res.result[0].video.upload_date}\n*Channel:* ${res.result[0].uploader.username}\n*Verified Channel:* ${res.result[0].uploader.verified}\n*Url:* ${res.result[0].video.url}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id) 
 				 rugaapi.ymp3(`https://youtu.be/${res.result[0].video.id}`)
                 .then(async(res) => {
-				const playlink = res.link
-				 /*var playlinks = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${playlink}&apikey=zahirgans`)
-				 var linkplay = playlinks.data.result.link*/
-				 if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${playlink}`, id)
+				if (res.status == false) return aruga.reply(from, res.result, id)
+				const playlink = res.result
+				 //var playlinks = await axios.get(`https://urbaee-xyz.herokuapp.com/api/short/tiny?url=${res.}&apikey=Urbaeexyz`)
+				 //var linkplay = playlinks.data.result.link
+				 //if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkplay}`, id)
 				aruga.sendFileFromUrl(from, playlink, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
@@ -4322,6 +4333,19 @@ console.log(err)
 							aruga.reply(from, err.message, id)
 						})
                         break
+            case prefix+'cersexsearch':
+            case prefix+'carisex':
+            if (args.length == 0) return aruga.reply(from, `Cari judul apa?`, id)
+            fetchJson(`https://h4ck3rs404-api.herokuapp.com/api/cersex?q=${args}&apikey=${hackapi}`)
+            .then(async(res) => {
+                if(res.result.status == false) return aruga.reply(from, res.result.error, id)
+                const cersex2 = `Title: ${res.result.post_title}\nComments: ${res.result.comments}\nUploaded: ${res.result.date}\nUrl: ${res.result.post_url}\nStory: ${res.result.post_message}`
+                aruga.sendFileFromUrl(from, res.result.thumb, 'image.jpg', cersex2, id)
+            })
+            .catch(err => {
+                console.log(err)
+                aruga.reply(from, res.data.message, id)
+            })
 		case prefix+'trendingtwit':
                     case prefix+'trendtwit':
                         await aruga.reply(from, mess.wait, id)
@@ -4364,10 +4388,10 @@ console.log(err)
 				 await aruga.sendFileFromUrl(from, res.result[0].video.thumbnail_src, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result[0].video.title}\n*Duration:* ${res.result[0].video.duration} detik\n*Views:* ${res.result[0].video.views}\n*Uploaded:* ${res.result[0].video.upload_date}\n*Channel:* ${res.result[0].uploader.username}\n*Verified Channel:* ${res.result[0].uploader.verified}\n*Url:* ${res.result[0].video.url}\n\n*_Waitt, lagi ngirim Videonyaa_*`, id) 
 				 rugaapi.ymp4(`https://youtu.be/${res.result[0].video.id}`)
                 .then(async(res) => {
-				/*var playlinks = await axios.get(`https://zahirr-web.herokuapp.com/api/short/tiny?url=${playlink}&apikey=zahirgans`)
-				var linkplay = playlinks.data.result.link*/
-				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${res.result[0].url_video}`, id)
-				aruga.sendFileFromUrl(from, res.result[0].url_video, '', '', id)
+				var playlinks = await axios.get(`https://urbaee-xyz.herokuapp.com/api/short/tiny?url=${res.dl_link}&apikey=Urbaeexyz`)
+				var linkplay = playlinks.data.result.link
+				if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\n\nLink: ${linkplay}`, id)
+				aruga.sendFileFromUrl(from, res.dl_link, '', '', id)
                                 .catch(() => {
                                         aruga.reply(from, 'Error anjing', id)
                                    })
@@ -4867,7 +4891,7 @@ console.log(err)
 		}
 		break
         case prefix+'bot':
-            if (args.length == 0) return aruga.reply(from, 'Kirim perintah */ [teks]*\nContoh : */ halo*', id)
+            if (args.length == 0) return aruga.reply(from, 'Kirim perintah */bot [teks]*\nContoh : */ halo*', id)
             const que = body.slice(5)
             const sigo = await axios.get(`https://lindow-api.herokuapp.com/api/simi?text=${que}&lang=id&apikey=${lindowapi}`)
             console.log(color(`${que}`, 'green'))
@@ -5292,7 +5316,7 @@ console.log(err)
                     })
 			break
 		case prefix+'tickle':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/tickle').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
@@ -5306,35 +5330,35 @@ console.log(err)
 			})
 			break
 		case prefix+'trapnime':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/trap').then(res => {
 			aruga.sendFileFromUrl(from, res.data.url, 'img.jpg', '', id)
 			})
 			break
 		case prefix+'kuni':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/kuni').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
 			})
 			break
 		case prefix+'classic':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/classic').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
 			})
 			break
 		case prefix+'spank':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/spank').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
 			})
 			break
                 case prefix+'randomhentai':      
-                        if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                        if (!isPrem) return aruga.reply(from, mess.prem, id)
                         aruga.sendText(from, mess.wait);
                         axios.get(`https://tobz-api.herokuapp.com/api/hentai?apikey=${tobzapi}`).then(res => {
                         aruga.sendFileFromUrl(from, res.data.result, 'hentai.jpg','', id)
@@ -5351,7 +5375,7 @@ console.log(err)
 	})
 	break
 		case prefix+'pokegif':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://cdn.nekos.life/poke/poke_007.gif').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
@@ -5704,16 +5728,14 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
                 case prefix+'ttp':
 				if (args.length == 0) return aruga.reply(from, 'textnya mana?', id)
 				const beword = body.slice(5)
-				if (beword.length > 50) return aruga.reply(from, 'Maximum is 50 words', id)
-                axios.get(`https://api.areltiyan.site/sticker_maker?text=${beword}`)
-                        .then(async(res) => {
-						 aruga.sendImageAsSticker(from, res.data.base64, {author: authorr, pack: pack})
-						 .catch((err) => {
-							 console.log(err)
-						 })
-                     })
+                //axios.get(`https://api.areltiyan.site/sticker_maker?text=${beword}`)
+				aruga.sendStickerfromUrl(from, `http://lolhuman.herokuapp.com/api/ttp?apikey=${lolhuman}&text=${beword}`, 'get', StickerMetadata)
 					 .then(async () => {
 						 console.log(color(`Text To Image processed for ${processTime(t, moment())} seconds`, 'aqua'))
+					 })
+					 .catch(err => {
+						 console.log(err)
+						 aruga.reply(from, err.message, id)
 					 })
                     break
                  case prefix+'kapan':
@@ -5824,7 +5846,15 @@ _Desc di update oleh : @${chat.groupMetadata.descOwner.replace('@c.us','')} pada
 						if(!cekgrup.isReadOnly) aruga.sendPtt(grupnya, audiobase64, 'audio.mp3')
 					}
 				aruga.reply(from, 'Broadcast audio sukses', id)
-				}else{
+				}else if (quotedMsg && quotedMsg.type == 'sticker') {
+					const mediaData = await decryptMedia(quotedMsg)
+					const stickbase = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+					for (let grupnya of semuagrup) {
+						var cekgrup = await aruga.getChatById(grupnya)
+						if(!cekgrup.isReadOnly) aruga.sendImageAsSticker(grupnya, stickbase, StickerMetadata)
+					}
+				aruga.reply(from, 'Broadcast stiker berhasil', id)
+				} else {
                     for(let grupnya of semuagrup){
                         var cekgrup = await aruga.getChatById(grupnya)
                         if(!cekgrup.isReadOnly && isMuted(grupnya)) aruga.sendText(grupnya, txtbc)
