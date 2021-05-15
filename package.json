@@ -55,7 +55,8 @@
     "stream": "0.0.2",
     "translatte": "^3.0.0",
     "uuid": "^8.3.2",
-    "uuidv4": "^6.2.7"
+    "uuidv4": "^6.2.7",
+    "ytdl-core": "^4.5.0"
   },
   "directories": {
     "lib": "lib"
