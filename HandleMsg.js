@@ -288,8 +288,7 @@ module.exports = HandleMsg = async (aruga, message) => {
 
         const mess = {
             wait: '_Waitt, lemme process this shit_',
-			prem: 'NSFW feature locked while Ramadhan',
-			prem2: `Command Premium!\nHalo ${pushname} Mau menjadi user premium? ga mahal kok bang\n\n20rb = PREMIUM SAMPE KIAMAT\n\nJika anda berminat, silahkan chat pada Owner\n\nwa.me/62895334951166\n\nTrims~\n-Thoriq Azzikra`,
+			prem: `Command Premium!\nHalo ${pushname} Mau menjadi user premium? ga mahal kok bang\n\n20rb = PREMIUM SAMPE KIAMAT\n\nJika anda berminat, silahkan chat pada Owner\n\nwa.me/62895334951166\n\nTrims~\n-Thoriq Azzikra`,
             error: {
                 St: `[❗] Kirim gambar dengan caption *${prefix}sticker* atau tag gambar yang sudah dikirim`,
                 Ti: `[❗] Replay sticker dengan caption *${prefix}stickertoimg* atau tag sticker yang sudah dikirim`,
@@ -952,7 +951,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 };
                 break
                 case prefix+'boobs':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/boobs').then(res => {
                 	aruga.sendStickerfromUrl(from, res.data.url, 'bakaaa hentaii>~<');
@@ -960,14 +959,14 @@ module.exports = HandleMsg = async (aruga, message) => {
                 });
                 break
                 case prefix+'gifhentai':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/Random_hentai_gif').then(res => {
                 	aruga.sendFileFromUrl(from, res.data.result, '.gif');
                 });
                 break
                 case prefix+'bjanime':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id)
                 const sblow = await axios.get(`https://tobz-api.herokuapp.com/api/nsfwblowjob?&apikey=${tobzapi}`)
                 const rblow = sblow.data
@@ -975,7 +974,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 aruga.sendStickerfromUrl(from, giftub, `RandoBlow.gif`, 'Random Blowjob!', id)
                     break
                 case prefix+'pussy':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/pussy').then(res => {
                 	aruga.sendFileFromUrl(from, res.data.url, '', '', id)
@@ -983,7 +982,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 });
                 break
                case prefix+'rhentai':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                aruga.reply(from, mess.wait, id);
                axios.get('https://nekos.life/api/v2/img/Random_hentai_gif').then(res => {
                	aruga.sendFileFromUrl(from, res.data.url, '', '', id)
@@ -991,7 +990,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                });
                break
                case prefix+'kissgif':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                aruga.reply(from, mess.wait, id);
                axios.get('https://nekos.life/api/v2/img/kiss').then(res => {
 		const mp4 = res.data.url
@@ -999,21 +998,21 @@ module.exports = HandleMsg = async (aruga, message) => {
                });
                break
 		case prefix+'sologif':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait, id)
 		axios.get('https://nekos.life/api/v2/img/solog').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url)
 	})
 		break
 		case prefix+'anal':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait, id)
 		axios.get('https://nekos.life/api/v2/img/anal').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url, id)
 		})
 		break
 		case prefix+'feetgif':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait, id)
 		axios.get('https://nekos.life/api/v2/img/feetg').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url)
@@ -1021,28 +1020,28 @@ module.exports = HandleMsg = async (aruga, message) => {
 		break
 
 		case prefix+'ttgif':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait,id)
 		axios.get('https://nekos.life/api/v2/img/boobs').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url)
 		})
 		break
                 case prefix+'cumgif':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/cum').then(res => {
                 	aruga.sendStickerfromUrl(from, res.data.url)
                 });
                 break
                 case prefix+'bjgif':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/bj').then(res => {
                 	aruga.sendStickerfromUrl(from, res.data.url);
                 });
                 break
                 case prefix+'nsfwgif':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 aruga.reply(from, mess.wait, id);
                 axios.get('https://nekos.life/api/v2/img/nsfw_neko_gif').then(res => {
                 	aruga.sendStickerfromUrl(from, res.data.url);
@@ -1076,14 +1075,14 @@ module.exports = HandleMsg = async (aruga, message) => {
                     });
                     break
             case prefix+'nekonsfw':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                     aruga.reply(from, mess.wait, id);
                     axios.get('https://nekos.life/api/v2/img/nsfw_neko_gif').then(res => {
                         aruga.sendStickerfromUrl(from, res.data.url, 'Sange.gif', '', id);
             })
                 break
 		case prefix+'lesbian':
-		if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+		if (!isPrem) return aruga.reply(from, mess.prem, id)
 		aruga.reply(from, mess.wait, id)
 		axios.get('https://nekos.life/api/v2/img/les').then(res => {
 		aruga.sendStickerfromUrl(from, res.data.url)
@@ -1279,7 +1278,7 @@ module.exports = HandleMsg = async (aruga, message) => {
             case prefix+'bokep': // MFARELS
             case prefix+'randombokep': // MFARELS
             case prefix+'bkp': // MFARELS
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
                 const mskkntl = fs.readFileSync('./lib/18+.json') // MFARELS
                 const kntlnya = JSON.parse(mskkntl) // MFARELS
                 const rindBkp = Math.floor(Math.random() * kntlnya.length) // MFARELS
@@ -2739,7 +2738,7 @@ break
                                 if (args.length == 0)return aruga.reply(from, `Kode nuklir tidak ditemukan\nUsage : ${prefix}nhpdf 20935`, id)
                                 rugaapi.nhpdf(args)
                                 .then(async(res) => {
-									if (!isOwnerB) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\nLink: ${res.pdf_file}`, id)
+									if (!isPrem) return aruga.reply(from, `Karena anda bukan user Premium, silahkan download menggunakan link\nLink: ${res.pdf_file}`, id)
                                     await aruga.sendFileFromUrl(from, `${res.pdf_file}`, '', `${res.title}`, id)
                                 })
                                 .catch(() => {
@@ -3311,7 +3310,7 @@ try {
 }
 break
 case prefix+'xnxx':
-if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+if (!isPrem) return aruga.reply(from, mess.prem, id)
 if (args.length == 0) return aruga.reply(from, `Mendapatkan detail video dari website xnxx, Gunakan ${prefix}xnxx link\nContoh: ${prefix}xnxx https://www.xnxx.com/video-kt0nb99/who_is_she_big_hot_girl_asia_japan_korean_jav`, id)
 const pcas = body.slice(6)
 axios.get(`http://lolhuman.herokuapp.com/api/xnxx?apikey=${lolhuman}&url=${pcas}`)
@@ -3328,7 +3327,7 @@ axios.get(`http://lolhuman.herokuapp.com/api/xnxx?apikey=${lolhuman}&url=${pcas}
 })
 break
 case prefix+'xnxxsearch':
-if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+if (!isPrem) return aruga.reply(from, mess.prem, id)
 if (args.length == 0) return aruga.reply(from, `Mencari video dari website XNXX, Gunakan ${prefix}xnxxsearch judul\nContoh: ${prefix}xnxxsearch japan`, id)
 const xsch = body.slice(12)
 aruga.reply(from, mess.wait, id)
@@ -3615,7 +3614,7 @@ case prefix+'ytsearch':
 				})
 		      	break
 	     	case prefix+'cersex':
-                if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                if (!isPrem) return aruga.reply(from, mess.prem, id)
 			      rugaapi.cersex()
 			      .then(async (res) => {
 			    	await aruga.sendFileFromUrl(from, res.gambar, 'image.jpg' , `Cerita : ${res.result}`, id)
@@ -3769,7 +3768,7 @@ case prefix+'ytsearch':
             break
         case prefix+'sreddit':
             if (args.length == 0) return aruga.reply(from, `Untuk mencari gambar dari sub reddit\nketik: ${prefix}sreddit [search]\ncontoh: ${prefix}sreddit naruto`, id)
-	    if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+	    if (!isPrem) return aruga.reply(from, mess.prem, id)
             const carireddit = body.slice(9)
             const hasilreddit = await images.sreddit(carireddit)
             await aruga.sendFileFromUrl(from, hasilreddit, '', '', id)
@@ -5295,7 +5294,7 @@ console.log(err)
                     })
 			break
 		case prefix+'tickle':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/tickle').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
@@ -5309,35 +5308,35 @@ console.log(err)
 			})
 			break
 		case prefix+'trapnime':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/trap').then(res => {
 			aruga.sendFileFromUrl(from, res.data.url, 'img.jpg', '', id)
 			})
 			break
 		case prefix+'kuni':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/kuni').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
 			})
 			break
 		case prefix+'classic':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/classic').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
 			})
 			break
 		case prefix+'spank':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://nekos.life/api/v2/img/spank').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
 			})
 			break
                 case prefix+'randomhentai':      
-                        if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+                        if (!isPrem) return aruga.reply(from, mess.prem, id)
                         aruga.sendText(from, mess.wait);
                         axios.get(`https://tobz-api.herokuapp.com/api/hentai?apikey=${tobzapi}`).then(res => {
                         aruga.sendFileFromUrl(from, res.data.result, 'hentai.jpg','', id)
@@ -5354,7 +5353,7 @@ console.log(err)
 	})
 	break
 		case prefix+'pokegif':
-			if (!isOwnerB) return aruga.reply(from, mess.prem, id)
+			if (!isPrem) return aruga.reply(from, mess.prem, id)
 			aruga.reply(from, mess.wait, id)
 			axios.get('https://cdn.nekos.life/poke/poke_007.gif').then(res => {
 			aruga.sendStickerfromUrl(from, res.data.url)
