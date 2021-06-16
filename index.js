@@ -29,9 +29,7 @@ const start = async (aruga = new aruga()) => {
             left(aruga, heuh)
             }))
 
-    aruga.onMessage((message) => {
-        HandleMsg(aruga, message)
-    })
+    aruga.onAnyMessage((fn) => messageLog(fn.fromMe, fn.type))
 
     aruga.onIncomingCall(async (callData) => {
         // ketika seseorang menelpon nomor bot akan mengirim pesan
