@@ -29,7 +29,9 @@ const start = async (aruga = new aruga()) => {
             left(aruga, heuh)
             }))
 
-    aruga.onAnyMessage((fn) => messageLog(fn.fromMe, fn.type))
+     aruga.onMessage((message) => {
+        HandleMsg(aruga, message)
+    })
 
     aruga.onIncomingCall(async (callData) => {
         // ketika seseorang menelpon nomor bot akan mengirim pesan
@@ -40,9 +42,7 @@ const start = async (aruga = new aruga()) => {
         })
     })
 
-    aruga.onAnyMessage((anal) => { 
-        messageLog(anal.fromMe, anal.type)
-    })
+    aruga.onAnyMessage((fn) => messageLog(fn.fromMe, fn.type))
 }
 create(options(start))
     .then((aruga) => start(aruga))
