@@ -41,8 +41,6 @@ const start = async (aruga = new aruga()) => {
             await aruga.contactBlock(callData.peerJid)
         })
     })
-
-    aruga.onAnyMessage((fn) => messageLog(fn.fromMe, fn.type))
 }
 create(options(start))
     .then((aruga) => start(aruga))
