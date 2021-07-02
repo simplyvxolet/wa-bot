@@ -107,6 +107,7 @@ let {
 	fahmiapi,
 	lolhuman,
 	leysapi,
+	apikeyvinz, //IF YOU HAVE THIS APIKEY, YOU CAN CUSTOM IT!
 	authorstc,
 	packstc,
 	mtc: mtcState
@@ -169,7 +170,7 @@ function identify(buffer) {
           const bodyForm = new FormData()
 		  const pathh = './audio.mp3'
           bodyForm.append('audio', buffer, 'file.mp3')
-           bodyForm.append('apikey', 'apivinz')
+           bodyForm.append('apikey', `${apikeyvinz}`)
            axios('https://api.zeks.xyz/api/searchmusic', {
                 method: 'POST',
                 headers: {
@@ -806,7 +807,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 const lpornhub2 = q.split('|')[1]   
                 if (lpornhub > 10) return aruga.reply(from, '*Teks1 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
                 if (lpornhub2 > 10) return aruga.reply(from, '*Teks2 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
-                aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/phlogo?text1=${lpornhub}&text2=${lpornhub2}&apikey=apivinz`, '', '', id)
+                aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/phlogo?text1=${lpornhub}&text2=${lpornhub2}&apikey=${apikeyvinz}`, '', '', id)
             break
         case prefix+'slightning':
             if (isMedia && type === 'image') {
@@ -1102,7 +1103,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 break
                 case prefix+'aesthetic':
                     aruga.reply(from, mess.wait, id)
-					axios.get(`https://api.zeks.xyz/api/estetikpic?apikey=apivinz`)
+					axios.get(`https://api.zeks.xyz/api/estetikpic?apikey=${apikeyvinz}`)
 					.then(async(res) => {
 						await aruga.sendFileFromUrl(from, res.data.result.result, 'img.jpg', 'nihh pict estetiknya', id)
 						.catch(() => {
@@ -2437,7 +2438,7 @@ break
                         const glitch2 = q.split('|')[1]
                         if (glitch1.length > 10) return aruga.reply(from, '*Teks1 Terlalu Panjang!*\n_Maksimal 10 huruf!_', id)
                         if (glitch2.length > 15) return aruga.reply(from, '*Teks2 Terlalu Panjang!*\n_Maksimal 15 huruf!_', id)
-                        aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/gtext?text1=${glitch1}&text2=${glitch2}&apikey=apivinz`)
+                        aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/gtext?text1=${glitch1}&text2=${glitch2}&apikey=${apikeyvinz}`)
 						.catch(err => {
 							console.log(err)
 							aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi', id)
@@ -2506,8 +2507,8 @@ break
 		    case prefix+'linknobg':
 			   if (args.length == 0) return aruga.reply(from, 'Kirim link untuk menjadikan sticker nobg', id)
 			   const linkid = body.slice(10)
-			   await aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/removebg?apikey=apivinz&url=${linkid}`, 'img.jpg', 'nehh', id)
-			   await aruga.sendImageAsSticker(from, `https://api.zeks.xyz/api/removebg?apikey=apivinz&url=${linkid}`)
+			   await aruga.sendFileFromUrl(from, `https://api.zeks.xyz/api/removebg?apikey=${apikeyvinz}&url=${linkid}`, 'img.jpg', 'nehh', id)
+			   await aruga.sendImageAsSticker(from, `https://api.zeks.xyz/api/removebg?apikey=${apikeyvinz}&url=${linkid}`)
 			.catch(() => {
 			aruga.reply(from, 'Error', id)
 			})
@@ -2518,7 +2519,7 @@ break
 				const encryptMedia = isQuotedImage ? quotedMsg : message
 				const mediaData = await decryptMedia(encryptMedia, uaOverride)
 				const linkImg = await uploadImages(mediaData, `${sender.id}_img`)
-				axios.get(`https://api.zeks.xyz/api/sketchf?img=${linkImg}&apikey=apivinz`)
+				axios.get(`https://api.zeks.xyz/api/sketchf?img=${linkImg}&apikey=${apikeyvinz}`)
 				.then(async(res) => {
 				await aruga.sendFileFromUrl(from, res.data.result, 'img.jpg', '', id)
 				})
@@ -3350,7 +3351,7 @@ case prefix+'ytsearch':
     const ytsher = body.slice(10)
     aruga.reply(from, mess.wait, id)
     try {
-        const response2 = await fetch(`https://api.zeks.xyz/api/yts?q=${ytsher}&apikey=apivinz`)
+        const response2 = await fetch(`https://api.zeks.xyz/api/yts?q=${ytsher}&apikey=${apikeyvinz}`)
         if (!response2.ok) throw new Error(`unexpected response ${response2.statusText}`)
         const jsonserc = await response2.json()
         const { result } = await jsonserc
@@ -3835,7 +3836,7 @@ case prefix+'ytsearch':
 				await aruga.sendFileFromUrl(from, `http://lolhuman.herokuapp.com/api/meme/memeindo?apikey=${lolhuman}`, 'img.jpg', '', id)
 				break
 				case prefix+'memeindo':
-				await axios.get('https://api.zeks.xyz/api/memeindo?apikey=apivinz').then(res => {
+				await axios.get(`https://api.zeks.xyz/api/memeindo?apikey=${apikeyvinz}`).then(res => {
 					aruga.sendFileFromUrl(from, `${res.data.result}`, 'image.jpg', 'nehh njeng', id)
 					console.log('Success')
 				})
@@ -3845,7 +3846,7 @@ case prefix+'ytsearch':
 				break
             case prefix+'darkjokes':
                 aruga.reply(from, mess.wait, id)
-                 await axios.get(`https://api.zeks.xyz/api/darkjokes?apikey=apivinz`).then(res => {
+                 await axios.get(`https://api.zeks.xyz/api/darkjokes?apikey=${apikeyvinz}`).then(res => {
                     aruga.sendFileFromUrl(from, `${res.data.result}`, 'image.jpg', 'nehh njeng', id)
                 })
 				.catch((err) => {
@@ -4060,7 +4061,7 @@ console.log(err)
 			if (args.length == 0) return aruga.reply(from, `Untuk mendownload video dari tiktok, gunakan ${prefix}tiktoknowm link`, id)
 			const lika = body.slice(12)
 			aruga.reply(from, mess.wait, id)
-			axios.get(`https://api.zeks.xyz/api/tiktok?url=${lika}&apikey=apivinz`)
+			axios.get(`https://api.zeks.xyz/api/tiktok?url=${lika}&apikey=${apikeyvinz}`)
 			.then(async(res) => {
 				await aruga.sendFileFromUrl(from, res.data.no_watermark, '', `*music name: ${res.data.music_name}*`, id)
 				await aruga.sendFileFromUrl(from, res.data.audio, '', '', id)
@@ -4173,7 +4174,7 @@ console.log(err)
 		const xas2 = q.split('|')[1]
 		aruga.reply(from, mess.wait, id)
 		try {
-			const xas3 = await axios.get(`https://api.zeks.xyz/api/igs?apikey=apivinz&username=${xas1}`)
+			const xas3 = await axios.get(`https://api.zeks.xyz/api/igs?apikey=${apikeyvinz}&username=${xas1}`)
 			const xas4 = xas3.data
 			if (xas2 > 5) return aruga.reply(from, 'Maksimal 5!', id)
 			for (let i = 0; i < xas2; i++) {
@@ -4301,7 +4302,7 @@ console.log(err)
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            /*axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(6)}`)*/
-			fetchJson(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=apivinz`)
+			fetchJson(`https://api.zeks.xyz/api/yts?q=${body.slice(6)}&apikey=${apikeyvinz}`)
             .then(async (res) => {
 				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result[0].video.title}\nDurasi: ${res.result[0].video.duration} detik`, 'aqua'))
                  /*await aruga.sendFileFromUrl(from, res.data.result.result[0].thumbnails[0].url, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)*/
@@ -4359,7 +4360,7 @@ console.log(err)
            case prefix+'play2'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            /*axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(7)}`)*/
-			fetchJson(`https://api.zeks.xyz/api/yts?q=${body.slice(7)}&apikey=apivinz`)
+			fetchJson(`https://api.zeks.xyz/api/yts?q=${body.slice(7)}&apikey=${apikeyvinz}`)
             .then(async (res) => {
 				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result[0].video.title}\nDurasi: ${res.result[0].video.duration} detik`, 'aqua'))
                  /*await aruga.sendFileFromUrl(from, res.data.result.result[0].thumbnails[0].url, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)*/
@@ -4755,7 +4756,7 @@ console.log(err)
              if (!jreng) return aruga.reply(from, `Kirim perintah *${prefix}tahta [teks]*\n\nContoh *${prefix}tahta elaina*`, id)
              if (jreng.length > 7) return aruga.reply(from, 'Maksimal 7 Huruf!', id)
              aruga.sendText(from, '_Sedang diproses, mohon tunggu sebentar!..._', id)
-             const tahtuy = `https://api.zeks.xyz/api/hartatahta?text=${jreng}&apikey=apivinz`
+             const tahtuy = `https://api.zeks.xyz/api/hartatahta?text=${jreng}&apikey=${apikeyvinz}`
 		aruga.sendFileFromUrl(from, tahtuy, `${jreng}.jpg`, `*_Harta_*\n*_Tahta_*\n*_${jreng}_*`, id)
 		aruga.sendImageAsSticker(from, tahtuy, { author: author, pack: pack, keepScale: true })
 		.catch((err) => {
