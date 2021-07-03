@@ -2560,6 +2560,25 @@ break
 						aruga.reply(from, 'Format pesan salah', id)
 					}
 						break
+					case prefix+'givecolor':
+					if (isMedia || isImage || isQuotedImage) {
+						aruga.reply(from, mess.wait, id)
+						const qtmz = isQuotedImage ? quotedMsg : message
+						const mediaData = await decryptMedia(qtmz, uaOverride)
+						const upsz = await uploadImages(mediaData, `${sender.id}_img`)
+						await aruga.sendFileFromUrl(from, `https://docs-jojo.herokuapp.com/api/colorize-old-photo?image_url=${upsz}`, 'img.jpg', '', id)
+						.catch(err => {
+							console.log(err)
+							aruga.reply(from, 'Terjadi kesalahan saat mengupload foto', id)
+						})
+					} else if(args[0]) {
+						aruga.reply(from, mess.wait, id)
+						const linksur = args[0]
+						await aruga.sendFileFromUrl(from, `https://docs-jojo.herokuapp.com/api/colorize-old-photo?image_url=${args}`, 'img.jpg', '', '', id)
+					} else {
+						aruga.reply(from, `Kirim/reply foto dengan caption ${prefix}givecolor`, id)
+					}
+					break
 					case prefix+'pencilart':
 					case prefix+'artpencil':
 					case prefix+'pensilart':
@@ -3069,6 +3088,21 @@ try {
 	aruga.reply(from, `Genre ${tipe} tidak ada didalam website!`, id)
 }
 break
+case prefix+'faktaunik':
+	aruga.reply(from, mess.wait, id)
+	fetchJson('https://docs-jojo.herokuapp.com/api/fakta-unik')
+	.then(async(res) => {
+		aruga.reply(from, res.result, id)
+		.catch(err => {
+			console.log(err)
+			aruga.reply(from, 'Sedang error', id)
+		})
+	})
+	.catch(err => {
+		console.log(err)
+		aruga.reply(from, err.data, id)
+	})
+	break
 case prefix+'lk21':
 	if (args.length == 0) return aruga.reply(from, `Untuk mencari sebuah film dari website LK21, gunakan ${prefix}lk21 judul film`, id)
 	const lksearch = body.slice(6)
@@ -4234,7 +4268,24 @@ console.log(err)
 				  aruga.reply(from, 'Mungkin stiker yang anda cari tidak ada', id)
 				  console.log(err)
 			  }
-			  break					   
+			  break		
+		case prefix+'postigurl':
+		if (args.length == 0) return aruga.reply(from, `Silahkan kirim perintah ${prefix}postigurl linkurl jumlah\nfitur ini untuk mendownload jumlah yang ingin didownload\nContoh: ${prefix}postigurl https://instagram.com/p/gagakg 2`, id)
+		const jams = args[0]
+		const jamss = args[1]
+		if (jamss > 11) return aruga.reply(from, 'Maksimal 10', id)
+		aruga.reply(from, mess.wait, id)
+		try {
+			const beasin = await axios.get(`https://docs-jojo.herokuapp.com/api/instagram-post?url=${jams}`)
+			const beasin2 = beasin.data
+			for (let i = 0; i < jamss; i++) {
+				await aruga.sendFileFromUrl(from, beasin2.media_result[i].url, '', `*from: ${beasin2.owner.username}*\n*full name: ${beasin2.owner.full_name}*\n*verified: ${beasin2.owner.verified}*\n*caption: ${beasin2.caption}*`, id)
+			}
+		} catch (err) {
+			console.log(err)
+			aruga.reply(from, 'Terjadi kesalahan pada sistem, silahkan ulangi lagi nanti', id)
+		}
+		break
 		case prefix+'postig':
 		if (args.length == 0) return aruga.reply(from, `Fitur untuk mencari post dari instagram seseorang\nketik ${prefix}postig username|jumlah\ncontoh: ${prefix}postig yourrkayesss|3`, id)
 		const wall1 = body.slice(8)
