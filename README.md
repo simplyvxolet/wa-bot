@@ -11,8 +11,6 @@
 <a href="https://github.com/Urbaeexyz/wa-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Urbaeexyz/wa-bot?color=blue&style=flat-square"></a>
 <a href="https://github.com/Urbaeexyz/wa-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Urbaeexyz/wa-bot?color=blue&style=flat-square"></a>
 <a href="https://github.com/Urbaeexyz/wa-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Urbaeexyz/wa-bot?label=Watchers&color=blue&style=flat-square"></a>
-<img src="https://img.shields.io/node/v/@open-wa/wa-automate.svg?color=blue" />
-<a href="https://www.npmjs.com/package/@open-wa/wa-automate"><img src="https://img.shields.io/npm/v/@open-wa/wa-automate.svg?color=blue" /></a>
 <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FUrbaeexyz%2Fwa-bot&count_bg=%23476FFF&title_bg=%23868080&icon=openbadges.svg&icon_color=%23E7E7E7&title=visitors&edge_flat=false"/></a>
 
 <p align="left">
@@ -31,7 +29,7 @@
 </p>
 </div>
 
-# Donate To Me Pls:)
+# Donate
 - [Saweria](https://saweria.co/thoriqazzikra)
 - [Paypal](https://www.paypal.com/paypalme/thoriqazzikra)
 - OVO : 0895334951166
@@ -50,7 +48,7 @@
   
   
  # Requirements
-- [Node.js](https://nodejs.org/en/)
+- [Node.js (Recommended 14.17.3)](https://nodejs.org/en/)
 - [Git](https://git-scm.com/download)
 - [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases)
 
