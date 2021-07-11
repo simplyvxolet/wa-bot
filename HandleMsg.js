@@ -695,7 +695,7 @@ module.exports = HandleMsg = async (aruga, message) => {
         case prefix+'menu':
 			const jame = moment(t * 1000).format('HH:mm:ss')
                 const picts = 'https://i.ibb.co/2NRpS3P/2.jpg'
-            aruga.sendFileFromUrl(from, php2, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
+            aruga.sendFileFromUrl(from, picts, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
             .then(() => ((isGroupMsg) && (isGroupAdmins)) ? aruga.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
             break
         case prefix+'menuadmin':
