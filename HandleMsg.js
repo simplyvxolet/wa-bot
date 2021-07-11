@@ -693,21 +693,15 @@ module.exports = HandleMsg = async (aruga, message) => {
         case prefix+'p':
 		case prefix+'start':
         case prefix+'menu':
-            const test0 = sender.id
 			const jame = moment(t * 1000).format('HH:mm:ss')
-            const nyoba2 = await aruga.getProfilePicFromServer(test0)
-            if (nyoba2 == undefined) {
-                var php2 = 'https://i.ibb.co/PNR9rT3/IMG-20210412-WA0036.jpg'
-                } else {
-                var php2 = nyoba2
-                }
-            await aruga.sendFileFromUrl(from, php2, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
+                const picts = 'https://i.ibb.co/2NRpS3P/2.jpg'
+            aruga.sendFileFromUrl(from, php2, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
             .then(() => ((isGroupMsg) && (isGroupAdmins)) ? aruga.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
             break
         case prefix+'menuadmin':
             if (!isGroupMsg) return aruga.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
             if (!isGroupAdmins) return aruga.reply(from, 'Gagal, inget lu itu Member bukan Admin', id)
-            const php4 = 'https://i.ibb.co/SfPCmsZ/65307459-647461459071676-8817651150049313976-n.jpg'
+            const php4 = 'https://i.ibb.co/mHPkCRh/1.jpg'
             await aruga.sendFileFromUrl(from, php4,'image.jpg', menuId.admin(prefix), id)
             break
 			case prefix+'kodebahasa':
