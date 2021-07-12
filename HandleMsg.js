@@ -695,8 +695,14 @@ module.exports = HandleMsg = async (aruga, message) => {
         case prefix+'p':
 		case prefix+'start':
         case prefix+'menu':
+			const sendmes = sender.id
+			const profilepic = await aruga.getProfilePicFromServer(sendmes)
 			const jame = moment(t * 1000).format('HH:mm:ss')
-                const picts = 'https://i.ibb.co/2NRpS3P/2.jpg'
+			if (profilepic == undefined) {
+                var picts = 'https://i.ibb.co/2NRpS3P/2.jpg'
+			} else {
+				var picts = profilepic
+			}
             aruga.sendFileFromUrl(from, picts, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
             .then(() => ((isGroupMsg) && (isGroupAdmins)) ? aruga.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
             break
