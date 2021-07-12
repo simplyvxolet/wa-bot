@@ -106,6 +106,8 @@ let {
 	hackapi,
 	fahmiapi,
 	lolhuman,
+	dapuhyapi,
+	paiskey,
 	leysapi,
 	apikeyvinz, //IF YOU HAVE THIS APIKEY, YOU CAN CUSTOM IT!
 	authorstc,
@@ -2773,37 +2775,23 @@ break
 									aruga.reply(from, 'Error bang', id)
 								})
 								break
+								case prefix+'asupanukhty':
+								aruga.reply(from, mess.wait, id)
+								await aruga.sendFileFromUrl(from, `https://dapuhy-api.herokuapp.com/api/asupan/asupanukhty?apikey=${dapuhyapi`, 'vid.mp4', '', id)
+								break
 								case prefix+'asupan3':
 								aruga.reply(from, mess.wait, id)
-								await aruga.sendFileFromUrl(from, `https://lindow-api.herokuapp.com/api/asupan?&apikey=${lindowapi}`, 'asupan.mp4', '', id)
+								await aruga.sendFileFromUrl(from, `https://dapuhy-api.herokuapp.com/api/asupan/asupanbocil?apikey=${dapuhyapi}`, 'asupan.mp4', '', id)
 								break
 								case prefix+'asupan2':
 								aruga.reply(from, mess.wait, id)
-								// axios.get(`http://lolhuman.herokuapp.com/api/asupan?apikey=${lolhuman}`)
-								axios.get(`http://leyscoders-api.herokuapp.com/api/asupan?apikey=${leysapi}`)
-								.then(async(res) => {
-									await aruga.sendFileFromUrl(from, res.data.result, 'asupan.mp4', 'neh asupan random', id)
-									.catch(() => {
-										aruga.reply(from, 'Lagi error', id)
-									})
-								})
-								.catch(err => {
-									console.log(err)
-									aruga.reply(from, 'Terjadi kesalahan, silahkan coba lagi nanti', id)
-								})
+								await aruga.sendFileFromUrl(from, `https://dapuhy-api.herokuapp.com/api/asupan/asupansantuy?apikey=${dapuhyapi}`, 'vid.mp4', '', id)
 								break
 								case prefix+'asupan':
 								aruga.reply(from, mess.wait, id)
-								axios.get(`https://onlydevcity.herokuapp.com/api/asupan?apikey=${onlydev}`)
-								.then(async(res) => {
-									aruga.sendFileFromUrl(from, res.data.result.url, 'asupan.mp4', 'nihh asupan random', id)
-								})
-								.catch((err) => {
-									console.log(err)
-									aruga.reply(from, 'Error, mungkin server api sedang down!', id)
-								})
+								await aruga.sendFileFromUrl(from, `https://dapuhy-api.herokuapp.com/api/asupan/asupan?apikey=${dapuhyapi}`, 'vid.mp4', '', id)
 								break
-								case prefix+'ranal':
+								/*case prefix+'ranal':
 								aruga.reply(from, mess.wait, id)
 								axios.get(`https://onlydevcity.herokuapp.com/api/asupanrana?apikey=${onlydev}`)
 								.then(async(res) => {
@@ -2845,23 +2833,13 @@ break
 									console.log(err)
 									aruga.reply(from, 'Errorrrrrr', id)
 								})
-								break
-								case prefix+'gheanaila':
+								break*/
+								case prefix+'gheayoubi':
 								case prefix+'ghea':
 								aruga.reply(from, mess.wait, id)
-								axios.get(`https://onlydevcity.herokuapp.com/api/asupanghea?apikey=${onlydev}`)
-								.then(async(res) => {
-									aruga.sendFileFromUrl(from, res.data.result.url, 'ghea.mp4', 'nihh asupan Ghea Naila', id)
-									.catch(() => {
-										aruga.reply(from, 'Server api sedang error', id)
-									})
-								})
-								.catch(err => {
-									console.log(err)
-									aruga.reply(from, 'Lagi error', id)
-								})
+								await aruga.sendFileFromUrl(from, `https://dapuhy-api.herokuapp.com/api/asupan/asupanghea?apikey=${dapuhyapi}`, 'ghea.mp4', '', id)
 								break
-								case prefix+'jessicajane':
+							/*	case prefix+'jessicajane':
 								case prefix+'jessica':
 								case prefix+'jane':
 								aruga.reply(from, mess.wait, id)
@@ -2919,7 +2897,7 @@ break
 									console.log(err)
 									aruga.reply(from, 'lagi error', id)
 								})
-								break
+								break*/
 case prefix+'bioskop':
 			if (args.length == 0) return aruga.reply(from, `Fitur untuk mencari bioskop yang ada dikota Kalian\nGunakan ${prefix}bioskop nama kota\nContoh: ${prefix}bioskop Pontianak`, id)
 			const namabis = body.slice(9)
@@ -3507,17 +3485,7 @@ case prefix+'ytsearch':
 		break
 	 case prefix+'chika':
     await aruga.reply(from, `media sedang dikirim , tunggu sampe10-20 detik`, id)
-    fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/chika/main/chika.txt')
-    .then(res => res.text())
-        .then(body => {
-    let chika = body.split('\n')
-    let chikax = chika[Math.floor(Math.random() * chika.length)]
-    aruga.sendFileFromUrl(from, `https://piyobot.000webhostapp.com/${chikax}.mp4`, 'chika.mp4', 'Nih asu', id)
-    .then(() => console.log('Success sending Video'))
-        })
-        .catch(() => {
-            aruga.reply(from, 'Ada yang Error!', id)
-        })
+	await aruga.sendFileFromUrlFrom(from, `https://pencarikode.xyz/api/chika?apikey=${paiskey}`, 'chika.mp4', '', id)
     break
 	/*
 	case prefix+'tomp3':
