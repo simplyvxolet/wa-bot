@@ -4318,6 +4318,20 @@ console.log(err)
                         //console.log("os >>>", err);
                     })
                     break
+			case prefix+'play3':
+			if (args.length == 0) return aruga.reply(from, `what are u looking for?`, id)
+				const linuxsc = body.slice(7)
+			fetchJson(`https://dapuhy-api.herokuapp.com/api/socialmedia/ytmp3v2?url=${url}&apikey=${dapuhyapi}`)
+			.then(res => {
+				if (res.status == false) return aruga.reply(from, res.message, id)
+				await aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `Title: ${res.title}`, id)
+				await aruga.sendFileFromUrl(from, res.url, 'song.mp3', '', id)
+				.catch(err => {
+					console.log(err)
+					aruga.reply(from, err.message, id)
+				})
+			})
+			break
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            fetchJson(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(6)}`)
