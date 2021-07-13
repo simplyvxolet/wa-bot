@@ -4321,7 +4321,7 @@ console.log(err)
 			case prefix+'play3':
 			if (args.length == 0) return aruga.reply(from, `what are u looking for?`, id)
 				const linuxsc = body.slice(7)
-			fetchJson(`https://dapuhy-api.herokuapp.com/api/socialmedia/ytmp3v2?url=${url}&apikey=${dapuhyapi}`)
+			fetchJson(`https://dapuhy-api.herokuapp.com/api/socialmedia/ytplaymp3v2?query=${linuxsc}&apikey=${dapuhyapi}`)
 			.then(res => {
 				if (res.status == false) return aruga.reply(from, res.message, id)
 				await aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `Title: ${res.title}`, id)
