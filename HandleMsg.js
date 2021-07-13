@@ -4324,8 +4324,8 @@ console.log(err)
 			fetchJson(`https://dapuhy-api.herokuapp.com/api/socialmedia/ytplaymp3v2?query=${linuxsc}&apikey=${dapuhyapi}`)
 			.then(res => {
 				if (res.status == false) return aruga.reply(from, res.message, id)
-				await aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `Title: ${res.title}`, id)
-				await aruga.sendFileFromUrl(from, res.url, 'song.mp3', '', id)
+				aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `Title: ${res.title}`, id)
+				aruga.sendFileFromUrl(from, res.url, 'song.mp3', '', id)
 				.catch(err => {
 					console.log(err)
 					aruga.reply(from, err.message, id)
