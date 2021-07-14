@@ -4324,14 +4324,14 @@ console.log(err)
 			fetchJson(`http://docs-jojo.herokuapp.com/api/yt-search?q=${linuxsc}`)
             .then(async (res) => {
 				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result.result[0].title}\nDurasi: ${res.result.result[0].duration} detik`, 'aqua'))
-				const thumbsd = res.result.result[0].thumbnails[0].url
-				const thumbhd = res.result.result[0].thumbnails[1].url
-			if (thumbhd == 0 || thumbhd == undefined) {
-				var thumbnih = thumbsd
+				const thumbsd3 = res.result.result[0].thumbnails[0].url
+				const thumbhd3 = res.result.result[0].thumbnails[1].url
+			if (thumbhd3 == 0 || thumbhd3 == undefined) {
+				var thumbnih3 = thumbsd3
 			} else {
-				var thumbnih = thumbhd
+				var thumbnih3 = thumbhd3
 			}
-				await aruga.sendFileFromUrl(from, thumbnih, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result.result[0].title}\n*Duration:* ${res.result.result[0].duration} detik\n*Views:* ${res.result.result[0].viewCount.short}\n*Uploaded:* ${res.result.result[0].publishedTime}\n*Channel:* ${res.result.result[0].channel.name}\n*Url:* ${res.result.result[0].link}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id)
+				await aruga.sendFileFromUrl(from, thumbnih3, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result.result[0].title}\n*Duration:* ${res.result.result[0].duration} detik\n*Views:* ${res.result.result[0].viewCount.short}\n*Uploaded:* ${res.result.result[0].publishedTime}\n*Channel:* ${res.result.result[0].channel.name}\n*Url:* ${res.result.result[0].link}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id)
 				rugaapi.playlinux(linuxsc)
 				if (res.status == false) return aruga.reply(from, res.message, id)
 				aruga.sendFileFromUrl(from, res.url, 'song.mp3', '', id)
