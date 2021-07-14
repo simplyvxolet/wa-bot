@@ -4320,11 +4320,20 @@ console.log(err)
                     break
 			case prefix+'play3':
 			if (args.length == 0) return aruga.reply(from, `what are u looking for?`, id)
-				const linuxsc = body.slice(7)
-			fetchJson(`https://dapuhy-api.herokuapp.com/api/socialmedia/ytplaymp3v2?query=${linuxsc}&apikey=${dapuhyapi}`)
-			.then(res => {
+			const linuxsc = body.slice(7)
+			fetchJson(`http://docs-jojo.herokuapp.com/api/yt-search?q=${linuxsc}`)
+            .then(async (res) => {
+				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result.result[0].title}\nDurasi: ${res.result.result[0].duration} detik`, 'aqua'))
+				const thumbsd = res.result.result[0].thumbnails[0].url
+				const thumbhd = res.result.result[0].thumbnails[1].url
+			if (thumbhd == 0 || thumbhd == undefined) {
+				var thumbnih = thumbsd
+			} else {
+				var thumbnih = thumbhd
+			}
+				await aruga.sendFileFromUrl(from, thumbnih, 'thumb.jpg', `「 *PLAY* 」\n\n*Title:* ${res.result.result[0].title}\n*Duration:* ${res.result.result[0].duration} detik\n*Views:* ${res.result.result[0].viewCount.short}\n*Uploaded:* ${res.result.result[0].publishedTime}\n*Channel:* ${res.result.result[0].channel.name}\n*Url:* ${res.result.result[0].link}\n\n*_Waitt, lagi ngirim Audionyaa_*`, id)
+				rugaapi.playlinux(linuxsc)
 				if (res.status == false) return aruga.reply(from, res.message, id)
-				aruga.sendFileFromUrl(from, res.thumb, 'thumb.jpg', `Title: ${res.title}`, id)
 				aruga.sendFileFromUrl(from, res.url, 'song.mp3', '', id)
 				.catch(err => {
 					console.log(err)
