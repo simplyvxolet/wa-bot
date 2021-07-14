@@ -2783,7 +2783,7 @@ break
 								break
 								case prefix+'asupanukhty':
 								aruga.reply(from, mess.wait, id)
-								await aruga.sendFileFromUrl(from, `https://dapuhy-api.herokuapp.com/api/asupan/asupanukhty?apikey=${dapuhyapi`, 'vid.mp4', '', id)
+								await aruga.sendFileFromUrl(from, `https://dapuhy-api.herokuapp.com/api/asupan/asupanukhty?apikey=${dapuhyapi}`, 'vid.mp4', '', id)
 								break
 								case prefix+'asupan3':
 								aruga.reply(from, mess.wait, id)
