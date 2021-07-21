@@ -681,29 +681,12 @@ module.exports = HandleMsg = async (aruga, message) => {
 					aruga.reply(from, 'Kode Js salah', id)
                 }
             break
-		case prefix+'lebaran':
-		case prefix+'idulfitri':
-		axios.get(`https://xinzbot-api.herokuapp.com/api/hitungmundur?apikey=XinzBot&tanggal=13&bulan=5`)
-		.then(async(res) => {
-			const dataresult = res.data.result
-			aruga.reply(from, dataresult, id)
-			.catch(err => {
-				console.log(err)
-			})
-		})
-		break
         case prefix+'p':
 		case prefix+'start':
         case prefix+'menu':
-			const sendmes = sender.id
-			const profilepic = await aruga.getProfilePicFromServer(sendmes)
 			const jame = moment(t * 1000).format('HH:mm:ss')
-			if (profilepic == undefined) {
-                var picts = 'https://i.ibb.co/2NRpS3P/2.jpg'
-			} else {
-				var picts = profilepic
-			}
-            aruga.sendFileFromUrl(from, picts, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
+            const pictsx = 'https://i.ibb.co/WsPRR5G/baifern.jpg'
+            aruga.sendFileFromUrl(from, pictsx, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
             .then(() => ((isGroupMsg) && (isGroupAdmins)) ? aruga.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
             break
         case prefix+'menuadmin':
