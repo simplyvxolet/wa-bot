@@ -446,6 +446,15 @@ module.exports = HandleMsg = async (aruga, message) => {
         ]
 
 
+	const menupict = [
+			"https://i.ibb.co/Fsdgj6p/asha.jpg",
+			"https://i.ibb.co/WsPRR5G/baifern.jpg",
+			"https://i.ibb.co/3pms02n/krystal.jpg",
+			"https://i.ibb.co/stWN2D5/mewnit.jpg",
+			"https://i.ibb.co/WBRbkjM/junlee.jpg",
+			"https://i.ibb.co/DYLd6fk/baukrysie.jpg",
+			]
+
 	const apakah = [
             'Ya',
             'Tidak',
@@ -685,8 +694,8 @@ module.exports = HandleMsg = async (aruga, message) => {
 		case prefix+'start':
         case prefix+'menu':
 			const jame = moment(t * 1000).format('HH:mm:ss')
-            const pictsx = 'https://i.ibb.co/WsPRR5G/baifern.jpg'
-            aruga.sendFileFromUrl(from, pictsx, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
+			const pictrand = menupict[Math.floor(Math.random() * (menupict.length))]
+            aruga.sendFileFromUrl(from, pictrand, 'image.jpg', menuId.help(prefix, jame, betime, prem, blockNumber, banned, cts, waver), id)
             .then(() => ((isGroupMsg) && (isGroupAdmins)) ? aruga.sendText(from, `Menu Admin Grup: *${prefix}menuadmin*`) : null)
             break
         case prefix+'menuadmin':
