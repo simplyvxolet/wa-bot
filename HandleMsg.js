@@ -4329,7 +4329,7 @@ console.log(err)
             case prefix+'play'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            //fetchJson(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(6)}`)
-			fetchJson(`https://api.zeks.xyz/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)`)
+			fetchJson(`https://api.zeks.xyz/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)}`)
             .then(async (res) => {
 				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result[0].video.title}\nDurasi: ${res.result[0].video.duration} detik`, 'aqua'))
                  /*await aruga.sendFileFromUrl(from, res.data.result.result[0].thumbnails[0].url, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)*/
@@ -4388,7 +4388,7 @@ console.log(err)
            case prefix+'play2'://silahkan kalian custom sendiri jika ada yang ingin diubah
            if (args.length == 0) return aruga.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}play judul lagu`, id)
            /*axios.get(`http://docs-jojo.herokuapp.com/api/yt-search?q=${body.slice(7)}`)*/
-			fetchJson(`https://api.zeks.xyz/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)`)
+			fetchJson(`https://api.zeks.xyz/api/yts?apikey=${apikeyvinz}&q=${body.slice(6)}`)
             .then(async (res) => {
 				console.log(color(`Nickname : ${pushname}\nNomor : ${serial.replace('@c.us', '')}\nJudul: ${res.result[0].video.title}\nDurasi: ${res.result[0].video.duration} detik`, 'aqua'))
                  /*await aruga.sendFileFromUrl(from, res.data.result.result[0].thumbnails[0].url, ``, `「 *PLAY* 」\n\nJudul: ${res.data.result.result[0].title}\nDurasi: ${res.data.result.result[0].duration} detik\nViews: ${res.data.result.result[0].viewCount.short}\nUploaded: ${res.data.result.result[0].publishedTime}\nChannel: ${res.data.result.result[0].channel.name}\n\n*_Wait, lagi ngirim Audionya_*`, id)*/
