@@ -1278,7 +1278,7 @@ module.exports = HandleMsg = async (aruga, message) => {
                 const kntlnya = JSON.parse(mskkntl) // MFARELS
                 const rindBkp = Math.floor(Math.random() * kntlnya.length) // MFARELS
                 const rindBkep = kntlnya[rindBkp] // MFARELS
-                aruga.sendFileFromUrl(from, rindBkep.image, 'Bokep.jpg', rindBkep.teks, id) // MFARELS
+                aruga.reply(from, rindBkep.teks, id) // MFARELS
                 break
         case prefix+'join':
             if (args.length == 0) return aruga.reply(from, `Jika kalian ingin mengundang bot kegroup silahkan invite atau dengan\nketik ${prefix}join [link group]`, id)
