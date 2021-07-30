@@ -1194,13 +1194,14 @@ module.exports = HandleMsg = async (aruga, message) => {
                     } else {
                     const contact = ct.pushname
                     const dp = await aruga.getProfilePicFromServer(userid)
+					const pictrand2 = menupict[Math.floor(Math.random() * (menupict.length))]
                     if (dp == undefined) {
-                        var pfp = 'https://raw.githubusercontent.com/Gimenz/line-break/master/profil.jpg'
+                        var pfp = pictrand2
                         } else {
                         var pfp = dp
                         } 
                     if (contact == undefined) {
-                        var nama = '_Dia pemalu, tidak mau menampilkan namanya_' 
+                        var nama = 'gada namanya, mungkin wibu' 
                         } else {
                         var nama = contact
                         } 
